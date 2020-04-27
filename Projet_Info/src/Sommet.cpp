@@ -42,6 +42,11 @@ void Sommet::setCoord_y(int coord)
     m_coord_y = coord;
 }
 
+float Sommet::getIndiceDegre()const
+{
+    return m_indiceDegre;
+}
+
 void Sommet::setIndiceDegre(float indice)
 {
     m_indiceDegre = indice;

@@ -18,6 +18,7 @@ class Sommet
         int getCoord_y()const;
         void setCoord_y(int coord);
 
+        float getIndiceDegre()const;
         void setIndiceDegre(float indice);
 
     private:
