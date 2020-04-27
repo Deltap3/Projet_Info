@@ -17,11 +17,12 @@ class Graphe
         void setNbArete(int nb);
         int getNbSommet()const;
         void setNbSommet(int nb);
-		void sauvegarde(std::string file_name);
+		void sauvegarde_topo(std::string file_name);
 		void creation_svg();
 		void affichage_svg(Svgfile& svgout);
+		void lecture_pond(std::string file_name)
 		Sommet* trouverSommet(int num);
-
+	
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;
         std::string getFileName()const;
