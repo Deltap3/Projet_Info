@@ -78,7 +78,7 @@ Sommet* Graphe::trouverSommet(int num)
 
 Graphe::Graphe(std::string file_name)
 {
-    std::ifstream fichier{file_name}; //ouverture de fichier
+    std::ifstream fichier{file_name}; //ouverture de fichier lecture
     if (!fichier)
     {
         std::cout << "ERREUR: Impossible d'ouvrir le fichier";
@@ -148,4 +148,28 @@ Graphe::Graphe(std::string file_name)
 Graphe::~Graphe()
 {
     //dtor
+}
+
+void sauvegarde(std::string file_name)
+{
+    std::ofstream{ fichierfile_name }; //ouverture fichier ecriture
+    if (!fichier)
+    {
+        std::cout << "ERREUR: ouverture du fichier" << std::endl;
+    }
+    else
+    {
+        fichier << m_ori << endl;
+        fichier << m_nb_sommet << endl;
+        for (int i = 0, i < m_nb_sommet, ++i)
+        {
+            fichier << m_sommets[i]->getNumero() << " " << m_sommets[i]->getNom() << " " << m_sommets[i]->getCoord_x() << " " << m_sommets[i]->getCoord_y() << endl;
+        }
+        fichier << m_nb_arete;
+        for (int i = 0, i < m_nb_arete, ++i)
+        {
+            fichier << m_aretes[i]->getNum() << " " << m_aretes[i]->getExtr1() << " " << m_aretes[i]->getExtr2 << endl;
+        }
+    }
+    return 0;
 }

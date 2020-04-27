@@ -4,12 +4,11 @@
 #include "Arete.h"
 #include "Sommet.h"
 #include <iostream>
-#include "svgfile.h"
 
 class Graphe
 {
     public:
-        Graphe(std::string file_name);
+        Graphe();
         virtual ~Graphe();
         bool getOri()const;
 
@@ -17,14 +16,11 @@ class Graphe
         void setNbArete(int nb);
         int getNbSommet()const;
         void setNbSommet(int nb);
+		void sauvegarde(std::string file_name);
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;
         std::string getFileName()const;
-
-        void creation_svg();
-        void affichage_svg(Svgfile& svgout);
-        Sommet* trouverSommet(int);
 
     private:
         bool m_ori;
