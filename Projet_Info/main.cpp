@@ -32,7 +32,7 @@ void Affichage_menu()
 // Fin menu console
 
 //Jules 27/04/2020 V1 chargement_topo
-void chargement_topo(std::string file_name,)
+void chargement_topo(std::string file_name)
 {
     std::ifstream fichier{file_name}; //ouverture de fichier
     if (!fichier)
@@ -81,11 +81,11 @@ void chargement_topo(std::string file_name,)
            {
                std::cout << "ERREUR: lecture du fichier";
            }
-           
-           ++nb_ligne; //incrémentation néméro de ligne
-           
 
-       } 
+           ++nb_ligne; //incrémentation néméro de ligne
+
+
+       }
     }
     return 0;
 }

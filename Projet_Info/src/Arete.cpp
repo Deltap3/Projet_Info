@@ -1,26 +1,27 @@
 #include "Arete.h"
+#include "Sommet.h"
 
 int Arete::getNum()const
 {
     return m_numero;
 }
 
-int Arete::getExtr1()const
+Sommet* Arete::getExtr1()const
 {
     return m_extr1;
 }
 
-void Arete::setExtr1(int extr)
+void Arete::setExtr1(Sommet* extr)
 {
     m_extr2 = extr;
 }
 
-int Arete::getExtr2()const
+Sommet* Arete::getExtr2()const
 {
     return m_extr2;
 }
 
-void Arete::setExtr2(int extr)
+void Arete::setExtr2(Sommet* extr)
 {
     m_extr2 = extr;
 }

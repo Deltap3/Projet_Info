@@ -1,5 +1,6 @@
 #ifndef ARETE_H
 #define ARETE_H
+#include "Sommet.h"
 
 
 class Arete
@@ -9,18 +10,18 @@ class Arete
         virtual ~Arete();
         int getNum()const;
 
-        int getExtr1()const;
-        void setExtr1(int extr);
-        int getExtr2()const;
-        void setExtr2(int extr);
+        Sommet* getExtr1()const;
+        void setExtr1(Sommet* extr);
+        Sommet* getExtr2()const;
+        void setExtr2(Sommet* extr);
 
         int getPoids()const;
         void setPoids(int poids);
 
     private:
         int m_numero;
-        int m_extr1;
-        int m_extr2;
+        Sommet* m_extr1;
+        Sommet* m_extr2;
         int m_poids;
 };
 

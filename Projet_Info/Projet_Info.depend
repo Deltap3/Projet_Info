@@ -1,8 +1,10 @@
 # depslib dependency file v1.0
-1587980658 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\arete.cpp
+1587984860 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\arete.cpp
 	"Arete.h"
+	"Sommet.h"
 
-1587981753 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\arete.h
+1587984607 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\arete.h
+	"Sommet.h"
 
 1587980033 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\main.cpp
 	<iostream>
@@ -27,4 +29,12 @@
 	"Sommet.h"
 	<iostream>
 	<vector>
+
+1574599829 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\svgfile.cpp
+	<iostream>
+	<sstream>
+
+1574599829 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\svgfile.cpp
+	<iostream>
+	<sstream>
 
