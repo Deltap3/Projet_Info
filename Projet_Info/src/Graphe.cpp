@@ -68,12 +68,8 @@ void Graphe::affichage_svg(Svgfile& svgout)
 Sommet* Graphe::trouverSommet(int num)
 {
     for(size_t i = 0; i < m_sommets.size();++i)
-    {
         if(m_sommets[i]->getNumero() == num)
-        {std::cout<<m_sommets[i]<<"  "<<m_sommets[0]<<std::endl;
             return m_sommets[i];
-        }
-    }
 }
 
 Graphe::Graphe(std::string file_name)
@@ -145,31 +141,30 @@ Graphe::Graphe(std::string file_name)
     }
 }
 
-Graphe::~Graphe()
+void Graphe::sauvegarde(std::string file_name)
 {
-    //dtor
-}
-
-void sauvegarde(std::string file_name)
-{
-    std::ofstream{ fichierfile_name }; //ouverture fichier ecriture
+    std::ofstream fichier { file_name }; //ouverture fichier ecriture
     if (!fichier)
     {
         std::cout << "ERREUR: ouverture du fichier" << std::endl;
     }
     else
     {
-        fichier << m_ori << endl;
-        fichier << m_nb_sommet << endl;
-        for (int i = 0, i < m_nb_sommet, ++i)
+        fichier << m_ori << std::endl;
+        fichier << m_nb_sommet<<std::endl;
+        for (int i = 0; i < m_nb_sommet; ++i)
         {
-            fichier << m_sommets[i]->getNumero() << " " << m_sommets[i]->getNom() << " " << m_sommets[i]->getCoord_x() << " " << m_sommets[i]->getCoord_y() << endl;
+            fichier << m_sommets[i]->getNumero() << " " << m_sommets[i]->getNom() << " " << m_sommets[i]->getCoord_x() << " " << m_sommets[i]->getCoord_y() << std::endl;
         }
-        fichier << m_nb_arete;
-        for (int i = 0, i < m_nb_arete, ++i)
+        fichier << m_nb_arete <<std::endl;
+        for (int j = 0; j < m_nb_arete; ++j)
         {
-            fichier << m_aretes[i]->getNum() << " " << m_aretes[i]->getExtr1() << " " << m_aretes[i]->getExtr2 << endl;
+            fichier << m_aretes[j]->getNum() << " " << m_aretes[j]->getExtr1()->getNumero() << " " << m_aretes[j]->getExtr2()->getNumero() << std::endl;
         }
     }
-    return 0;
+}
+
+Graphe::~Graphe()
+{
+    //dtor
 }
