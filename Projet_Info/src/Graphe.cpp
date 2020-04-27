@@ -141,7 +141,7 @@ Graphe::Graphe(std::string file_name)
     }
 }
 
-void Graphe::sauvegarde(std::string file_name)
+void Graphe::sauvegarde_topo(std::string file_name)
 {
     std::ofstream fichier { file_name }; //ouverture fichier ecriture
     if (!fichier)
@@ -171,5 +171,19 @@ Graphe::~Graphe()
 
 void Graphe::centrDegre()
 {
-
+    std::vector<float> indice;
+    std::vector<int> somme;
+    for(size_t i = 0; i < m_sommets.size();++i)
+    {
+        somme.push_back(0);
+        indice.push_back(0);
+        for(size_t j = 0; j < m_aretes.size();++j)
+        {
+            if(m_aretes[j]->getExtr1()->getNumero() == m_sommets[i]->getNumero() || m_aretes[j]->getExtr2()->getNumero() == m_sommets[i]->getNumero())
+            {
+                somme[i] = somme[i]+1;
+            }
+        }
+        m_sommets[i]->setIndiceDegre(somme[i]/(m_nb_sommet-1));
+    }
 }

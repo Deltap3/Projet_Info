@@ -20,9 +20,10 @@ class Graphe
 		void sauvegarde_topo(std::string file_name);
 		void creation_svg();
 		void affichage_svg(Svgfile& svgout);
-		void lecture_pond(std::string file_name)
+		void lecture_pond(std::string file_name);
 		Sommet* trouverSommet(int num);
-	
+		void centrDegre();
+
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;
         std::string getFileName()const;

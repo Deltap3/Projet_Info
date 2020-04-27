@@ -42,14 +42,9 @@ void Sommet::setCoord_y(int coord)
     m_coord_y = coord;
 }
 
-std::vector<float> Sommet::getIndice_centr()const
+void Sommet::setIndiceDegre(float indice)
 {
-    return m_indice_centr;
-}
-
-void Sommet::setIndice_centr(std::vector<float> indi_centr)
-{
-    m_indice_centr = indi_centr;
+    m_indiceDegre = indice;
 }
 
 Sommet::Sommet()
