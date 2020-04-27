@@ -7,6 +7,21 @@ int Sommet::getNumero()const
     return m_numero;
 }
 
+void Sommet::setNumero(int num)
+{
+    m_numero = num;
+}
+
+int Sommet::getNom()const
+{
+    return m_nom;
+}
+
+void Sommet::setNom(int nom)
+{
+    m_nom = nom;
+}
+
 int Sommet::getCoord_x()const
 {
     return m_coord_x;

@@ -6,6 +6,11 @@ int Arete::getNum()const
     return m_numero;
 }
 
+void Arete::setNum(int num)
+{
+    m_numero = num;
+}
+
 Sommet* Arete::getExtr1()const
 {
     return m_extr1;

@@ -9,7 +9,7 @@
 class Graphe
 {
     public:
-        Graphe();
+        Graphe(std::string file_name);
         virtual ~Graphe();
         bool getOri()const;
 
@@ -24,6 +24,7 @@ class Graphe
 
         void creation_svg();
         void affichage_svg(Svgfile& svgout);
+        Sommet* trouverSommet(int);
 
     private:
         bool m_ori;

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-using namespace std;
+#include <sstream>
 
 int main()
 {
@@ -32,7 +32,7 @@ void Affichage_menu()
 // Fin menu console
 
 //Jules 27/04/2020 V1 chargement_topo
-void chargement_topo(std::string file_name)
+/*void chargement_topo(std::string file_name)
 {
     std::ifstream fichier{file_name}; //ouverture de fichier
     if (!fichier)
@@ -47,7 +47,7 @@ void chargement_topo(std::string file_name)
        int nb_arete=0; //Variable nombre arrete
        while(getline(fichier, ligne_lu))
        {
-           istringstream iss(ligne_lu);
+           std::istringstream iss{ligne_lu};
            if (nb_ligne=0) //lecture ligne oriatation graph
            {
                iss>>m_ori; //0 si non orienté,1 si orienté
@@ -88,4 +88,4 @@ void chargement_topo(std::string file_name)
        }
     }
     return 0;
-}
+}*/

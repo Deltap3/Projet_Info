@@ -9,6 +9,9 @@ class Sommet
         Sommet();
         virtual ~Sommet();
         int getNumero()const;
+        void setNumero(int num);
+        int getNom()const;
+        void setNom(int nom);
 
         int getCoord_x()const;
         void setCoord_x(int coord);
@@ -20,11 +23,13 @@ class Sommet
 
     private:
         int m_numero;
+        int m_nom;
 
         int m_coord_x;
         int m_coord_y;
 
         std::vector<float> m_indice_centr;
+
 };
 
 #endif // SOMMET_H

@@ -1,31 +1,37 @@
 # depslib dependency file v1.0
-1587984860 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\arete.cpp
+1587990440 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\arete.cpp
 	"Arete.h"
 	"Sommet.h"
 
-1587984607 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\arete.h
+1587990440 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\arete.h
 	"Sommet.h"
 
-1587980033 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\main.cpp
+1587989404 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\main.cpp
 	<iostream>
+	<fstream>
+	<sstream>
 
-1587981753 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\graphe.cpp
+1587990449 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\graphe.cpp
 	"Graphe.h"
 	"Arete.h"
 	"Sommet.h"
+	"svgfile.h"
 	<iostream>
+	<fstream>
+	<sstream>
 
-1587981351 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\graphe.h
+1587990362 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\graphe.h
 	<vector>
 	"Arete.h"
 	"Sommet.h"
 	<iostream>
+	"svgfile.h"
 
-1587981613 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\sommet.h
+1587989969 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\sommet.h
 	<iostream>
 	<vector>
 
-1587981753 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\sommet.cpp
+1587989961 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\sommet.cpp
 	"Sommet.h"
 	<iostream>
 	<vector>
@@ -37,4 +43,9 @@
 1574599829 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\svgfile.cpp
 	<iostream>
 	<sstream>
+
+1574599993 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\svgfile.h
+	<string>
+	<fstream>
+	<set>
 

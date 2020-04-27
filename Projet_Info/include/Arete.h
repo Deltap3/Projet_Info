@@ -9,6 +9,7 @@ class Arete
         Arete();
         virtual ~Arete();
         int getNum()const;
+        void setNum(int num);
 
         Sommet* getExtr1()const;
         void setExtr1(Sommet* extr);
