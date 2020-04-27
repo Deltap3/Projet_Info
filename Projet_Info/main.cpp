@@ -6,8 +6,9 @@
 int main()
 {
     Graphe test("graphe_etoile1_topo.txt");
-    test.creation_svg();
     test.sauvegarde_topo("save.txt");
+    test.centrDegre();
+    test.creation_svg();
     return 0;
 }
 

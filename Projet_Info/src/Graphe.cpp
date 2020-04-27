@@ -58,12 +58,14 @@ void Graphe::affichage_svg(Svgfile& svgout)
     for(int i = 0; i < m_nb_sommet; ++i)
     {
         svgout.addDisk(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,15,"lightblue");
-        svgout.addText(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getNom(),"black");
-        svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceDegre(),"black");
+        svgout.addText(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getNom(),"darkblue");
+        svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceDegre(),"blue");
     }
-    std::cout<<m_aretes[0]->getExtr1()->getCoord_x();
     for(int j = 0; j < m_nb_arete; ++j)
+    {
         svgout.addLine(m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,"black");
+        svgout.addText((m_aretes[j]->getExtr1()->getCoord_x()*100)/2,(m_aretes[j]->getExtr1()->getCoord_y()*100)-15,m_aretes[j]->getPoids(),"blue");
+    }
 }
 
 Sommet* Graphe::trouverSommet(int num)
@@ -177,6 +179,7 @@ void Graphe::lecture_pond(std::string file_name)
     else
     {
         std::string ligne_lu; //Variable de lecture
+        std::istringstream iss{ligne_lu};
         int nb_ligne=0; //Variable numero de ligne
         int nb_arete=0; //Variable nombre arrete
         while(getline(fichier, ligne_lu))
@@ -207,7 +210,7 @@ void Graphe::lecture_pond(std::string file_name)
 
 }
 
-void sauvegarde_pond(std::string file_name)
+void Graphe::sauvegarde_pond(std::string file_name)
 {
     std::ofstream fichier {file_name}; //ouverture fichier ecriture
     if (!fichier)
@@ -219,9 +222,9 @@ void sauvegarde_pond(std::string file_name)
         fichier << m_nb_arete << std::endl;
         for (int i = 0; i < m_nb_arete; ++i)
         {
-            fichier << m_aretes[i]->getNumero() << " " << m_sommets[i]->getIndiceDegre() << std::endl;
+            fichier << m_aretes[i]->getNum() << " " << m_sommets[i]->getIndiceDegre() << std::endl;
         }
-        
+
     }
 }
 
@@ -234,7 +237,7 @@ Graphe::~Graphe()
 void Graphe::centrDegre()
 {
     std::vector<float> indice;
-    std::vector<int> somme;
+    std::vector<float> somme;
     for(size_t i = 0; i < m_sommets.size();++i)
     {
         somme.push_back(0);
