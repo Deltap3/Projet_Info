@@ -18,8 +18,8 @@ class Sommet
         int getCoord_y()const;
         void setCoord_y(int coord);
 
-        std::vector<float> getIndice_centr()const;
-        void setIndice_centr(std::vector<float> indi_centr);
+        float getIndiceDegre()const;
+        void setIndiceDegre(float indice);
 
     private:
         int m_numero;
@@ -28,7 +28,7 @@ class Sommet
         int m_coord_x;
         int m_coord_y;
 
-        std::vector<float> m_indice_centr;
+        float m_indiceDegre;
 
 };
 

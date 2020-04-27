@@ -59,6 +59,7 @@ void Graphe::affichage_svg(Svgfile& svgout)
     {
         svgout.addDisk(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,15,"lightblue");
         svgout.addText(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getNom(),"black");
+        svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceDegre(),"black");
     }
     std::cout<<m_aretes[0]->getExtr1()->getCoord_x();
     for(int j = 0; j < m_nb_arete; ++j)
@@ -200,10 +201,10 @@ void Graphe::lecture_pond(std::string file_name)
             {
                 std::cout << "ERREUR: lecture du fichier trop d'arrète par rapport au nombre anoncé pond"<<std::endl;
             }
-            
+
         }
     }
-    
+
 }
 
 void sauvegarde_pond(std::string file_name)
@@ -227,5 +228,24 @@ void sauvegarde_pond(std::string file_name)
 
 Graphe::~Graphe()
 {
-    //dtor
+
+}
+
+void Graphe::centrDegre()
+{
+    std::vector<float> indice;
+    std::vector<int> somme;
+    for(size_t i = 0; i < m_sommets.size();++i)
+    {
+        somme.push_back(0);
+        indice.push_back(0);
+        for(size_t j = 0; j < m_aretes.size();++j)
+        {
+            if(m_aretes[j]->getExtr1()->getNumero() == m_sommets[i]->getNumero() || m_aretes[j]->getExtr2()->getNumero() == m_sommets[i]->getNumero())
+            {
+                somme[i] = somme[i]+1;
+            }
+        }
+        m_sommets[i]->setIndiceDegre(somme[i]/(m_nb_sommet-1));
+    }
 }
