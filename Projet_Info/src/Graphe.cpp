@@ -166,6 +166,8 @@ void Graphe::sauvegarde_topo(std::string file_name)
 
 void Graphe::lecture_pond(std::string file_name)
 {
+    #include <iostream>
+    #include <fstream>
     std::ifstream fichier{file_name}; //ouverture de fichier lecture
     if (!fichier)
     {
@@ -203,6 +205,25 @@ void Graphe::lecture_pond(std::string file_name)
     }
     
 }
+
+void sauvegarde_pond(std::string file_name)
+{
+    std::ofstream fichier {file_name}; //ouverture fichier ecriture
+    if (!fichier)
+    {
+        std::cout << "ERREUR: sauvegarde du fichier pond" << std::endl;
+    }
+    else
+    {
+        fichier << m_nb_arete << std::endl;
+        for (int i = 0; i < m_nb_arete; ++i)
+        {
+            fichier << m_aretes[i]->getNumero() << " " << m_sommets[i]->getIndiceDegre() << std::endl;
+        }
+        
+    }
+}
+
 
 Graphe::~Graphe()
 {
