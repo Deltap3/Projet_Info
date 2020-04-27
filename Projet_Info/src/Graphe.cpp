@@ -64,7 +64,7 @@ void Graphe::affichage_svg(Svgfile& svgout)
     for(int j = 0; j < m_nb_arete; ++j)
     {
         svgout.addLine(m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,"black");
-        svgout.addText((m_aretes[j]->getExtr1()->getCoord_x()*100)/2,(m_aretes[j]->getExtr1()->getCoord_y()*100)-15,m_aretes[j]->getPoids(),"blue");
+        svgout.addText((m_aretes[j]->getExtr1()->getCoord_x()*100+m_aretes[j]->getExtr2()->getCoord_x()*100)/2,(m_aretes[j]->getExtr1()->getCoord_y()*100+m_aretes[j]->getExtr2()->getCoord_y()*100)/2,m_aretes[j]->getPoids(),"black");
     }
 }
 
@@ -179,13 +179,13 @@ void Graphe::lecture_pond(std::string file_name)
     else
     {
         std::string ligne_lu; //Variable de lecture
-        std::istringstream iss{ligne_lu};
         int nb_ligne=0; //Variable numero de ligne
         int nb_arete=0; //Variable nombre arrete
         while(getline(fichier, ligne_lu))
         {
+            std::istringstream iss{ligne_lu};
             if (nb_ligne==0) //lecture ligne nb arrète
-            {
+            {std::cout<<ligne_lu<<std::endl;
                iss>>nb_arete; //nb d'arrete (deja sauvegarde)
                if (nb_arete != m_nb_arete)
                {
@@ -198,13 +198,13 @@ void Graphe::lecture_pond(std::string file_name)
                 float pond=0;
                 iss>>num; //Numeros arete (deja sauvgarde)
                 iss>>pond;//Lecture poids
-                m_aretes[num]->setPoids(num);
+                m_aretes[num]->setPoids(pond);
             }
             else
             {
-                std::cout << "ERREUR: lecture du fichier trop d'arrète par rapport au nombre anoncé pond"<<std::endl;
+                std::cout << "ERREUR: lecture du fichier trop d'arrete par rapport au nombre annonce pond"<<std::endl;
             }
-
+            ++nb_ligne;
         }
     }
 
