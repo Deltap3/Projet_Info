@@ -185,7 +185,7 @@ void Graphe::lecture_pond(std::string file_name)
         {
             std::istringstream iss{ligne_lu};
             if (nb_ligne==0) //lecture ligne nb arrète
-            {std::cout<<ligne_lu<<std::endl;
+            {
                iss>>nb_arete; //nb d'arrete (deja sauvegarde)
                if (nb_arete != m_nb_arete)
                {
@@ -222,7 +222,7 @@ void Graphe::sauvegarde_pond(std::string file_name)
         fichier << m_nb_arete << std::endl;
         for (int i = 0; i < m_nb_arete; ++i)
         {
-            fichier << m_aretes[i]->getNum() << " " << m_sommets[i]->getIndiceDegre() << std::endl;
+            fichier << m_aretes[i]->getNum() << " " << m_aretes[i]->getPoids() << std::endl;
         }
 
     }
