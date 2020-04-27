@@ -44,34 +44,38 @@ void chargement_topo(std::string file_name,)
        std::string ligne_lu; //Variable de lecture
        int nb_ligne=0; //Variable numéro de ligne
        int nb_sommet=0; //Variable nombre de sommet
-       int nb_arrete=0; //Variable nombre arrete
+       int nb_arete=0; //Variable nombre arrete
        while(getline(fichier, ligne_lu))
        {
            istringstream iss(ligne_lu);
            if (nb_ligne=0) //lecture ligne oriatation graph
            {
-               iss>>; //0 si non orienté,1 si orienté
+               iss>>m_ori; //0 si non orienté,1 si orienté
            }
            if (nb_ligne=1) //lecture ligne nb sommet
            {
-               iss>>; //nb sommet
+               iss>>m_nb_sommet; //nb sommet
            }
            if (nb_ligne>1 && nb_ligne<(nb_sommet+2)) //lecture des sommets
            {
-               iss>>; //numéro de sommet
-               iss>>; //nom
-               iss>>; //coord x
-               iss>>; //coord y
+               Sommet* sommet;
+               m_sommets.pushback(sommet);
+               iss>>m_sommets.back()->m_numero; //numéro de sommet
+               iss>>m_sommets.back()->m_nom; //nom
+               iss>>m_sommets.back()->m_coord_x; //coord x
+               iss>>m_sommets.back()->m_coord_y; //coord y
            }
            if (nb_ligne==nb_sommet+2) //lecture nombre d'arrete
            {
-               iss>>; //nb d'arrète
+               iss>>m_nb_arete; //nb d'arrète
            }
-           if(nb_ligne>(nb_sommet+2) && nb_ligne<(nb_sommet+nb_arrete+3)) //lecture des arrètes
+           if(nb_ligne>(nb_sommet+2) && nb_ligne<(nb_sommet+nb_arete+3)) //lecture des arrètes
            {
-               iss>>; //numéro d'arrète
-               iss>>; //extrémité 1
-               iss>>; //extrémité 2
+               Arete* arete;
+               m_aretes.pushback(arete);
+               iss>>m_aretes.back()->m_numero; //numéro d'arrète
+               iss>>m_aretes.back()->m_extr1; //extrémité 1
+               iss>>m_aretes.back()->m_extr2; //extrémité 2
            }
            else
            {
