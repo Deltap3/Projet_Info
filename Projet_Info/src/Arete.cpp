@@ -18,7 +18,7 @@ Sommet* Arete::getExtr1()const
 
 void Arete::setExtr1(Sommet* extr)
 {
-    m_extr2 = extr;
+    m_extr1 = extr;
 }
 
 Sommet* Arete::getExtr2()const

@@ -12,12 +12,12 @@ void Sommet::setNumero(int num)
     m_numero = num;
 }
 
-char Sommet::getNom()const
+std::string Sommet::getNom()const
 {
     return m_nom;
 }
 
-void Sommet::setNom(char nom)
+void Sommet::setNom(std::string nom)
 {
     m_nom = nom;
 }

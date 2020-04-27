@@ -55,20 +55,25 @@ void Graphe::creation_svg()
 void Graphe::affichage_svg(Svgfile& svgout)
 {
     svgout.addGrid();
-    Sommet* sommet1 = m_aretes[0]->m_extr1;
-    std::cout<<sommet1;
     for(int i = 0; i < m_nb_sommet; ++i)
+    {
         svgout.addDisk(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,15,"lightblue");
-    //for(int j = 0; j < m_nb_arete; ++j)
-        //svgout.addLine(m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,"black");
+        svgout.addText(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getNom(),"black");
+    }
+    std::cout<<m_aretes[0]->getExtr1()->getCoord_x();
+    for(int j = 0; j < m_nb_arete; ++j)
+        svgout.addLine(m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,"black");
 }
 
 Sommet* Graphe::trouverSommet(int num)
 {
-    int i=0;
-    while(m_sommets[i]->getNumero()!=num)
-        ++i;
-    return m_sommets[i];
+    for(size_t i = 0; i < m_sommets.size();++i)
+    {
+        if(m_sommets[i]->getNumero() == num)
+        {std::cout<<m_sommets[i]<<"  "<<m_sommets[0]<<std::endl;
+            return m_sommets[i];
+        }
+    }
 }
 
 Graphe::Graphe(std::string file_name)
@@ -100,7 +105,7 @@ Graphe::Graphe(std::string file_name)
            {
                Sommet* sommet = new Sommet();
                int num = 0,x = 0,y = 0;
-               char nom;
+               std::string nom;
                int i = m_sommets.size();
                m_sommets.push_back(sommet);
                iss>>num; //numéro de sommet
@@ -128,7 +133,7 @@ Graphe::Graphe(std::string file_name)
                iss>>ex1; //extrémité 1
                m_aretes[i]->setExtr1(trouverSommet(ex1));
                iss>>ex2; //extrémité 2
-               m_aretes[i]->setExtr2(trouverSommet(ex1));
+               m_aretes[i]->setExtr2(trouverSommet(ex2));
            }
            else
            {
