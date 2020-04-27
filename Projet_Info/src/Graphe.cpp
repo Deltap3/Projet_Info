@@ -77,12 +77,12 @@ Graphe::Graphe(std::string file_name)
     std::ifstream fichier{file_name}; //ouverture de fichier lecture
     if (!fichier)
     {
-        std::cout << "ERREUR: Impossible d'ouvrir le fichier";
+        std::cout << "ERREUR: Impossible d'ouvrir le fichier topo";
     }
     else
     {
        std::string ligne_lu; //Variable de lecture
-       int nb_ligne=0; //Variable numéro de ligne
+       int nb_ligne=0; //Variable numero de ligne
        int nb_sommet=0; //Variable nombre de sommet
        int nb_arete=0; //Variable nombre arrete
        while(getline(fichier, ligne_lu))
@@ -90,7 +90,7 @@ Graphe::Graphe(std::string file_name)
            std::istringstream iss{ligne_lu};
            if (nb_ligne==0) //lecture ligne oriatation graph
            {
-               iss>>m_ori; //0 si non orienté,1 si orienté
+               iss>>m_ori; //0 si non oriente,1 si oriente
            }
            else if (nb_ligne==1) //lecture ligne nb sommet
            {
@@ -104,7 +104,7 @@ Graphe::Graphe(std::string file_name)
                std::string nom;
                int i = m_sommets.size();
                m_sommets.push_back(sommet);
-               iss>>num; //numéro de sommet
+               iss>>num; //numero de sommet
                m_sommets[i]->setNumero(num);
                iss>>nom; //nom
                m_sommets[i]->setNom(nom);
@@ -115,38 +115,38 @@ Graphe::Graphe(std::string file_name)
            }
            else if (nb_ligne==nb_sommet+2) //lecture nombre d'arrete
            {
-               iss>>nb_arete; //nb d'arrète
+               iss>>nb_arete; //nb d'arrete
                m_nb_arete = nb_arete;
            }
-           else if(nb_ligne>(nb_sommet+2) && nb_ligne<(nb_sommet+nb_arete+3)) //lecture des arrètes
+           else if(nb_ligne>(nb_sommet+2) && nb_ligne<(nb_sommet+nb_arete+3)) //lecture des arretes
            {
                Arete* arete = new Arete();
                int num,ex1,ex2;
                int i = m_aretes.size();
                m_aretes.push_back(arete);
-               iss>>num; //numéro d'arrète
+               iss>>num; //numero d'arrete
                m_aretes[i]->setNum(num);
-               iss>>ex1; //extrémité 1
+               iss>>ex1; //extremite 1
                m_aretes[i]->setExtr1(trouverSommet(ex1));
-               iss>>ex2; //extrémité 2
+               iss>>ex2; //extremite 2
                m_aretes[i]->setExtr2(trouverSommet(ex2));
            }
            else
            {
-               std::cout << "ERREUR: lecture du fichier"<<std::endl;
+               std::cout << "ERREUR: lecture du fichier trop de sommets ou arrÃ¨te par rapport au nombre anoncÃ© topo"<<std::endl;
            }
 
-           ++nb_ligne; //incrémentation néméro de ligne
+           ++nb_ligne; //incrementation numero de ligne
        }
     }
 }
 
-void Graphe::sauvegarde(std::string file_name)
+void Graphe::sauvegarde_topo(std::string file_name)
 {
     std::ofstream fichier { file_name }; //ouverture fichier ecriture
     if (!fichier)
     {
-        std::cout << "ERREUR: ouverture du fichier" << std::endl;
+        std::cout << "ERREUR: sauvegarde du fichier topo" << std::endl;
     }
     else
     {
@@ -164,12 +164,47 @@ void Graphe::sauvegarde(std::string file_name)
     }
 }
 
+void Graphe::lecture_pond(std::string file_name)
+{
+    std::ifstream fichier{file_name}; //ouverture de fichier lecture
+    if (!fichier)
+    {
+        std::cout << "ERREUR: Impossible d'ouvrir le fichier topo";
+    }
+    else
+    {
+        std::string ligne_lu; //Variable de lecture
+        int nb_ligne=0; //Variable numero de ligne
+        int nb_arete=0; //Variable nombre arrete
+        while(getline(fichier, ligne_lu))
+        {
+            if (nb_ligne==0) //lecture ligne nb arrÃ¨te
+            {
+               iss>>nb_arete; //nb d'arrete (deja sauvegarde)
+               if (nb_arete != m_nb_arete)
+               {
+                   std::cout << "ERREUR: Le nombre d'arete dans topo est different que dans pond" << std::endl;
+               }
+            }
+            else if (nb_ligne>0 && nb_ligne<(nb_arete+1))
+            {
+                int num=0;
+                float pond=0;
+                iss>>num; //Numeros arete (deja sauvgarde)
+                iss>>pond;//Lecture poids
+                m_aretes[num]->setPoids(num);
+            }
+            else
+            {
+                std::cout << "ERREUR: lecture du fichier trop d'arrÃ¨te par rapport au nombre anoncÃ© pond"<<std::endl;
+            }
+            
+        }
+    }
+    
+}
+
 Graphe::~Graphe()
 {
     //dtor
-}
-
-void Graphe::centrDegre()
-{
-
 }
