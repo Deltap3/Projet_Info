@@ -18,11 +18,12 @@ class Arete
 
         int getPoids()const;
         void setPoids(int poids);
+        Sommet* m_extr1;
+        Sommet* m_extr2;
 
     private:
         int m_numero;
-        Sommet* m_extr1;
-        Sommet* m_extr2;
+
         int m_poids;
 };
 

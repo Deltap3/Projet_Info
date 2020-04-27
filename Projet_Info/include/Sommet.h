@@ -10,8 +10,8 @@ class Sommet
         virtual ~Sommet();
         int getNumero()const;
         void setNumero(int num);
-        int getNom()const;
-        void setNom(int nom);
+        char getNom()const;
+        void setNom(char nom);
 
         int getCoord_x()const;
         void setCoord_x(int coord);
@@ -23,7 +23,7 @@ class Sommet
 
     private:
         int m_numero;
-        int m_nom;
+        char m_nom;
 
         int m_coord_x;
         int m_coord_y;

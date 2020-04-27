@@ -12,12 +12,12 @@ void Sommet::setNumero(int num)
     m_numero = num;
 }
 
-int Sommet::getNom()const
+char Sommet::getNom()const
 {
     return m_nom;
 }
 
-void Sommet::setNom(int nom)
+void Sommet::setNom(char nom)
 {
     m_nom = nom;
 }
@@ -54,7 +54,8 @@ void Sommet::setIndice_centr(std::vector<float> indi_centr)
 
 Sommet::Sommet()
 {
-    //ctor
+    m_nom = 'A';
+    m_numero = 0;
 }
 
 Sommet::~Sommet()

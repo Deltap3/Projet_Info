@@ -1,10 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "Graphe.h"
 
 int main()
 {
-    std::cout << "Hello world!" << std::endl;
+    Graphe test("graphe_etoile1_topo.txt");
+    test.creation_svg();
     return 0;
 }
 
