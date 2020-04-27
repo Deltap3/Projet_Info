@@ -4,6 +4,7 @@
 #include "Arete.h"
 #include "Sommet.h"
 #include <iostream>
+#include "svgfile.h"
 
 class Graphe
 {
@@ -20,6 +21,9 @@ class Graphe
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;
         std::string getFileName()const;
+
+        void creation_svg();
+        void affichage_svg(Svgfile& svgout);
 
     private:
         bool m_ori;

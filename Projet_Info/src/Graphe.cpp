@@ -2,6 +2,7 @@
 #include "Arete.h"
 #include "Sommet.h"
 #include <iostream>
+#include "svgfile.h"
 
 bool Graphe::getOri()const
 {
@@ -41,6 +42,20 @@ std::vector<Arete*> Graphe::getAretes()const
 std::string Graphe::getFileName()const
 {
     return m_fileName;
+}
+
+void Graphe::creation_svg()
+{
+    Svgfile svgout;
+    affichage_svg(svgout);
+}
+
+void Graphe::affichage_svg(Svgfile& svgout)
+{
+    for(int i = 0; i < m_nb_sommet; ++i)
+        svgout.addDisk(m_sommets[i]->getCoord_x(),m_sommets[i]->getCoord_y(),5,"blue")
+    for(int j = 0; j < m_nb_arete; ++j)
+        svgout.addLine(m_aretes[i]->m_extr1->getCoord_x(),m_aretes[i]->m_extr1->getCoord_y(),m_aretes[i]->m_extr2->getCoord_x(),m_aretes[i]->m_extr2->getCoord_(),"black")
 }
 
 Graphe::Graphe()
