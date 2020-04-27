@@ -31,12 +31,12 @@ void Arete::setExtr2(Sommet* extr)
     m_extr2 = extr;
 }
 
-int Arete::getPoids()const
+float Arete::getPoids()const
 {
     return m_poids;
 }
 
-void Arete::setPoids(int poids)
+void Arete::setPoids(float poids)
 {
     m_poids = poids;
 }

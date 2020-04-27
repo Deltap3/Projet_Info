@@ -16,15 +16,15 @@ class Arete
         Sommet* getExtr2()const;
         void setExtr2(Sommet* extr);
 
-        int getPoids()const;
-        void setPoids(int poids);
+        float getPoids()const;
+        void setPoids(float poids);
         Sommet* m_extr1;
         Sommet* m_extr2;
 
     private:
         int m_numero;
 
-        int m_poids;
+        float m_poids;
 };
 
 #endif // ARETE_H

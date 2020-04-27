@@ -168,3 +168,8 @@ Graphe::~Graphe()
 {
     //dtor
 }
+
+void Graphe::centrDegre()
+{
+
+}
