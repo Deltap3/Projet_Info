@@ -443,6 +443,7 @@ void Graphe::suppr_arete(int s1,int s2)
         { // on teste le sens s1 s2 et s2 s1
             delete m_aretes[i]; //Degagement de la mémoire supression de l'objet
             m_aretes.erase(m_aretes.begin()+i); //Supression dans le vecteur dans graph
+            m_nb_arete=m_nb_arete-1;
             indicateur_reusite = 1;
         }
     }
@@ -462,6 +463,7 @@ void Graphe::suppr_sommet(int sommet)
         {
             delete m_sommets[i]; //Degagement de la mémoire supression de l'objet
             m_sommets.erase(m_sommets.begin()+i); //Supression dans le vecteur dans graph
+            m_nb_sommet=m_nb_sommet-1;
             indicateur_reussite = 1;
             for (int j = 0; j<m_aretes.size();++j)
             {
@@ -469,6 +471,7 @@ void Graphe::suppr_sommet(int sommet)
                 {
                     delete m_aretes[j]; //Degagement de la mémoire supression de l'objet
                     m_aretes.erase(m_aretes.begin()+j); //Supression dans le vecteur dans graph
+                    m_nb_arete=m_nb_arete-1;
                 }
             }
         }
