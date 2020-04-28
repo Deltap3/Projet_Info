@@ -5,7 +5,7 @@
 
 int main()
 {
-    Graphe test(charger_file("Nom du fichier Topo ?"));
+    Graphe test(charger_file("Nom du fichier Topo de chargement ?"));
     exit = false;
     std::string saisie;
     //Boucle de menu
@@ -18,12 +18,23 @@ int main()
         {
             exit = true;
         }
-        else if (saisie == "Charger Topo" )
+        else if (saisie == "Charger Pond" )
         {
-            
+            test.lecture_pond(charger_file("Nom du fichier Pond de chargement ?"));
         }
-     
-
+        else if (saisie == "Sauvgarder Topo" )
+        {
+            test.sauvegarde_topo(Demander_nom_fichier("Nom du fichier de sauvgarde Topo"));
+        }
+        else if (saisie == "Sauvgarder Pond" )
+        {
+            test.sauvegarde_pond(Demander_nom_fichier("Nom du fichier de sauvgarde Pond"));
+        }
+        else if (saisie == "Afficher svg" )
+        {
+            std::cout << "Il sera seulement affiche les operations effectue avant cette commande " << std::endl;
+            test.creation_svg();
+        }
 
 
 
@@ -81,7 +92,7 @@ std::string charger_file(std::string phrase)
         std::ifstream fichier{file_name}; //ouverture de fichier lecture
         if (!fichier)
         {
-            std::cout << "ERREUR: Impossible d'ouvrir le fichier topo";        
+            std::cout << "ERREUR: Impossible d'ouvrir le fichier topo" << std::endl;        
         }
         else
         {
