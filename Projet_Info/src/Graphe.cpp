@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <math.h>
 
 bool Graphe::getOri()const
 {
@@ -251,4 +252,64 @@ void Graphe::centrDegre()
         }
         m_sommets[i]->setIndiceDegre(somme[i]/(m_nb_sommet-1));
     }
+}
+
+std::vector<Sommet*> Graphe::trouverSuccs(Sommet* base)
+{
+    std::vector<Sommet*> succs;
+    for(size_t i = 0; i < m_aretes.size(); ++i)
+    {
+        if(m_aretes[i]->getExtr1()->getNumero() == base->getNumero())
+            succs.push_back(m_aretes[i]->getExtr2());
+        else if(m_aretes[i]->getExtr2()->getNumero() == base->getNumero())
+            succs.push_back(m_aretes[i]->getExtr1());
+    }
+    return succs;
+}
+
+void Graphe::centrVectPropre()
+{
+    std::vector<float> indice;
+    std::vector<float> csi;
+    std::vector<float> lambda;
+    std::vector<float> precedent;
+    std::vector<float> somme;
+    std::vector<Sommet*>succs;
+    for(size_t i = 0; i < m_sommets.size();++i)
+    {
+        somme.push_back(0);
+        lambda.push_back(0);
+        precedent.push_back(0);
+        csi.push_back(0);
+        indice.push_back(1);
+        m_sommets[i]->setIndiceVect(1);
+    }
+    do
+    {
+        for(size_t k = 0; k < lambda.size();++k)
+            precedent[k] = lambda[k];
+        for(size_t i = 0; i < m_sommets.size();++i)
+        {
+            csi[i] = 0;
+            lambda[i] = 0;
+        }
+        for(size_t i = 0; i < m_sommets.size();++i)
+        {
+            succs = trouverSuccs(m_sommets[i]);
+            for(size_t j = 0; j < succs.size();++j)
+            {
+                csi[i] = csi[i] + succs[j]->getIndiceVect();
+            }
+        }
+        for(size_t i = 0; i < m_sommets.size();++i)
+        {
+            for(size_t j = 0; j < m_sommets.size();++j)
+            {
+                somme[i] = somme[i] + csi[j];
+            }
+            lambda[i] = sqrt(somme[i]*somme[i]);
+            indice[i] = csi[i]/lambda[i];
+            m_sommets[i]->setIndiceVect(indice[i]);
+        }
+    }while(lambda[0]-precedent[0]>0.0001);
 }

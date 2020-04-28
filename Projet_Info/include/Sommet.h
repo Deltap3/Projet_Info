@@ -20,6 +20,8 @@ class Sommet
 
         float getIndiceDegre()const;
         void setIndiceDegre(float indice);
+        float getIndiceVect()const;
+        void setIndiceVect(float indice);
 
     private:
         int m_numero;
@@ -29,6 +31,7 @@ class Sommet
         int m_coord_y;
 
         float m_indiceDegre;
+        float m_indiceVect;
 
 };
 

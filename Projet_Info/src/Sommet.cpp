@@ -52,6 +52,16 @@ void Sommet::setIndiceDegre(float indice)
     m_indiceDegre = indice;
 }
 
+float Sommet::getIndiceVect()const
+{
+    return m_indiceVect;
+}
+
+void Sommet::setIndiceVect(float indice)
+{
+    m_indiceVect = indice;
+}
+
 Sommet::Sommet()
 {
     m_nom = 'A';

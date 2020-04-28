@@ -23,7 +23,9 @@ class Graphe
 		void lecture_pond(std::string file_name);
         void sauvegarde_pond(std::string file_name);
 		Sommet* trouverSommet(int num);
+		std::vector<Sommet*> trouverSuccs(Sommet* base);
 		void centrDegre();
+		void centrVectPropre();
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;

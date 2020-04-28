@@ -11,6 +11,7 @@ int main()
     test.sauvegarde_pond("save2.txt");
     test.centrDegre();
     test.creation_svg();
+    test.centrVectPropre();
     return 0;
 }
 
