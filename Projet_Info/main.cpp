@@ -60,6 +60,14 @@ std::string charger_file(std::string phrase)
     return file_name;
 }
 
+int demander_sommet(std::string phrase)
+{
+    int sommet = 0;
+    std::cout << phrase << std::endl;
+    std::cout << "> ";
+    return sommet;
+}
+
 int main()
 {
     Graphe test(charger_file("Nom du fichier Topo de chargement ?"));
@@ -95,11 +103,17 @@ int main()
         }
         else if (saisie == "Supprimer_arete" || saisie == "SA")
         {
-
+            int s1;
+            int s2;
+            s1=demander_sommet("entré le numero de sommet 1 de l'arete");
+            s2=demander_sommet("entré le numero de sommet 2 de l'arete");
+            test.suppr_arete(s1,s2);
         }
         else if(saisie == "Supprimer_sommet" || saisie == "SS")
         {
-
+            int sommet;
+            sommet=demander_sommet("entré le numero de sommet 1 que vous voulez effacer");
+            test.suppr_sommet(sommet);
         }
         //--------------------------------------------------------------------------------------------------------
         else if(saisie == "Calcul_Degre" || saisie == "CaD")
