@@ -111,7 +111,9 @@ int main()
         }
         else if(saisie == "Supprimer_sommet" || saisie == "SS")
         {
-
+            int sommet;
+            sommet=demander_sommet("entré le numero de sommet 1 que vous voulez effacer");
+            test.suppr_sommet(sommet);
         }
         //--------------------------------------------------------------------------------------------------------
         else if(saisie == "Calcul_Degre" || saisie == "CaD")
