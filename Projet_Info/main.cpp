@@ -7,19 +7,24 @@
 void Affichage_menu()
 {
     std::cout << "------------------------------------------------" << std::endl;
-    std::cout << "                Commands list                   " << std::endl;
+    std::cout << "           Commands list           Racourcie    " << std::endl;
     std::cout << "------------------------------------------------" << std::endl;
-    std::cout << "             > Charger_Topo <                   " << std::endl;
-    std::cout << "             > Sauvgarder_Topo <                " << std::endl;
+    std::cout << "           > Charger_Topo <           > CT <    " << std::endl;
+    std::cout << "           > Sauvgarder_Topo <        > ST <    " << std::endl;
     std::cout << "                                                " << std::endl;
-    std::cout << "             > Charger_Pond <                   " << std::endl;
-    std::cout << "             > Sauvgarder_Pond <                " << std::endl;
+    std::cout << "           > Charger_Pond <           > CP <    " << std::endl;
+    std::cout << "           > Sauvgarder_Pond <        > SP <    " << std::endl;
     std::cout << "                                                " << std::endl;
-    std::cout << "             > Afficher_svg <                   " << std::endl;
-    std::cout << "             > Supprimer_arete <                " << std::endl;
-    std::cout << "             > Supprimer_sommet <               " << std::endl;
+    std::cout << "           > Afficher_svg <           > AS <    " << std::endl;
+    std::cout << "           > Supprimer_arete <        > SA <    " << std::endl;
+    std::cout << "           > Supprimer_sommet <       > SS <    " << std::endl;
     std::cout << "                                                " << std::endl;
-    std::cout << "             > Exit <                           " << std::endl;
+    std::cout << "           > Calcul_Degre <           > CaD <   " << std::endl;
+    std::cout << "           > Calcul_Vecteur <         > CaV <   " << std::endl;
+    std::cout << "           > Calcul_Proximite <       > CaP <   " << std::endl;
+    std::cout << "           > Calcul_Intermediarite <  > CaI <   " << std::endl;
+    std::cout << "                                                " << std::endl;
+    std::cout << "           > Exit <                   > Ext <   " << std::endl;
     std::cout << "------------------------------------------------" << std::endl;
 }
 
@@ -66,27 +71,59 @@ int main()
         Affichage_menu();
         std::cout << "> " ;
         std::cin >> saisie;
-        if (saisie == "Exit")
+        if (saisie == "Exit" saisie == "Ext")
         {
             exit = true;
         }
-        else if (saisie == "Charger_Pond" )
+        else if (saisie == "Charger_Pond" || saisie == "CP" )
         {
             test.lecture_pond(charger_file("Nom du fichier Pond de chargement ?"));
         }
-        else if (saisie == "Sauvgarder_Topo" )
+        else if (saisie == "Sauvgarder_Topo" || saisie == "ST" )
         {
             test.sauvegarde_topo(Demander_nom_fichier("Nom du fichier de sauvgarde Topo"));
         }
-        else if (saisie == "Sauvgarder_Pond" )
+        else if (saisie == "Sauvgarder_Pond" || saisie == "SP")
         {
             test.sauvegarde_pond(Demander_nom_fichier("Nom du fichier de sauvgarde Pond"));
         }
-        else if (saisie == "Afficher_svg" )
+        //-------------------------------------------------------------------------------------------------------
+        else if (saisie == "Afficher_svg" || saisie == "AS")
         {
             std::cout << "Il sera seulement affiche les operations effectue avant cette commande " << std::endl;
             test.creation_svg();
         }
+        else if (saisie == "Supprimer_arete" || saisie == "SA")
+        {
+
+        }
+        else if(saisie == "Supprimer_sommet" || saisie == "SS")
+        {
+
+        }
+        //--------------------------------------------------------------------------------------------------------
+        else if(saisie == "Calcul_Degre" || saisie == "CaD")
+        {
+            test.centrDegre();
+        }
+        else if(saisie == "Calcul_Vecteur" || saisie == "CaV")
+        {
+            test.centrVectPropre();
+        }
+        else if(saisie == "Calcul_Proximite" || saisie == "CaP")
+        {
+
+        }
+        else if(saisie == "Calcul_Intermediarite" || saisie == "CaI")
+        {
+
+        }
+        else
+        {
+            std::cout << "saisie invalide, veuillez recommencer ou comtacter le support" << std::endl;
+        }
+        
+        
     }
     return 0;
 }
