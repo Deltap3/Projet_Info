@@ -71,7 +71,7 @@ int main()
         Affichage_menu();
         std::cout << "> " ;
         std::cin >> saisie;
-        if (saisie == "Exit" saisie == "Ext")
+        if (saisie == "Exit" || saisie == "Ext")
         {
             exit = true;
         }
@@ -118,12 +118,16 @@ int main()
         {
 
         }
+        else if(saisie == "test")
+        {
+            test.Dijsktra(2,4);
+        }
         else
         {
             std::cout << "saisie invalide, veuillez recommencer ou comtacter le support" << std::endl;
         }
-        
-        
+
+
     }
     return 0;
 }

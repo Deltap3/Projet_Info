@@ -6,6 +6,9 @@
 #include <fstream>
 #include <sstream>
 #include <math.h>
+#include <utility>
+#include <algorithm>
+
 
 bool Graphe::getOri()const
 {
@@ -315,7 +318,27 @@ void Graphe::centrVectPropre()
     }while(difference>0.2);
 }
 
-void Graphe::Dijsktra(Sommet* debut, Sommet* fin)
+void Graphe::Dijsktra(int first, int last)
+{
+    std::vector<double>marque((int)m_sommets.size(),0);
+    std::vector<double> distance((int)m_sommets.size(),-1);
+    std::vector<std::pair<double,Sommet*>>poidSuccs;
+    std::vector<Sommet*>succs;
+    Sommet* debut = trouverSommet(first);
+    Sommet* fin = trouverSommet(last);
+    succs=trouverSuccs(debut);
+    for(size_t i = 0; i < succs.size();++i)
+        poidSuccs.push_back(std::make_pair(0,nullptr));
+    poidSuccs = poidsSuccsTrie(debut);
+    distance[debut->getNumero()] = 0;
+    marque[debut->getNumero()] = 1;
+    do
+    {
+
+    }while(marque[fin->getNumero()] == 1);
+}
+
+void Graphe::Dijsktra(Sommet* debut)
 {
     std::vector<double>marque((int)m_sommets.size(),0);
     std::vector<double> distance((int)m_sommets.size(),-1);
@@ -325,5 +348,24 @@ void Graphe::Dijsktra(Sommet* debut, Sommet* fin)
     do
     {
 
-    }while(fin!=m_sommets.size() || marque[fin->getNumero()] == 1)
+    }while(fin!=m_sommets.size());
 }
+
+std::vector<std::pair<double,Sommet*>> Graphe::poidsSuccsTrie(Sommet* debut)const
+{
+    std::vector<std::pair<double,Sommet*>>poidsSuccs;
+    for(size_t i = 0; i < m_aretes.size(); ++i)
+    {
+        if(m_aretes[i]->getExtr1()->getNumero() == debut->getNumero())
+            poidsSuccs.push_back(std::make_pair(m_aretes[i]->getPoids(),m_aretes[i]->getExtr2()));
+        else if(m_aretes[i]->getExtr2()->getNumero() == debut->getNumero())
+            poidsSuccs.push_back(std::make_pair(m_aretes[i]->getPoids(),m_aretes[i]->getExtr1()));
+    }
+    std::sort(poidsSuccs.begin(),poidsSuccs.end());
+    for(size_t i = 0; i<poidsSuccs.size();++i)
+        std::cout<<"sommet  "<<poidsSuccs[i].first<<" poids   "<<poidsSuccs[i].second->getNom()<<std::endl;
+    return poidsSuccs;
+}
+
+
+

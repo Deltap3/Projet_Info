@@ -26,7 +26,9 @@ class Graphe
 		std::vector<Sommet*> trouverSuccs(Sommet* base)const;
 		void centrDegre();
 		void centrVectPropre();
-		void Dijsktra(Sommet* debut, Sommet* fin);
+		void Dijsktra(int debut, int fin);
+		void Dijsktra(Sommet* debut);
+		std::vector<std::pair<double,Sommet*>> poidsSuccsTrie(Sommet* debut)const;
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;
