@@ -5,6 +5,33 @@
 
 int main()
 {
+    Graphe test(charger_file("Nom du fichier Topo ?"));
+    exit = false;
+    std::string saisie;
+    //Boucle de menu
+    while(exit == false)
+    {
+        Affichage_menu();
+        std::cout << "> " ;
+        std::cin >> saisie;
+        if (saisie == "Exit")
+        {
+            exit = true;
+        }
+        else if (saisie == "Charger Topo" )
+        {
+            
+        }
+     
+
+
+
+
+    }
+
+
+
+
     Graphe test("graphe_etoile1_topo.txt");
     test.sauvegarde_topo("save.txt");
     test.lecture_pond("graphe_etoile1_pond.txt");
@@ -20,78 +47,47 @@ void Affichage_menu()
     std::cout << "------------------------------------------------" << std::endl;
     std::cout << "                Commands list                   " << std::endl;
     std::cout << "------------------------------------------------" << std::endl;
-    std::cout << "          > @ID move valeur axis <              " << std::endl;
-    std::cout << "             > @ID take object <                " << std::endl;
-    std::cout << "            > @ID untake object <               " << std::endl;
-    std::cout << "             > play script.txt <                " << std::endl;
-    std::cout << "            > load filename.txt <               " << std::endl;
-    std::cout << "                 > reload <                     " << std::endl;
-    std::cout << "               > ids / noids <                  " << std::endl;
-    std::cout << "            > rulers / norulers <               " << std::endl;
-    std::cout << "           > anchors / noanchors <              " << std::endl;
-    std::cout << "              > undo / do   <                   " << std::endl;
-    std::cout << "                  > store <                     " << std::endl;
-    std::cout << "                 > restore <                    " << std::endl;
-    std::cout << "                  > exit <                      " << std::endl;
+    std::cout << "             > Charger Topo <                   " << std::endl;
+    std::cout << "             > Sauvgarder Topo <                " << std::endl;
+    std::cout << "                                                " << std::endl;
+    std::cout << "             > Charger Pond <                   " << std::endl;
+    std::cout << "             > Sauvgarder Pond <                " << std::endl;
+    std::cout << "                                                " << std::endl;
+    std::cout << "             > Afficher svg <                   " << std::endl;
+    std::cout << "             > Supprimer arete <                " << std::endl;
+    std::cout << "             > Supprimer sommet <               " << std::endl;
+    std::cout << "                                                " << std::endl;
+    std::cout << "             > Exit <                           " << std::endl;
     std::cout << "------------------------------------------------" << std::endl;
 }
-// Fin menu console
-
-//Jules 27/04/2020 V1 chargement_topo
-/*void chargement_topo(std::string file_name)
+//Fin affichage menu
+std::string Demander_nom_fichier(std::string phrase)
 {
-    std::ifstream fichier{file_name}; //ouverture de fichier
-    if (!fichier)
+    std::string file_name;
+    std::cout << phrase << std::endl;
+    std::cout << "> ";
+    std::cin >> file_name;
+    return file_name;
+}
+
+std::string charger_file(std::string phrase)
+{
+    std::string file_name;
+    int indicateur_ouverture = 0;
+    while(indicateur_ouverture = 0)
     {
-        std::cout << "ERREUR: Impossible d'ouvrir le fichier";
+        file_name = Demander_nom_fichier(phrase);
+        std::ifstream fichier{file_name}; //ouverture de fichier lecture
+        if (!fichier)
+        {
+            std::cout << "ERREUR: Impossible d'ouvrir le fichier topo";        
+        }
+        else
+        {
+            indicateur_ouverture = 1;
+            fichier.close;
+        }
     }
-    else
-    {
-       std::string ligne_lu; //Variable de lecture
-       int nb_ligne=0; //Variable numéro de ligne
-       int nb_sommet=0; //Variable nombre de sommet
-       int nb_arete=0; //Variable nombre arrete
-       while(getline(fichier, ligne_lu))
-       {
-           std::istringstream iss{ligne_lu};
-           if (nb_ligne=0) //lecture ligne oriatation graph
-           {
-               iss>>m_ori; //0 si non orienté,1 si orienté
-           }
-           if (nb_ligne=1) //lecture ligne nb sommet
-           {
-               iss>>m_nb_sommet; //nb sommet
-           }
-           if (nb_ligne>1 && nb_ligne<(nb_sommet+2)) //lecture des sommets
-           {
-               Sommet* sommet;
-               m_sommets.pushback(sommet);
-               iss>>m_sommets.back()->m_numero; //numéro de sommet
-               iss>>m_sommets.back()->m_nom; //nom
-               iss>>m_sommets.back()->m_coord_x; //coord x
-               iss>>m_sommets.back()->m_coord_y; //coord y
-           }
-           if (nb_ligne==nb_sommet+2) //lecture nombre d'arrete
-           {
-               iss>>m_nb_arete; //nb d'arrète
-           }
-           if(nb_ligne>(nb_sommet+2) && nb_ligne<(nb_sommet+nb_arete+3)) //lecture des arrètes
-           {
-               Arete* arete;
-               m_aretes.pushback(arete);
-               iss>>m_aretes.back()->m_numero; //numéro d'arrète
-               iss>>m_aretes.back()->m_extr1; //extrémité 1
-               iss>>m_aretes.back()->m_extr2; //extrémité 2
-           }
-           else
-           {
-               std::cout << "ERREUR: lecture du fichier";
-           }
 
-           ++nb_ligne; //incrémentation néméro de ligne
-
-
-       }
-    }
-    return 0;
-}*/
+    return file_name;
+}
