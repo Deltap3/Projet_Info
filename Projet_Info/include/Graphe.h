@@ -23,7 +23,7 @@ class Graphe
 		void lecture_pond(std::string file_name);
         void sauvegarde_pond(std::string file_name);
 		Sommet* trouverSommet(int num);
-		std::vector<Sommet*> trouverSuccs(Sommet* base);
+		std::vector<Sommet*> trouverSuccs(Sommet* base)const;
 		void centrDegre();
 		void centrVectPropre();
 
