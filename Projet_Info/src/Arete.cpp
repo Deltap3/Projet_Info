@@ -44,7 +44,7 @@ void Arete::setPoids(float poids)
 
 Arete::Arete()
 {
-    //ctor
+    m_poids = 0;
 }
 
 Arete::~Arete()

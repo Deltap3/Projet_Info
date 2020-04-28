@@ -32,6 +32,7 @@ class Graphe
 		void Dijsktra(int debut, int fin);
 		void Dijsktra(Sommet* debut);
 		std::vector<std::pair<double,Sommet*>> poidsSuccsTrie(Sommet* debut)const;
+		int trouverPoids(Sommet* debut, Sommet* fin);
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;

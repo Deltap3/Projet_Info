@@ -433,8 +433,14 @@ void Graphe::Dijsktra(int first, int last)
 {
     std::vector<double>marque((int)m_sommets.size(),0);
     std::vector<double> distance((int)m_sommets.size(),-1);
+    std::vector<Sommet*> preds;
+    for(size_t i = 0; i < m_sommets.size();++i)
+        preds.push_back(nullptr);
     std::vector<std::pair<double,Sommet*>>poidSuccs;
     std::vector<Sommet*>succs;
+    Sommet* pre = new Sommet();
+    Sommet* actuel = new Sommet();
+    Sommet* actuelSucc = new Sommet();
     Sommet* debut = trouverSommet(first);
     Sommet* fin = trouverSommet(last);
     succs=trouverSuccs(debut);
@@ -443,8 +449,28 @@ void Graphe::Dijsktra(int first, int last)
     poidSuccs = poidsSuccsTrie(debut);
     distance[debut->getNumero()] = 0;
     marque[debut->getNumero()] = 1;
+    int i = 0;
+    pre = debut;
     do
     {
+        if(marque[i] == 0)
+        {
+            marque[i] = 1;
+            preds[i] = pre;
+            actuel = trouverSommet(i);
+        }
+        succs=trouverSuccs(actuel);
+        for(size_t j = 0; j < succs.size();++j)
+            if(marque[j] == 0)
+            {
+                actuelSucc = trouverSommet(j);
+                if((trouverPoids(debut,actuel)+trouverPoids(actuel,actuelSucc))<distance[j])
+                {
+                    distance[j] = trouverPoids(debut,actuel)+trouverPoids(actuel,actuelSucc);
+                    pre = actuel;
+                }
+                marque[j] = 1;
+            }
 
     }while(marque[fin->getNumero()] == 1);
 }
@@ -455,7 +481,7 @@ void Graphe::Dijsktra(Sommet* debut)
     std::vector<double> distance((int)m_sommets.size(),-1);
     distance[debut->getNumero()] = 0;
     marque[debut->getNumero()] = 1;
-    int fin = 1;
+    int fin = 1,i = 0;
     do
     {
 
@@ -476,4 +502,11 @@ std::vector<std::pair<double,Sommet*>> Graphe::poidsSuccsTrie(Sommet* debut)cons
     for(size_t i = 0; i<poidsSuccs.size();++i)
         std::cout<<"sommet  "<<poidsSuccs[i].first<<" poids   "<<poidsSuccs[i].second->getNom()<<std::endl;
     return poidsSuccs;
+}
+
+int Graphe::trouverPoids(Sommet* debut, Sommet* fin)
+{
+    for(size_t i = 0; i < m_aretes.size(); ++i)
+        if((m_aretes[i]->getExtr1()->getNumero() == debut->getNumero() && m_aretes[i]->getExtr2()->getNumero() == fin->getNumero()) || (m_aretes[i]->getExtr2()->getNumero() == debut->getNumero() && m_aretes[i]->getExtr1()->getNumero() == fin->getNumero()))
+            return m_aretes[i]->getPoids();
 }
