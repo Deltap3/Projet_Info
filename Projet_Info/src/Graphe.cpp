@@ -311,10 +311,10 @@ void Graphe::centrDegre()
     int oriente = getOri();
     std::string choix;
     int reponse_valide=0;
-    if (orient==1)
+    if (oriente==1)
     {
         while (reponse_valide==0)
-        {          
+        {
         std::cout << "degré arrive > Arr < ou depart > Dep < ?" << std::endl;
         std::cout << "> ";
         std::cin >> choix;
@@ -326,7 +326,7 @@ void Graphe::centrDegre()
         {
             std::cout << "ERREUR: reponse invalide" << std::endl;
         }
-        
+
         }
 
     }
@@ -342,14 +342,14 @@ void Graphe::centrDegre()
                 {
                     somme[i] = somme[i]+1;
                 }
-            
-            
+
+
             }
         }
-        if (orient==1)
+        if (oriente==1)
         {
             if (choix=="Dep")
-            {   
+            {
                 for(size_t j = 0; j < m_aretes.size();++j)
                 {
                     if(m_aretes[j]->getExtr1()->getNumero() == m_sommets[i]->getNumero())
@@ -359,7 +359,7 @@ void Graphe::centrDegre()
                 }
             }
             if (choix=="Arr")
-            {   
+            {
                 for(size_t j = 0; j < m_aretes.size();++j)
                 {
                     if(m_aretes[j]->getExtr2()->getNumero() == m_sommets[i]->getNumero())
@@ -521,7 +521,6 @@ void Graphe::Dijsktra(int first, int last)
                 }
                 marque[j] = 1;
             }
-
     }while(marque[fin->getNumero()] == 1);
 }
 
@@ -534,7 +533,24 @@ void Graphe::Dijsktra(Sommet* debut)
     int fin = 1,i = 0;
     do
     {
-
+        if(marque[i] == 0)
+        {
+            marque[i] = 1;
+            preds[i] = pre;
+            actuel = trouverSommet(i);
+        }
+        succs=trouverSuccs(actuel);
+        for(size_t j = 0; j < succs.size();++j)
+            if(marque[j] == 0)
+            {
+                actuelSucc = trouverSommet(j);
+                if((trouverPoids(debut,actuel)+trouverPoids(actuel,actuelSucc))<distance[j])
+                {
+                    distance[j] = trouverPoids(debut,actuel)+trouverPoids(actuel,actuelSucc);
+                    pre = actuel;
+                }
+                marque[j] = 1;
+            }
     }while(fin!=m_sommets.size());
 }
 
