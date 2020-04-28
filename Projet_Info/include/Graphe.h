@@ -26,6 +26,7 @@ class Graphe
 		std::vector<Sommet*> trouverSuccs(Sommet* base)const;
 		void centrDegre();
 		void centrVectPropre();
+		void Dijsktra(Sommet* debut, Sommet* fin);
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;

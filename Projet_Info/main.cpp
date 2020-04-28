@@ -88,12 +88,5 @@ int main()
             test.creation_svg();
         }
     }
-    /*Graphe test("graphe_etoile1_topo.txt");
-    test.sauvegarde_topo("save.txt");
-    test.lecture_pond("graphe_etoile1_pond.txt");
-    test.sauvegarde_pond("save2.txt");
-    test.centrDegre();
-    test.creation_svg();
-    test.centrVectPropre();*/
     return 0;
 }

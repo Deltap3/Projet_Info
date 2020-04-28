@@ -274,6 +274,7 @@ void Graphe::centrVectPropre()
     float lambda;
     float precedent;
     float somme;
+    float difference;
     std::vector<Sommet*>succs;
     for(size_t i = 0; i < m_sommets.size();++i)
     {
@@ -284,7 +285,6 @@ void Graphe::centrVectPropre()
         indice.push_back(1);
         m_sommets[i]->setIndiceVect(1);
     }
-    int m = 0;
     do
     {
         precedent = lambda;
@@ -307,9 +307,23 @@ void Graphe::centrVectPropre()
         {
             indice[i] = csi[i]/lambda;
             m_sommets[i]->setIndiceVect(indice[i]);
-            std::cout<<"  csi sommet"<<i<<"  "<<csi[i]<<"  cvp sommet"<<i<<"  "<<indice[i]<<"  lambda "<<lambda<<std::endl;
         }
-        std::cout<<std::endl;
-        m++;
-    }while(m<5);
+        if(lambda-precedent>0)
+            difference = lambda-precedent;
+        else
+            difference = -(lambda-precedent);
+    }while(difference>0.2);
+}
+
+void Graphe::Dijsktra(Sommet* debut, Sommet* fin)
+{
+    std::vector<double>marque((int)m_sommets.size(),0);
+    std::vector<double> distance((int)m_sommets.size(),-1);
+    distance[debut->getNumero()] = 0;
+    marque[debut->getNumero()] = 1;
+    int fin = 1;
+    do
+    {
+
+    }while(fin!=m_sommets.size() || marque[fin->getNumero()] == 1)
 }
