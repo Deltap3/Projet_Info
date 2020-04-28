@@ -482,7 +482,62 @@ void Graphe::suppr_sommet(int sommet)
 void Graphe::Dijsktra(int first, int last)
 {
     std::vector<double>marque((int)m_sommets.size(),0);
-    std::vector<double> distance((int)m_sommets.size(),-1);
+    std::vector<double> distance((int)m_sommets.size(),1000000000000000000000);
+    std::vector<Sommet*> preds;
+    for(size_t i = 0; i < m_sommets.size();++i)
+        preds.push_back(nullptr);
+    std::vector<std::pair<double,Sommet*>>poidSuccs;
+    std::vector<std::pair<double,Sommet*>>temp;
+    std::vector<Sommet*>succs;
+    Sommet* pre = new Sommet();
+    Sommet* actuel = new Sommet();
+    Sommet* actuelSucc = new Sommet();
+    Sommet* debut = trouverSommet(first);
+    Sommet* fin = trouverSommet(last);
+    succs=trouverSuccs(debut);
+    distance[debut->getNumero()] = 0;
+    marque[debut->getNumero()] = 1;
+    pre = debut;
+    for(size_t i = 0; i < succs.size();++i)
+        poidSuccs.push_back(std::make_pair(0,nullptr));
+    poidSuccs = poidsSuccsTrie(debut);
+    for(size_t i = 0; i < poidSuccs.size();++i)
+        distance[poidSuccs[i].second->getNumero()] = poidSuccs[i].first;
+    int i = poidSuccs[0].second->getNumero();
+    do
+    {
+        if(marque[i] == 0)
+        {
+            marque[i] = 1;
+            preds[i] = pre;
+            actuel = trouverSommet(i);
+            succs=trouverSuccs(actuel);
+            temp = poidsSuccsTrie(actuel);
+            for(size_t j = 0; j < succs.size();++j)
+                if(marque[succs[j]->getNumero()] == 0)
+                {
+                    actuelSucc = temp[j].second;
+                    std::cout<<" j "<<j<<"  "<<debut->getNom()<<"  et   "<<actuel->getNom()<<"  et   "<<actuelSucc->getNom()<<std::endl;
+                    if((trouverPoids(debut,actuel)+trouverPoids(actuel,actuelSucc))<distance[j])
+                    {
+                        std::cout<<"test2"<<std::endl;
+                        distance[j] = trouverPoids(debut,actuel)+trouverPoids(actuel,actuelSucc);
+                        pre = actuel;
+                    }
+                    marque[j] = 1;
+                }
+                std::cout<<"  fin   "<<marque[fin->getNumero()]<<std::endl;
+        }
+            i =poidSuccs[1].second->getNumero();
+    }while(marque[fin->getNumero()] != 1);
+    for(size_t i = 0; i < m_sommets.size();++i)
+        std::cout<<"  sommet  "<<m_sommets[i]->getNom()<<"   distance  "<<distance[i]<<std::endl;
+}
+
+void Graphe::Dijsktra(Sommet* debut)
+{
+    std::vector<double>marque((int)m_sommets.size(),0);
+    std::vector<double> distance((int)m_sommets.size(),1000000000000000000000);
     std::vector<Sommet*> preds;
     for(size_t i = 0; i < m_sommets.size();++i)
         preds.push_back(nullptr);
@@ -491,21 +546,20 @@ void Graphe::Dijsktra(int first, int last)
     Sommet* pre = new Sommet();
     Sommet* actuel = new Sommet();
     Sommet* actuelSucc = new Sommet();
-    Sommet* debut = trouverSommet(first);
-    Sommet* fin = trouverSommet(last);
     succs=trouverSuccs(debut);
     for(size_t i = 0; i < succs.size();++i)
         poidSuccs.push_back(std::make_pair(0,nullptr));
     poidSuccs = poidsSuccsTrie(debut);
     distance[debut->getNumero()] = 0;
     marque[debut->getNumero()] = 1;
-    int i = 0;
+    int fin = 1,i = 0;
     pre = debut;
     do
     {
         if(marque[i] == 0)
         {
             marque[i] = 1;
+            fin++;
             preds[i] = pre;
             actuel = trouverSommet(i);
         }
@@ -520,36 +574,7 @@ void Graphe::Dijsktra(int first, int last)
                     pre = actuel;
                 }
                 marque[j] = 1;
-            }
-    }while(marque[fin->getNumero()] == 1);
-}
-
-void Graphe::Dijsktra(Sommet* debut)
-{
-    std::vector<double>marque((int)m_sommets.size(),0);
-    std::vector<double> distance((int)m_sommets.size(),-1);
-    distance[debut->getNumero()] = 0;
-    marque[debut->getNumero()] = 1;
-    int fin = 1,i = 0;
-    do
-    {
-        if(marque[i] == 0)
-        {
-            marque[i] = 1;
-            preds[i] = pre;
-            actuel = trouverSommet(i);
-        }
-        succs=trouverSuccs(actuel);
-        for(size_t j = 0; j < succs.size();++j)
-            if(marque[j] == 0)
-            {
-                actuelSucc = trouverSommet(j);
-                if((trouverPoids(debut,actuel)+trouverPoids(actuel,actuelSucc))<distance[j])
-                {
-                    distance[j] = trouverPoids(debut,actuel)+trouverPoids(actuel,actuelSucc);
-                    pre = actuel;
-                }
-                marque[j] = 1;
+                fin++;
             }
     }while(fin!=m_sommets.size());
 }
@@ -565,8 +590,6 @@ std::vector<std::pair<double,Sommet*>> Graphe::poidsSuccsTrie(Sommet* debut)cons
             poidsSuccs.push_back(std::make_pair(m_aretes[i]->getPoids(),m_aretes[i]->getExtr1()));
     }
     std::sort(poidsSuccs.begin(),poidsSuccs.end());
-    for(size_t i = 0; i<poidsSuccs.size();++i)
-        std::cout<<"sommet  "<<poidsSuccs[i].first<<" poids   "<<poidsSuccs[i].second->getNom()<<std::endl;
     return poidsSuccs;
 }
 

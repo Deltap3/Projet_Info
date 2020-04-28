@@ -134,7 +134,7 @@ int main()
         }
         else if(saisie == "test")
         {
-            test.Dijsktra(2,4);
+            test.Dijsktra(0,3);
         }
         else
         {
