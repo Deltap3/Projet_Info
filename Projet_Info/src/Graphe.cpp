@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 bool Graphe::getOri()const
 {
@@ -81,7 +82,6 @@ Graphe::Graphe(std::string file_name)
     if (!fichier)
     {
         std::cout << "ERREUR: Impossible d'ouvrir le fichier topo";
-        return 0;    
     }
     else
     {
@@ -144,12 +144,12 @@ Graphe::Graphe(std::string file_name)
        }
     }
 }
-void lecture_topo(std::string file_name)
+void Graphe::lecture_topo(std::string file_name)
 {
   std::ifstream fichier{file_name}; //ouverture de fichier lecture
     if (!fichier)
     {
-        std::cout << "ERREUR: Impossible d'ouvrir le fichier topo";    
+        std::cout << "ERREUR: Impossible d'ouvrir le fichier topo";
     }
     else
     {
@@ -210,8 +210,8 @@ void lecture_topo(std::string file_name)
 
            ++nb_ligne; //incrementation numero de ligne
        }
-       
-    }  
+
+    }
 }
 
 void Graphe::sauvegarde_topo(std::string file_name)
@@ -323,7 +323,68 @@ void Graphe::centrDegre()
     }
 }
 
-void suppr_arete(int s1,int s2)
+std::vector<Sommet*> Graphe::trouverSuccs(Sommet* base)const
+{
+    std::vector<Sommet*> succs;
+    for(size_t i = 0; i < m_aretes.size(); ++i)
+    {
+        if(m_aretes[i]->getExtr1()->getNumero() == base->getNumero())
+            succs.push_back(m_aretes[i]->getExtr2());
+        else if(m_aretes[i]->getExtr2()->getNumero() == base->getNumero())
+            succs.push_back(m_aretes[i]->getExtr1());
+    }
+    return succs;
+}
+
+void Graphe::centrVectPropre()
+{
+    std::vector<float> indice;
+    std::vector<float> csi;
+    float lambda;
+    float precedent;
+    float somme;
+    float difference;
+    std::vector<Sommet*>succs;
+    for(size_t i = 0; i < m_sommets.size();++i)
+    {
+        somme = 0;
+        lambda = 0;
+        precedent= 0;
+        csi.push_back(0);
+        indice.push_back(1);
+        m_sommets[i]->setIndiceVect(1);
+    }
+    do
+    {
+        precedent = lambda;
+        for(size_t i = 0; i < m_sommets.size();++i)
+            csi[i] = 0;
+        somme = 0;
+        //Calcul Indice Voisins
+        for(size_t i = 0; i < m_sommets.size();++i)
+        {
+            succs = trouverSuccs(m_sommets[i]);
+            for(size_t j = 0; j < succs.size();++j){
+                csi[i] = csi[i] + succs[j]->getIndiceVect();}
+        }
+        //Calcul Lambda
+        for(size_t i = 0; i < m_sommets.size();++i)
+            somme = somme + (csi[i]*csi[i]);
+        lambda = sqrt(somme);
+        //Calcul Indice Vecteur
+        for(size_t i = 0; i < m_sommets.size();++i)
+        {
+            indice[i] = csi[i]/lambda;
+            m_sommets[i]->setIndiceVect(indice[i]);
+        }
+        if(lambda-precedent>0)
+            difference = lambda-precedent;
+        else
+            difference = -(lambda-precedent);
+    }while(difference>0.2);
+}
+
+void Graphe::suppr_arete(int s1,int s2)
 {
     int indicateur_reusite = 0;
     for (int i =0; i < m_aretes.size();++i)// parcours de toutes les arretes
@@ -331,39 +392,88 @@ void suppr_arete(int s1,int s2)
         if((m_aretes[i]->getExtr1()->getNumero() == s1 && m_aretes[i]->getExtr2()->getNumero() == s2) || (m_aretes[i]->getExtr1()->getNumero() == s2 && m_aretes[i]->getExtr2()->getNumero() == s1))
         { // on teste le sens s1 s2 et s2 s1
             delete m_aretes[i]; //Degagement de la mémoire supression de l'objet
-            m_aretes.erase (i); //Supression dans le vecteur dans graph
+            m_aretes.erase(m_aretes.begin()+i); //Supression dans le vecteur dans graph
             indicateur_reusite = 1;
-        } 
-    }
-    if (indicateur_reusite == 0) //Numéros de sommet invalide
-    {
-        std::cout << "ERREUR: numero de sommet invalide" << std::endl;
-    }
-    
-}
-
-void suppr_sommet(int sommet)
-{
-    int indicateur_reussite = 0;
-    for (int i =0; i < m_sommets.size();++i) //parcours de tous les sommets 
-    {
-        if (sommet == m_sommets[i])
-        {
-            delete m_sommets[i]; //Degagement de la mémoire supression de l'objet
-            m_sommets.erase (i); //Supression dans le vecteur dans graph
-            indicateur_reussite = 1; 
-            for (int j = 0: j<m_aretes.size();++j)
-            {
-                if(m_aretes[j]->getExtr1()->getNumero()==sommet || m_aretes[j]->getExtr2()->getNumero()==sommet )
-                {
-                    delete m_aretes[j]; //Degagement de la mémoire supression de l'objet
-                    m_aretes.erase (j); //Supression dans le vecteur dans graph
-                }
-            }
         }
     }
     if (indicateur_reusite == 0) //Numéros de sommet invalide
     {
         std::cout << "ERREUR: numero de sommet invalide" << std::endl;
     }
+
+}
+
+void Graphe::suppr_sommet(int sommet)
+{
+    int indicateur_reussite = 0;
+    for (int i =0; i < m_sommets.size();++i) //parcours de tous les sommets
+    {
+        if (sommet == m_sommets[i]->getNumero())
+        {
+            delete m_sommets[i]; //Degagement de la mémoire supression de l'objet
+            m_sommets.erase(m_sommets.begin()+i); //Supression dans le vecteur dans graph
+            indicateur_reussite = 1;
+            for (int j = 0; j<m_aretes.size();++j)
+            {
+                if(m_aretes[j]->getExtr1()->getNumero()==sommet || m_aretes[j]->getExtr2()->getNumero()==sommet )
+                {
+                    delete m_aretes[j]; //Degagement de la mémoire supression de l'objet
+                    m_aretes.erase(m_aretes.begin()+j); //Supression dans le vecteur dans graph
+                }
+            }
+        }
+    }
+    if (indicateur_reussite == 0) //Numéros de sommet invalide
+    {
+        std::cout << "ERREUR: numero de sommet invalide" << std::endl;
+    }
+}
+
+void Graphe::Dijsktra(int first, int last)
+{
+    std::vector<double>marque((int)m_sommets.size(),0);
+    std::vector<double> distance((int)m_sommets.size(),-1);
+    std::vector<std::pair<double,Sommet*>>poidSuccs;
+    std::vector<Sommet*>succs;
+    Sommet* debut = trouverSommet(first);
+    Sommet* fin = trouverSommet(last);
+    succs=trouverSuccs(debut);
+    for(size_t i = 0; i < succs.size();++i)
+        poidSuccs.push_back(std::make_pair(0,nullptr));
+    poidSuccs = poidsSuccsTrie(debut);
+    distance[debut->getNumero()] = 0;
+    marque[debut->getNumero()] = 1;
+    do
+    {
+
+    }while(marque[fin->getNumero()] == 1);
+}
+
+void Graphe::Dijsktra(Sommet* debut)
+{
+    std::vector<double>marque((int)m_sommets.size(),0);
+    std::vector<double> distance((int)m_sommets.size(),-1);
+    distance[debut->getNumero()] = 0;
+    marque[debut->getNumero()] = 1;
+    int fin = 1;
+    do
+    {
+
+    }while(fin!=m_sommets.size());
+}
+
+std::vector<std::pair<double,Sommet*>> Graphe::poidsSuccsTrie(Sommet* debut)const
+{
+    std::vector<std::pair<double,Sommet*>>poidsSuccs;
+    for(size_t i = 0; i < m_aretes.size(); ++i)
+    {
+        if(m_aretes[i]->getExtr1()->getNumero() == debut->getNumero())
+            poidsSuccs.push_back(std::make_pair(m_aretes[i]->getPoids(),m_aretes[i]->getExtr2()));
+        else if(m_aretes[i]->getExtr2()->getNumero() == debut->getNumero())
+            poidsSuccs.push_back(std::make_pair(m_aretes[i]->getPoids(),m_aretes[i]->getExtr1()));
+    }
+    std::sort(poidsSuccs.begin(),poidsSuccs.end());
+    for(size_t i = 0; i<poidsSuccs.size();++i)
+        std::cout<<"sommet  "<<poidsSuccs[i].first<<" poids   "<<poidsSuccs[i].second->getNom()<<std::endl;
+    return poidsSuccs;
 }
