@@ -308,15 +308,65 @@ void Graphe::centrDegre()
 {
     std::vector<float> indice;
     std::vector<float> somme;
+    int oriente = getOri();
+    std::string choix;
+    int reponse_valide=0;
+    if (orient==1)
+    {
+        while (reponse_valide==0)
+        {          
+        std::cout << "degré arrive > Arr < ou depart > Dep < ?" << std::endl;
+        std::cout << "> ";
+        std::cin >> choix;
+        if (choix=="Arr" || choix=="Dep")
+        {
+            reponse_valide=1;
+        }
+        else
+        {
+            std::cout << "ERREUR: reponse invalide" << std::endl;
+        }
+        
+        }
+
+    }
     for(size_t i = 0; i < m_sommets.size();++i)
     {
         somme.push_back(0);
         indice.push_back(0);
-        for(size_t j = 0; j < m_aretes.size();++j)
+        if (oriente==0)
         {
-            if(m_aretes[j]->getExtr1()->getNumero() == m_sommets[i]->getNumero() || m_aretes[j]->getExtr2()->getNumero() == m_sommets[i]->getNumero())
+            for(size_t j = 0; j < m_aretes.size();++j)
             {
-                somme[i] = somme[i]+1;
+                if(m_aretes[j]->getExtr1()->getNumero() == m_sommets[i]->getNumero() || m_aretes[j]->getExtr2()->getNumero() == m_sommets[i]->getNumero())
+                {
+                    somme[i] = somme[i]+1;
+                }
+            
+            
+            }
+        }
+        if (orient==1)
+        {
+            if (choix=="Dep")
+            {   
+                for(size_t j = 0; j < m_aretes.size();++j)
+                {
+                    if(m_aretes[j]->getExtr1()->getNumero() == m_sommets[i]->getNumero())
+                    {
+                        somme[i] = somme[i]+1;
+                    }
+                }
+            }
+            if (choix=="Arr")
+            {   
+                for(size_t j = 0; j < m_aretes.size();++j)
+                {
+                    if(m_aretes[j]->getExtr2()->getNumero() == m_sommets[i]->getNumero())
+                    {
+                        somme[i] = somme[i]+1;
+                    }
+                }
             }
         }
         m_sommets[i]->setIndiceDegre(somme[i]/(m_nb_sommet-1));
