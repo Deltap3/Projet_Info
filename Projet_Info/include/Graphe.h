@@ -26,12 +26,10 @@ class Graphe
 		std::vector<Sommet*> trouverSuccs(Sommet* base)const;
 		void centrDegre();
 		void centrVectPropre();
+		void centrProxi();
 		void suppr_sommet(int sommet);
 		void suppr_arete(int s1,int s2);
 		void lecture_topo(std::string file_name);
-		//void Dijsktra(int debut, int fin);
-		//void Dijsktra(Sommet* debut);
-		//int Dijsktra(int first, int fin);
 		std::vector<int> Dijsktra(int Sdepart);
 		std::vector<Sommet*> trouverDijstra(int numero);
 		int trouverPoids(int first,  int last);

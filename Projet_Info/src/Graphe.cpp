@@ -556,3 +556,16 @@ std::vector<std::pair<double,const Sommet*>> Graphe::poidsSuccsTrie(const Sommet
     std::sort(poidsSuccs.begin(),poidsSuccs.end());
     return poidsSuccs;
 }
+
+void Graphe::centrProxi()
+{
+    std::vector<int> resultat(m_sommets.size(),0);
+    int somme = 0;
+    for(size_t i = 0; i < m_sommets.size(); ++i)
+    {
+        resultat = Dijsktra(i);
+        for(size_t j = 0; j < resultat.size(); ++j)
+            somme = somme + resultat[j];
+        m_sommets[i]->setIndiceProxi((m_sommets.size()-1)/(somme));
+    }
+}

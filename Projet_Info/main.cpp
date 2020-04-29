@@ -126,15 +126,11 @@ int main()
         }
         else if(saisie == "Calcul_Proximite" || saisie == "CaP")
         {
-
+            test.centrProxi();
         }
         else if(saisie == "Calcul_Intermediarite" || saisie == "CaI")
         {
 
-        }
-        else if(saisie == "test")
-        {
-            test.Dijsktra(0);
         }
         else
         {
