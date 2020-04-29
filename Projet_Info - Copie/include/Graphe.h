@@ -35,7 +35,6 @@ class Graphe
 		int trouverPoids(int first,  int last);
 		int trouverEmplacement(int sommet, std::vector<Sommet*>Q);
 		std::vector<std::pair<double,const Sommet*>> poidsSuccsTrie(const Sommet* debut)const;
-		std::vector<std::string> couleur(int* choix);
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;

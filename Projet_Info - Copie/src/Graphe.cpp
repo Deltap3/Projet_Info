@@ -54,113 +54,35 @@ void Graphe::creation_svg()
     affichage_svg(svgout);
 }
 
-std::vector<std::string> Graphe::couleur(int* choix)
-{
-    int j = 0;
-    std::vector<std::string> colorSommet(m_sommets.size(),"black");
-    float maxi = 0,mini = 0, k = 0;
-    std::cout<<"        Quel indice voulez-vous afficher ?         "<<std::endl;
-    std::cout<<"                Indice de Degre         > 0 <      "<<std::endl;
-    std::cout<<"           Indice de Vecteur propre     > 1 <      "<<std::endl;
-    std::cout<<"              Indice de Proximite       > 2 <      "<<std::endl;
-    std::cout<<"            Indice d'intermedialite     > 3 <      "<<std::endl;
-    std::cout<<"> ";
-    std::cin>>*choix;
-    std::vector<std::string> toutesCouleur = {"dimgray","maroon","firebrick","tomato","salmon","peachpuff","lightgreen","limegreen","mediumseagreen","forestgreen"};
-    switch(*choix)
-    {
-    case 0 : //Indice de degré
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-        {
-            if(m_sommets[i]->getIndiceDegre() > maxi)
-                maxi = m_sommets[i]->getIndiceDegre();
-            if(m_sommets[i]->getIndiceDegre() < mini)
-                mini = m_sommets[i]->getIndiceDegre();
-        }
-        k = (maxi-mini)/10;
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-            for(int j = 0; j < 10; ++j)
-                if(m_sommets[i]->getIndiceDegre() < (((j+1)*k) + mini + k*0.001))
-                    colorSommet[i] = toutesCouleur[j];
-        break;
-    case 1:  //Indice de vecteur
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-        {
-            if(m_sommets[i]->getIndiceVect() > maxi)
-                maxi = m_sommets[i]->getIndiceVect();
-            if(m_sommets[i]->getIndiceVect() < mini)
-                mini = m_sommets[i]->getIndiceVect();
-        }
-        k = (maxi-mini)/10;
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-            while(colorSommet[i] == "black")
-            {
-                if(m_sommets[i]->getIndiceVect() < (((j+1)*k) + mini + k*0.001))
-                    colorSommet[i] = toutesCouleur[j];
-                ++j;
-            }
-        break;
-    case 2:  //Indice de proximité
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-        {
-            if(m_sommets[i]->getIndiceProxi() > maxi)
-                maxi = m_sommets[i]->getIndiceProxi();
-            if(m_sommets[i]->getIndiceProxi() < mini)
-                mini = m_sommets[i]->getIndiceProxi();
-        }
-        k = (maxi-mini)/10;
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-            for(int j = 0; j < 10; ++j)
-                if(m_sommets[i]->getIndiceProxi() < (((j+1)*k) + mini + k*0.001)){
-                    colorSommet[i] = toutesCouleur[j];std::cout<<"i  "<<i<<"  j  "<<j<<" couleur j  "<<toutesCouleur[j]<<std::endl;}
-        break;
-     /*case 3:  //Indice de d'intemédialité
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-        {
-            if(m_sommets[i]->getIndiceInter() > maxi)
-                maxi = m_sommets[i]->getIndiceInter();
-            if(m_sommets[i]->getIndiceInter() < mini)
-                mini = m_sommets[i]->getIndiceInter();
-        }
-        k = (maxi-mini)/10;
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-            for(int j = 0; j < 10; ++j)
-                if(m_sommets[i]->getIndiceInter() < (((j+1)*k) + mini))
-                    colorSommet[i] = toutesCouleur[j];
-        break;*/
-    default:
-        break;
-    }
-    return colorSommet;
-}
-
 void Graphe::affichage_svg(Svgfile& svgout)
 {
     svgout.addGrid();
-    int choix = 0;
-    std::vector<std::string> colorSommet = couleur(&choix);
+    std::string c;
     for(int i = 0; i < m_nb_sommet; ++i)
     {
-        svgout.addDisk(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,15,colorSommet[i]);
-        svgout.addText(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getNom(),"darkblue");
-        switch(choix)
+        switch(trouverSuccs(m_sommets[i]).size())
         {
-        case 0 : //Indice de degré
-            svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceDegre(),"black");
+        case 0 :
+            c = "gray";
             break;
-        case 1:  //Indice de vecteur propre
-            svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceVect(),"black");
+        case 1 :
+            c = "lightblue";
             break;
-        case 2:  //Indice de proximité
-            svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceProxi(),"black");
+        case 2 :
+            c = "green";
             break;
-        case 3:  //Indice di'ntermédialité
-
+        case 3 :
+            c = "yellow";
             break;
-        default:
-            break;
+        case 4 :
+            c = "red";
+        break;
+        default :
+            c = "brown";
         }
-
+        svgout.addDisk(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,15,c);
+        svgout.addText(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getNom(),"darkblue");
+        svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceProxi(),"black");
     }
     for(int j = 0; j < m_nb_arete; ++j)
     {
