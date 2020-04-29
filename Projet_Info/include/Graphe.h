@@ -31,11 +31,12 @@ class Graphe
 		void lecture_topo(std::string file_name);
 		//void Dijsktra(int debut, int fin);
 		//void Dijsktra(Sommet* debut);
-		int Dijsktra(int first, int fin);
+		//int Dijsktra(int first, int fin);
+		std::vector<int> Dijsktra(int Sdepart);
 		std::vector<Sommet*> trouverDijstra(int numero);
-		int poidsSuccsTrie(Sommet* debut)const;
 		int trouverPoids(int first,  int last);
 		int trouverEmplacement(int sommet, std::vector<Sommet*>Q);
+		std::vector<std::pair<double,const Sommet*>> poidsSuccsTrie(const Sommet* debut)const;
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;
