@@ -29,10 +29,13 @@ class Graphe
 		void suppr_sommet(int sommet);
 		void suppr_arete(int s1,int s2);
 		void lecture_topo(std::string file_name);
-		void Dijsktra(int debut, int fin);
-		void Dijsktra(Sommet* debut);
-		std::vector<std::pair<double,Sommet*>> poidsSuccsTrie(Sommet* debut)const;
-		int trouverPoids(Sommet* debut, Sommet* fin);
+		//void Dijsktra(int debut, int fin);
+		//void Dijsktra(Sommet* debut);
+		int Dijsktra(int first, int fin);
+		std::vector<Sommet*> trouverDijstra(int numero);
+		int poidsSuccsTrie(Sommet* debut)const;
+		int trouverPoids(int first,  int last);
+		int trouverEmplacement(int sommet, std::vector<Sommet*>Q);
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;

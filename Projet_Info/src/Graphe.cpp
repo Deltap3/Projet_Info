@@ -482,7 +482,76 @@ void Graphe::suppr_sommet(int sommet)
     }
 }
 
-void Graphe::Dijsktra(int first, int last)
+std::vector<Sommet*> Graphe::trouverDijstra(int numero)
+{
+    Sommet* base = new Sommet;
+    for(size_t i = 0; i < m_sommets.size();++i)
+        if(m_sommets[i]->getNumero() == numero)
+            base = m_sommets[i];
+    std::vector<Sommet*> succs;
+    for(size_t i = 0; i < m_aretes.size(); ++i)
+    {
+        if(m_aretes[i]->getExtr1()->getNumero() == base->getNumero())
+            succs.push_back(m_aretes[i]->getExtr2());
+        else if(m_aretes[i]->getExtr2()->getNumero() == base->getNumero())
+            succs.push_back(m_aretes[i]->getExtr1());
+    }
+}
+
+int Graphe::Dijsktra(int first, int fin)
+{
+    //Initialisation
+    Sommet* debut = trouverSommet(first);
+    int s1 = first;
+    std::vector<int> predecesseur;
+    std::vector<Sommet*> s2 = trouverDijstra(s1);
+    std::vector<double> distance((int)m_sommets.size(),1000000000000000000000);
+    distance[first] = 0;
+    std::vector<Sommet*> Q = m_sommets;
+    //Algo principal
+    while(Q.size() != 0)
+    {
+        s1 = poidsSuccsTrie(Q[trouverEmplacement(s1,Q)]);
+        m_sommets.erase(m_sommets.begin()+trouverEmplacement(s1,Q));
+        for(size_t i = 0; i < s2.size();++i)
+        {std::cout<<"4 "<<trouverPoids(0,6)<<std::endl;
+            if(distance[s2[i]->getNumero()] > (distance[s1] + trouverPoids(s1,s2[i]->getNumero())))
+            {std::cout<<"5"<<std::endl;
+                distance[s2[i]->getNumero()] = distance[s1] + trouverPoids(s1,s2[i]->getNumero());
+                predecesseur[s2[i]->getNumero()] = s1;
+            }
+        }
+    }
+    /*int courtChemin = 0;
+    int s = fin;
+    while(s != first)
+    {
+        courtChemin = courtChemin + distance[s];
+        s = predecesseur[s];
+    }*/
+    std::cout<<"sommet   "<<trouverSommet(fin)->getNom()<<"  distance  "<<distance[fin]<<std::endl;
+    return distance[fin];
+}
+
+int Graphe::trouverPoids(int first, int last)
+{
+    std::cout<<"test "<<first<<"  yes   "<<last<<std::endl;
+    for(size_t i = 0; i < m_aretes.size(); ++i)
+        if((m_aretes[i]->getExtr1()->getNumero() == first && m_aretes[i]->getExtr2()->getNumero() == last) || (m_aretes[i]->getExtr2()->getNumero() == first && m_aretes[i]->getExtr1()->getNumero() == last))
+            return m_aretes[i]->getPoids();
+}
+
+
+int Graphe::trouverEmplacement(int nb, std::vector<Sommet*>Q)
+{
+    int i = 0;
+    Sommet* som = trouverSommet(nb);
+    while(Q[i]->getNumero()!=nb){
+        ++i;std::cout<<i<<std::endl;}
+    return i;
+}
+
+/*void Graphe::Dijsktra(int first, int last)
 {
     std::vector<double>marque((int)m_sommets.size(),0);
     std::vector<double> distance((int)m_sommets.size(),1000000000000000000000);
@@ -564,7 +633,7 @@ void Graphe::Dijsktra(Sommet* debut)
     poidSuccs = poidsSuccsTrie(debut);
     distance[debut->getNumero()] = 0;
     marque[debut->getNumero()] = 1;
-    int fin = 1,i = 0;
+    int fin = 1,it = 0,i = poidSuccs[it].second->getNumero();
     pre = debut;
     do
     {
@@ -588,10 +657,12 @@ void Graphe::Dijsktra(Sommet* debut)
                 marque[j] = 1;
                 fin++;
             }
+        if(it+1<trouverSuccs(actuel).size())
+            i = poidsSuccsTrie(pre)[it].second->getNumero();
     }while(fin!=m_sommets.size());
-}
+}*/
 
-std::vector<std::pair<double,Sommet*>> Graphe::poidsSuccsTrie(Sommet* debut)const
+int Graphe::poidsSuccsTrie(Sommet* debut)const
 {
     std::vector<std::pair<double,Sommet*>>poidsSuccs;
     for(size_t i = 0; i < m_aretes.size(); ++i)
@@ -602,12 +673,5 @@ std::vector<std::pair<double,Sommet*>> Graphe::poidsSuccsTrie(Sommet* debut)cons
             poidsSuccs.push_back(std::make_pair(m_aretes[i]->getPoids(),m_aretes[i]->getExtr1()));
     }
     std::sort(poidsSuccs.begin(),poidsSuccs.end());
-    return poidsSuccs;
-}
-
-int Graphe::trouverPoids(Sommet* debut, Sommet* fin)
-{
-    for(size_t i = 0; i < m_aretes.size(); ++i)
-        if((m_aretes[i]->getExtr1()->getNumero() == debut->getNumero() && m_aretes[i]->getExtr2()->getNumero() == fin->getNumero()) || (m_aretes[i]->getExtr2()->getNumero() == debut->getNumero() && m_aretes[i]->getExtr1()->getNumero() == fin->getNumero()))
-            return m_aretes[i]->getPoids();
+    return poidsSuccs[0].second->getNumero();
 }
