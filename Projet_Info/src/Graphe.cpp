@@ -56,11 +56,32 @@ void Graphe::creation_svg()
 void Graphe::affichage_svg(Svgfile& svgout)
 {
     svgout.addGrid();
+    std::string c;
     for(int i = 0; i < m_nb_sommet; ++i)
     {
-        svgout.addDisk(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,15,"lightblue");
+        switch(trouverSuccs(m_sommets[i]).size())
+        {
+        case 0 :
+            c = "gray";
+            break;
+        case 1 :
+            c = "lightblue";
+            break;
+        case 2 :
+            c = "green";
+            break;
+        case 3 :
+            c = "yellow";
+            break;
+        case 4 :
+            c = "red";
+        break;
+        default :
+            c = "brown";
+        }
+        svgout.addDisk(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,15,c);
         svgout.addText(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getNom(),"darkblue");
-        svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceDegre(),"blue");
+        svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceDegre(),"black");
     }
     for(int j = 0; j < m_nb_arete; ++j)
     {
