@@ -6,13 +6,13 @@
 1588009862 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\arete.h
 	"Sommet.h"
 
-1588169152 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\main.cpp
+1588171294 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\main.cpp
 	<iostream>
 	<fstream>
 	<sstream>
 	"Graphe.h"
 
-1588161262 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\graphe.cpp
+1588171720 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\graphe.cpp
 	"Graphe.h"
 	"Arete.h"
 	"Sommet.h"
@@ -21,10 +21,11 @@
 	<fstream>
 	<sstream>
 	<algorithm>
+	<queue>
 	<iostream>
 	<fstream>
 
-1588169409 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\graphe.h
+1588171294 c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\include\graphe.h
 	<vector>
 	"Arete.h"
 	"Sommet.h"
@@ -35,7 +36,7 @@
 	<iostream>
 	<vector>
 
-1588066946 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\sommet.cpp
+1588171294 source:c:\users\maist\onedrive\documents\2_fichiers ing2\projet_info\projet_info\src\sommet.cpp
 	"Sommet.h"
 	<iostream>
 	<vector>

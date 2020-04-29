@@ -82,7 +82,7 @@ void Graphe::affichage_svg(Svgfile& svgout)
         }
         svgout.addDisk(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,15,c);
         svgout.addText(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getNom(),"darkblue");
-        svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceDegre(),"black");
+        svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceProxi(),"black");
     }
     for(int j = 0; j < m_nb_arete; ++j)
     {
@@ -538,8 +538,6 @@ std::vector<int> Graphe::Dijsktra(int Sdepart)
             }
         }
     }
-    for(size_t i = 0; i < predecesseur.size();++i)
-        std::cout<<" pred"<<i<<"  "<<distance[i]<<std::endl;
     return distance;
 }
 
@@ -560,12 +558,13 @@ std::vector<std::pair<double,const Sommet*>> Graphe::poidsSuccsTrie(const Sommet
 void Graphe::centrProxi()
 {
     std::vector<int> resultat(m_sommets.size(),0);
-    int somme = 0;
+    float somme = 0;
     for(size_t i = 0; i < m_sommets.size(); ++i)
     {
         resultat = Dijsktra(i);
         for(size_t j = 0; j < resultat.size(); ++j)
             somme = somme + resultat[j];
         m_sommets[i]->setIndiceProxi((m_sommets.size()-1)/(somme));
+        somme = 0;
     }
 }
