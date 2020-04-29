@@ -483,19 +483,18 @@ void Graphe::suppr_sommet(int sommet)
     {
         if (sommet == m_sommets[i]->getNumero())
         {
+            for (int j = 0; j < m_aretes.size();++j)
+            {
+                if((m_aretes[j]->getExtr1()->getNumero()== sommet) || (m_aretes[j]->getExtr2()->getNumero()==sommet))
+                {
+                    suppr_arete(m_aretes[j]->getExtr1()->getNumero(),m_aretes[j]->getExtr2()->getNumero());
+                    --j; //on delete un élément du vecteur donc toutes les positions du vecteur sont décalées
+                }
+            }
             delete m_sommets[i]; //Degagement de la mémoire supression de l'objet
             m_sommets.erase(m_sommets.begin()+i); //Supression dans le vecteur dans graph
             m_nb_sommet=m_nb_sommet-1;
             indicateur_reussite = 1;
-            for (int j = 0; j<m_aretes.size();++j)
-            {
-                if(m_aretes[j]->getExtr1()->getNumero()==sommet || m_aretes[j]->getExtr2()->getNumero()==sommet )
-                {
-                    delete m_aretes[j]; //Degagement de la mémoire supression de l'objet
-                    m_aretes.erase(m_aretes.begin()+j); //Supression dans le vecteur dans graph
-                    m_nb_arete=m_nb_arete-1;
-                }
-            }
         }
     }
     if (indicateur_reussite == 0) //Numéros de sommet invalide

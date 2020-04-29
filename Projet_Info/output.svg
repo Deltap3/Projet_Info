@@ -43,43 +43,32 @@
 <text x="1005" y="15" fill="lightgrey" >1000</text>
 <circle cx="300" cy="100" r="15" fill="green" />
 <text x="300" y="100" fill="darkblue" >A</text>
-<text x="300" y="80" fill="black" >0.0410256</text>
-<circle cx="200" cy="200" r="15" fill="yellow" />
+<text x="300" y="80" fill="black" >0</text>
+<circle cx="200" cy="200" r="15" fill="green" />
 <text x="200" y="200" fill="darkblue" >B</text>
-<text x="200" y="180" fill="black" >0.0467836</text>
-<circle cx="400" cy="200" r="15" fill="yellow" />
+<text x="200" y="180" fill="black" >0</text>
+<circle cx="400" cy="200" r="15" fill="green" />
 <text x="400" y="200" fill="darkblue" >C</text>
-<text x="400" y="180" fill="black" >0.056338</text>
-<circle cx="300" cy="300" r="15" fill="red" />
-<text x="300" y="300" fill="darkblue" >D</text>
-<text x="300" y="280" fill="black" >0.0661157</text>
-<circle cx="200" cy="400" r="15" fill="yellow" />
+<text x="400" y="180" fill="black" >0</text>
+<circle cx="200" cy="400" r="15" fill="green" />
 <text x="200" y="400" fill="darkblue" >E</text>
-<text x="200" y="380" fill="black" >0.0740741</text>
+<text x="200" y="380" fill="black" >0</text>
 <circle cx="300" cy="400" r="15" fill="green" />
 <text x="300" y="400" fill="darkblue" >F</text>
-<text x="300" y="380" fill="black" >0.0583942</text>
-<circle cx="400" cy="400" r="15" fill="yellow" />
+<text x="300" y="380" fill="black" >0</text>
+<circle cx="400" cy="400" r="15" fill="green" />
 <text x="400" y="400" fill="darkblue" >G</text>
-<text x="400" y="380" fill="black" >0.0551724</text>
+<text x="400" y="380" fill="black" >0</text>
 <circle cx="100" cy="500" r="15" fill="yellow" />
 <text x="100" y="500" fill="darkblue" >H</text>
-<text x="100" y="480" fill="black" >0.0689655</text>
+<text x="100" y="480" fill="black" >0</text>
 <circle cx="500" cy="500" r="15" fill="yellow" />
 <text x="500" y="500" fill="darkblue" >I</text>
-<text x="500" y="480" fill="black" >0.0536913</text>
+<text x="500" y="480" fill="black" >0</text>
 <line x1="300" y1="100" x2="200" y2="200" stroke="black" />
 <text x="250" y="150" fill="black" >6</text>
 <line x1="300" y1="100" x2="400" y2="200" stroke="black" />
 <text x="350" y="150" fill="black" >20</text>
-<line x1="200" y1="200" x2="300" y2="300" stroke="black" />
-<text x="250" y="250" fill="black" >22</text>
-<line x1="400" y1="200" x2="300" y2="300" stroke="black" />
-<text x="350" y="250" fill="black" >7</text>
-<line x1="300" y1="300" x2="200" y2="400" stroke="black" />
-<text x="250" y="350" fill="black" >8</text>
-<line x1="300" y1="300" x2="400" y2="400" stroke="black" />
-<text x="350" y="350" fill="black" >13</text>
 <line x1="200" y1="200" x2="100" y2="500" stroke="black" />
 <text x="150" y="350" fill="black" >12</text>
 <line x1="400" y1="200" x2="500" y2="500" stroke="black" />

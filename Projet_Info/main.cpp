@@ -65,6 +65,7 @@ int demander_sommet(std::string phrase)
     int sommet = 0;
     std::cout << phrase << std::endl;
     std::cout << "> ";
+    std::cin>>sommet;
     return sommet;
 }
 
@@ -105,14 +106,14 @@ int main()
         {
             int s1;
             int s2;
-            s1=demander_sommet("entré le numero de sommet 1 de l'arete");
-            s2=demander_sommet("entré le numero de sommet 2 de l'arete");
+            s1=demander_sommet("entrer le numero de sommet 1 de l'arete");
+            s2=demander_sommet("entrer le numero de sommet 2 de l'arete");
             test.suppr_arete(s1,s2);
         }
         else if(saisie == "Supprimer_sommet" || saisie == "SS")
         {
             int sommet;
-            sommet=demander_sommet("entré le numero de sommet 1 que vous voulez effacer");
+            sommet=demander_sommet("entrer le numero de sommet 1 que vous voulez effacer");
             test.suppr_sommet(sommet);
         }
         //--------------------------------------------------------------------------------------------------------
