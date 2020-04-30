@@ -44,7 +44,6 @@ class Graphe
         std::vector<Arete*> getAretes()const;
         std::string getFileName()const;
 
-        int calculk_connexite();
         void sauvegarde_indice(std::string file_name);
     private:
         bool m_ori;
