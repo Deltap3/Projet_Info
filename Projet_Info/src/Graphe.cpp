@@ -542,7 +542,7 @@ void Graphe::centrVectPropre()
     {
         std::cout << m_sommets[i]->getNumero()<<" : "<< m_sommets[i]->getIndiceVect()<<std::endl;
     }
-    
+
 }
 
 void Graphe::suppr_arete(int s1,int s2)
@@ -663,7 +663,7 @@ void Graphe::centrProxi()
     }
 }
 
-void sauvegarde_indice(std::string file_name)
+void Graphe::sauvegarde_indice(std::string file_name)
 {
     std::ofstream fichier {file_name}; //ouverture fichier ecriture
     if (!fichier)
