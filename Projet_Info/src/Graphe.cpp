@@ -644,3 +644,20 @@ void Graphe::centrProxi()
         somme = 0;
     }
 }
+
+void sauvegarde_indice(std::string file_name)
+{
+    std::ofstream fichier {file_name}; //ouverture fichier ecriture
+    if (!fichier)
+    {
+        std::cout << "ERREUR: sauvegarde du fichier Indice" << std::endl;
+    }
+    else
+    {
+        fichier << "Num Deg Vec Pro Int" << std::endl;
+        for (int i = 0; i < m_nb_sommet; ++i)
+        {
+            fichier << m_sommets[i]->getNumero() << "   " << m_sommets[i]->getIndiceDegre()<< "   " << m_sommets[i]->getIndiceVect()<< "   " << m_sommets[i]->getIndiceProxi()<< "   " << m_sommets[i]->getIndiceDegre() << std::endl;
+        }
+    }
+}
