@@ -470,8 +470,13 @@ void Graphe::centrDegre()
         }
         m_sommets[i]->setIndiceDegre(somme[i]/(m_nb_sommet-1));
     }
+    //affichage en console
+    std::cout << "Indice de Degre" << std::endl;
+    for (size_t i =0; i<m_sommets.size();++i)
+    {
+        std::cout << m_sommets[i]->getNumero()<<" : "<< m_sommets[i]->getIndiceDegre()<<std::endl;
+    }
 }
-
 std::vector<Sommet*> Graphe::trouverSuccs(Sommet* base)const
 {
     std::vector<Sommet*> succs;
@@ -531,6 +536,13 @@ void Graphe::centrVectPropre()
         else
             difference = -(lambda-precedent);
     }while(difference>0.2);
+    //affichage en console
+    std::cout << "Indice de Vecteur propre" << std::endl;
+    for (size_t i =0; i<m_sommets.size();++i)
+    {
+        std::cout << m_sommets[i]->getNumero()<<" : "<< m_sommets[i]->getIndiceVect()<<std::endl;
+    }
+    
 }
 
 void Graphe::suppr_arete(int s1,int s2)
@@ -642,6 +654,12 @@ void Graphe::centrProxi()
             somme = somme + resultat[j];
         m_sommets[i]->setIndiceProxi((m_sommets.size()-1)/(somme));
         somme = 0;
+    }
+    //affichage en console
+    std::cout << "Indice de centre Proximite" << std::endl;
+    for (size_t i =0; i<m_sommets.size();++i)
+    {
+        std::cout << m_sommets[i]->getNumero()<<" : "<< m_sommets[i]->getIndiceProxi()<<std::endl;
     }
 }
 
