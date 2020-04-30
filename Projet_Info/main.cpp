@@ -24,6 +24,8 @@ void Affichage_menu()
     std::cout << "           > Calcul_Proximite <       > CaP <   " << std::endl;
     std::cout << "           > Calcul_Intermediarite <  > CaI <   " << std::endl;
     std::cout << "                                                " << std::endl;
+    std::cout << "           > Sauvgarder_Ind <         > SI <    " << std::endl;
+    std::cout << "                                                " << std::endl;
     std::cout << "           > Exit <                   > Ext <   " << std::endl;
     std::cout << "------------------------------------------------" << std::endl;
 }
@@ -132,6 +134,11 @@ int main()
         else if(saisie == "Calcul_Intermediarite" || saisie == "CaI")
         {
             test.centrInter();
+        }
+        //--------------------------------------------------------------------------------------------------------
+        else if (saisie == "Sauvgarder_Ind" || saisie == "SI" )
+        {
+            test.sauvegarde_indice(Demander_nom_fichier("Nom du fichier de sauvgarde Indice"));
         }
         else
         {
