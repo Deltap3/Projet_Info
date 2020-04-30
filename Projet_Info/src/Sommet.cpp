@@ -72,6 +72,16 @@ void Sommet::setIndiceProxi(float indice)
     m_indiceProxi = indice;
 }
 
+float Sommet::getIndiceInter()const
+{
+    return m_indiceInter;
+}
+
+void Sommet::setIndiceInter(float indice)
+{
+    m_indiceInter = indice;
+}
+
 Sommet::Sommet()
 {
     m_nom = 'A';

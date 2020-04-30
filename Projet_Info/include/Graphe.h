@@ -36,6 +36,8 @@ class Graphe
 		int trouverEmplacement(int sommet, std::vector<Sommet*>Q);
 		std::vector<std::pair<double,const Sommet*>> poidsSuccsTrie(const Sommet* debut)const;
 		std::vector<std::string> couleur(int* choix);
+		std::vector<std::vector<int>> DijsktraModif(int Sdepart, int Sarrivee);
+		void centrInter();
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;

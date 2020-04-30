@@ -24,6 +24,8 @@ class Sommet
         void setIndiceVect(float indice);
         float getIndiceProxi()const;
         void setIndiceProxi(float indice);
+        float getIndiceInter()const;
+        void setIndiceInter(float indice);
 
 
     private:
@@ -36,6 +38,7 @@ class Sommet
         float m_indiceDegre;
         float m_indiceVect;
         float m_indiceProxi;
+        float m_indiceInter;
 
 };
 

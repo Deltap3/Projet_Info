@@ -131,7 +131,7 @@ int main()
         }
         else if(saisie == "Calcul_Intermediarite" || saisie == "CaI")
         {
-
+            test.centrInter();
         }
         else
         {

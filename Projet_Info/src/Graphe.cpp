@@ -111,7 +111,7 @@ std::vector<std::string> Graphe::couleur(int* choix)
                 if(m_sommets[i]->getIndiceProxi() > ((j*k) + mini - k*0.0000001))
                     colorSommet[i] = toutesCouleur[j];
         break;
-     /*case 3:  //Indice de d'intemédialité
+     case 3:  //Indice de intermedialité
         for(size_t i = 0; i < m_sommets.size(); ++i)
         {
             if(m_sommets[i]->getIndiceInter() > maxi)
@@ -122,9 +122,9 @@ std::vector<std::string> Graphe::couleur(int* choix)
         k = (maxi-mini)/10;
         for(size_t i = 0; i < m_sommets.size(); ++i)
             for(int j = 0; j < 10; ++j)
-                if(m_sommets[i]->getIndiceInter() < (((j+1)*k) + mini))
+                if(m_sommets[i]->getIndiceInter() > ((j*k) + mini - k*0.0000001))
                     colorSommet[i] = toutesCouleur[j];
-        break;*/
+        break;
     default:
         break;
     }
@@ -157,7 +157,7 @@ void Graphe::affichage_svg(Svgfile& svgout)
             svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceProxi(),"black");
             break;
         case 3:  //Indice di'ntermédialité
-
+            svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceInter(),"black");
             break;
         default:
             break;
@@ -641,6 +641,80 @@ void Graphe::centrProxi()
         for(size_t j = 0; j < resultat.size(); ++j)
             somme = somme + resultat[j];
         m_sommets[i]->setIndiceProxi((m_sommets.size()-1)/(somme));
+        somme = 0;
+    }
+}
+
+std::vector<std::vector<int>> Graphe::DijsktraModif(int Sdepart, int Sarrivee)
+{
+    auto cmp = [](std::pair<double,const Sommet*> p1, std::pair<double,const Sommet*> p2)
+    {
+        return p2.second<p1.second;
+    };
+    //(Aide TP2 et TP3 Mme PALASI
+    std::priority_queue<std::pair<double,const Sommet*>,std::vector<std::pair<double,const Sommet*>>,decltype(cmp)> file(cmp);
+    std::vector<int> marquage(m_sommets.size(),0);
+    std::vector<int> predecesseur(m_sommets.size(),-1);
+    std::vector<std::vector<int>> resultat;
+    std::vector<int> distance(m_sommets.size(),-1);
+    int npcc = 0;
+    file.push({0,m_sommets[Sdepart]});
+    distance[Sdepart] = 0;
+    std::pair<double,const Sommet*> premier;
+    while((!file.empty()) || (marquage[Sarrivee] == 0))
+    {
+        premier = file.top();
+        file.pop();
+        while((!file.empty()) && (marquage[premier.second->getNumero()] == 1))
+        {
+            premier = file.top();
+            file.pop();
+        }
+        marquage[premier.second->getNumero()] = 1;
+        for(auto succs : poidsSuccsTrie(premier.second))
+        {
+            if((marquage[succs.second->getNumero()] == 0))
+            {
+                resultat.push_back(predecesseur);
+                if((distance[premier.second->getNumero()] + succs.first < distance[succs.second->getNumero()]) || (distance[succs.second->getNumero()] == -1))
+                {
+                    distance[succs.second->getNumero()] = distance[premier.second->getNumero()] + succs.first;
+                    predecesseur[succs.second->getNumero()] = premier.second->getNumero();
+                    file.push({distance[succs.second->getNumero()],succs.second});
+                }
+            }
+        }
+    }
+    return resultat;
+}
+
+void Graphe::centrInter()
+{
+    std::cout<<"0"<<std::endl;
+    float somme = 0, n_pcc = 0, n_pcc_i = 0;
+    std::vector<std::vector<int>> touspcc;
+    std::vector<int>temp(m_sommets.size(),0);
+    for(size_t i = 0; i < m_sommets.size(); ++i)
+            touspcc.push_back(temp);
+    std::cout<<"1"<<std::endl;
+    for(size_t i = 0; i < m_sommets.size(); ++i)
+    {
+        for(size_t j = 0; j < m_sommets.size(); ++j)
+        {
+            for(size_t k = 0; k < m_sommets.size(); ++k)
+            {std::cout<<"2"<<std::endl;
+                touspcc = DijsktraModif(j,k);std::cout<<"3"<<std::endl;
+                n_pcc = touspcc.size();
+                for(size_t l = 0; l < touspcc.size(); ++l)
+                    for(size_t m = 0; m < touspcc[l].size(); ++m)
+                        if(touspcc[l][m] == m_sommets[i]->getNumero())
+                            n_pcc_i++;
+            }
+            somme = somme + (n_pcc_i/n_pcc);
+            n_pcc = 0;
+            n_pcc_i = 0;
+        }
+        m_sommets[i]->setIndiceInter((2*somme)/((m_sommets.size()*m_sommets.size())-(3*m_sommets.size())+2));
         somme = 0;
     }
 }
