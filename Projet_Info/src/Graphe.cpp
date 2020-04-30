@@ -59,13 +59,13 @@ bool Graphe::normalisation()
     std::string choix;
     bool encore;
     bool norm;
-    std::cout<<"        Voulez vous que les indices soient normalisés ?         "<<std::endl;
+    std::cout<<"        Voulez vous que les indices soient normalises ?         "<<std::endl;
     std::cout<<"                            Oui                  > Oui <        "<<std::endl;
     std::cout<<"                            Non                  > Non <        "<<std::endl;
     std::cin>>choix;
-    if(choix == "Oui")
+    if(choix == "Oui" || choix == "oui")
         norm = true;
-    else if(choix == "Non")
+    else if(choix == "Non" || choix == "non")
         norm = false;
     else
         encore = normalisation();
@@ -74,6 +74,7 @@ bool Graphe::normalisation()
 
 std::vector<std::string> Graphe::couleur(int* choix, bool* norm)
 {
+    *norm = normalisation();
     int j = 0;
     std::vector<std::string> colorSommet(m_sommets.size(),"black");
     float maxi = 0,mini = 1000000, k = 0;
@@ -797,7 +798,6 @@ std::vector<std::vector<int>> Graphe::DijsktraModif(int Sdepart, int Sarrivee)
     std::vector<int> predecesseur(m_sommets.size(),-1);
     std::vector<std::vector<int>> resultat;
     std::vector<int> distance(m_sommets.size(),-1);
-    int npcc = 0;
     file.push({0,m_sommets[Sdepart]});
     distance[Sdepart] = 0;
     std::pair<double,const Sommet*> premier;
@@ -815,13 +815,13 @@ std::vector<std::vector<int>> Graphe::DijsktraModif(int Sdepart, int Sarrivee)
         {
             if((marquage[succs.second->getNumero()] == 0))
             {
-                resultat.push_back(predecesseur);
                 if((distance[premier.second->getNumero()] + succs.first < distance[succs.second->getNumero()]) || (distance[succs.second->getNumero()] == -1))
                 {
                     distance[succs.second->getNumero()] = distance[premier.second->getNumero()] + succs.first;
                     predecesseur[succs.second->getNumero()] = premier.second->getNumero();
                     file.push({distance[succs.second->getNumero()],succs.second});
                 }
+                resultat.push_back(predecesseur);
             }
         }
     }
@@ -838,15 +838,20 @@ void Graphe::centrInter()
             touspcc.push_back(temp);
     for(size_t i = 0; i < m_sommets.size(); ++i)
     {
+        n_pcc_i = 0;
         for(size_t j = 0; j < m_sommets.size(); ++j)
         {
             for(size_t k = 0; k < m_sommets.size(); ++k)
             {
                 touspcc = DijsktraModif(j,k);
+                if(i == 0)
+                    for(size_t l = 0; l < touspcc.size(); ++l)
+                        for(size_t m = 0; m < touspcc[l].size(); ++m)
+                            std::cout<<"chemin"<<l<<"  sommet "<<touspcc[l][m]<<"  en position  "<<m<<std::endl;
                 n_pcc = touspcc.size();
                 for(size_t l = 0; l < touspcc.size(); ++l)
                     for(size_t m = 0; m < touspcc[l].size(); ++m)
-                        if(touspcc[l][m] == m_sommets[i]->getNumero())
+                        if((touspcc[l][m] == m_sommets[i]->getNumero()))
                             n_pcc_i++;
             }
             somme = somme + (n_pcc_i/n_pcc);
@@ -874,45 +879,48 @@ void Graphe::centrInter()
 
 int Graphe::calculk_connexite()
 {
-    int k_connex=100000000;
-    int k_connexnew=0;
+    int k_connex = 100000000;
+    int k_connexnew = 100000000;
     int commun=0;
     std::vector<std::vector<int>> resultat;
-    std::vector<int>marq(m_sommets.size(),0);//marquage des sommets 
+    std::vector<int>marq(m_sommets.size(),0);//marquage des sommets
     for(size_t i = 0;i < m_sommets.size(); ++i)//Pour tous couples de sommets Si et Sj
     {
         for(size_t j = 0; j < m_sommets.size(); ++j)
         {
             if (i != j) //Sommets dijoints
             {
-                resultat = DijsktraModif(i;j);
-                k_connexnew=0;
-                for (size_t x = 0;x<resultat.size(),++x)
+                resultat = DijsktraModif(i,j);
+                k_connexnew = 100000000;
+                for (size_t x = 0; x < resultat.size(); ++x)
                 {
-                    commun =0;
-                    for (size_t y = 1;y<((resultat[x].size)-1);++y )
+                    commun = 0;
+                    for (size_t y = 1;y < ((resultat[x].size())-1);++y )
                     {
-                        if (marq[resultat[x][y]]==0)
+                        if (marq[resultat[x][y]] == 0)
                         {
-                            marq[resultat[x][y]]=1;
+                            marq[resultat[x][y]] = 1;
                         }
                         else
                         {
                             ++commun;
                         }
                     }
-                    if (commun==0)
+                    if (commun == 0)
                     {
+                        if(k_connexnew = 100000000)
+                        {
+                            k_connexnew = 0;
+                        }
                         ++k_connexnew;
-                    } 
+                    }
                 }
-
             }
-            if(k_connexnew<k_connex)
+            if(k_connexnew < k_connex)
             {
-                k_connex=k_connexnew;
+                k_connex = k_connexnew;
             }
-            k_connexnew=0;
+            k_connexnew = 100000000;
         }
     }
     return k_connex;

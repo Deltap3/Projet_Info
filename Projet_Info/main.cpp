@@ -7,7 +7,7 @@
 void Affichage_menu()
 {
     std::cout << "------------------------------------------------" << std::endl;
-    std::cout << "           Commands list           Racourcie    " << std::endl;
+    std::cout << "           Commands list           Racourcis    " << std::endl;
     std::cout << "------------------------------------------------" << std::endl;
     std::cout << "           > Charger_Topo <           > CT <    " << std::endl;
     std::cout << "           > Sauvgarder_Topo <        > ST <    " << std::endl;
@@ -23,7 +23,7 @@ void Affichage_menu()
     std::cout << "           > Calcul_Vecteur <         > CaV <   " << std::endl;
     std::cout << "           > Calcul_Proximite <       > CaP <   " << std::endl;
     std::cout << "           > Calcul_Intermediarite <  > CaI <   " << std::endl;
-    std::cout << "                                                " << std::endl;
+    std::cout << "           > Calcul_k-connexite <     > KC <    " << std::endl;
     std::cout << "           > Sauvgarder_Ind <         > SI <    " << std::endl;
     std::cout << "                                                " << std::endl;
     std::cout << "           > Exit <                   > Ext <   " << std::endl;
@@ -115,7 +115,7 @@ int main()
         else if(saisie == "Supprimer_sommet" || saisie == "SS")
         {
             int sommet;
-            sommet=demander_sommet("entrer le numero de sommet 1 que vous voulez effacer");
+            sommet=demander_sommet("entrer le numero du sommet que vous voulez effacer");
             test.suppr_sommet(sommet);
         }
         //--------------------------------------------------------------------------------------------------------
@@ -135,14 +135,20 @@ int main()
         {
             test.centrInter();
         }
-        //--------------------------------------------------------------------------------------------------------
         else if (saisie == "Sauvgarder_Ind" || saisie == "SI" )
         {
             test.sauvegarde_indice(Demander_nom_fichier("Nom du fichier de sauvgarde Indice"));
         }
+        //--------------------------------------------------------------------------------------------------------
+        else if (saisie == "Calcul_k-connexite" || saisie == "KC" )
+        {
+            int k;
+            k = test.calculk_connexite();
+            std::cout<<"Le graphe est "<<k<<" connexe"<<std::endl;
+        }
         else
         {
-            std::cout << "saisie invalide, veuillez recommencer ou comtacter le support" << std::endl;
+            std::cout << "saisie invalide, veuillez recommencer ou contacter le support" << std::endl;
         }
 
 
