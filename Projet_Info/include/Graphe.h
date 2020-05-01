@@ -6,7 +6,7 @@
 #include <iostream>
 #include "svgfile.h"
 
-class Graphe
+class Graphe  //Les commentaires de chaques sous programme se trouvent dans le .cpp
 {
     public:
         Graphe(std::string file_name);

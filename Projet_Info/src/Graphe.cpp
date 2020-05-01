@@ -8,54 +8,64 @@
 #include <algorithm>
 #include <queue>
 
-bool Graphe::getOri()const
+//Pierre 27/04/2020
+bool Graphe::getOri()const  //Getter de l'orientation
 {
     return m_ori;
 }
 
-int Graphe::getNbArete()const
+//Pierre 27/04/2020
+int Graphe::getNbArete()const //Getter du nombre d'aretes total du graphe
 {
     return m_nb_arete;
 }
 
-void Graphe::setNbArete(int nb)
+//Pierre 27/04/2020
+void Graphe::setNbArete(int nb) //Setter du nombre d'aretes total du graphe
 {
     m_nb_arete = nb;
 }
 
-int Graphe::getNbSommet()const
+//Pierre 27/04/2020
+int Graphe::getNbSommet()const //Getter du nombre de sommets total du graphe
 {
     return m_nb_sommet;
 }
 
-void Graphe::setNbSommet(int nb)
+//Pierre 27/04/2020
+void Graphe::setNbSommet(int nb) //Setter du nombre de sommets total du graphe
 {
     m_nb_sommet = nb;
 }
 
-std::vector<Sommet*> Graphe::getSommets()const
+//Pierre 27/04/2020
+std::vector<Sommet*> Graphe::getSommets()const //Getter du vecteur contenant tous les sommets du graphe
 {
     return m_sommets;
 }
 
-std::vector<Arete*> Graphe::getAretes()const
+//Pierre 27/04/2020
+std::vector<Arete*> Graphe::getAretes()const //Getter du vecteur contenant toutes les aretes du graphe
 {
     return m_aretes;
 }
 
-std::string Graphe::getFileName()const
+//Pierre 27/04/2020
+std::string Graphe::getFileName()const //Getter du nom du fichier de topographie du graphe
 {
     return m_fileName;
 }
 
-void Graphe::creation_svg()
+//Pierre 27/04/2020
+void Graphe::creation_svg() //Permet de décalrer le fichier SVG avant de dessiner dedans
 {
     Svgfile svgout;
     affichage_svg(svgout);
 }
 
-bool Graphe::normalisation()
-{
+//Pierre 01/05/2020
+bool Graphe::normalisation() //Permet de demander à l'utilisateur si il veux que les indices soient
+{                            //normalises ou non
     std::string choix;
     bool encore;
     bool norm;
@@ -72,23 +82,140 @@ bool Graphe::normalisation()
     return norm;
 }
 
-std::vector<std::string> Graphe::couleur(int* choix, bool* norm)
+//Pierre et Jules 30/04/2020
+std::vector<std::string> Graphe::couleur(int* choix, bool* norm) //Permet de colorer les sommets en fonction de leurs indices
 {
-    *norm = normalisation();
+    *norm = normalisation(); //On demande à l'utilisateur s'il veux les indices normalises ou non
     int j = 0;
-    std::vector<std::string> colorSommet(m_sommets.size(),"black");
+    std::vector<std::string> colorSommet(m_sommets.size(),"black"); //Ce vecteur contiendra toutes les couleurs que doit prendre chaque sommet
     float maxi = 0,mini = 1000000, k = 0;
     std::cout<<"        Quel indice voulez-vous afficher ?         "<<std::endl;
     std::cout<<"                Indice de Degre         > 0 <      "<<std::endl;
     std::cout<<"           Indice de Vecteur propre     > 1 <      "<<std::endl;
     std::cout<<"              Indice de Proximite       > 2 <      "<<std::endl;
     std::cout<<"            Indice d'intermedialite     > 3 <      "<<std::endl;
+    std::cout<<"                Tous les indices        > 4 <      "<<std::endl;
     std::cout<<"> ";
-    std::cin>>*choix;
+    std::cin>>*choix;                          //Vecteur de couleurs regroupant notre degrade de couleurs allant du moins important au plus important
     std::vector<std::string> toutesCouleur = {"saddlebrown","maroon","firebrick","tomato","salmon","peachpuff","lightgreen","mediumseagreen","limegreen","forestgreen"};
     switch(*choix)
     {
     case 0 : //Indice de degré
+        for(size_t i = 0; i < m_sommets.size(); ++i)
+        {
+            if(*norm) //Si les indices sont normalises
+            {
+                if(m_sommets[i]->getIndiceDegre() > maxi)   //On trouve la valeurs maximale parmis tous les indices du graphe
+                    maxi = m_sommets[i]->getIndiceDegre();
+                if(m_sommets[i]->getIndiceDegre() < mini)   //et la valeur minimale
+                    mini = m_sommets[i]->getIndiceDegre();
+            }
+            else //Si ils ne sont pas normalises
+            {
+                if(m_sommets[i]->getIndiceDegreNon() > maxi)
+                    maxi = m_sommets[i]->getIndiceDegreNon();
+                if(m_sommets[i]->getIndiceDegreNon() < mini)
+                    mini = m_sommets[i]->getIndiceDegreNon();
+            }
+        }
+        k = (maxi-mini)/10; //On a une gamme de 10 couleurs donc on cree une constante k
+                            //afin de segmenter les differents indice en fonction de leur valeur
+                            //par rapport aux autres indices
+        for(size_t i = 0; i < m_sommets.size(); ++i)
+            for(int j = 0; j < 10; ++j)
+            {
+                if(*norm) //Si les indices sont normalises
+                {
+                    if(m_sommets[i]->getIndiceDegre() > ((j*k) + mini - k*0.0000001)) //Si l'indice appartient au segment numero j
+                        colorSommet[i] = toutesCouleur[j];  //Il obtient la couleur numero j de toutesCouleurs
+                }
+                else //Si ils ne sont pas normalises
+                    if(m_sommets[i]->getIndiceDegreNon() > ((j*k) + mini - k*0.0000001))
+                        colorSommet[i] = toutesCouleur[j];
+            }
+
+        break;
+    case 1:  //Indice de vecteur (idem que l'indice precedent mais avec les indices de vecteur)
+        for(size_t i = 0; i < m_sommets.size(); ++i)
+        {
+            if(m_sommets[i]->getIndiceVect() > maxi)
+                maxi = m_sommets[i]->getIndiceVect();
+            if(m_sommets[i]->getIndiceVect() < mini)
+                mini = m_sommets[i]->getIndiceVect();
+        }
+        k = (maxi-mini)/10;
+        for(size_t i = 0; i < m_sommets.size(); ++i)
+            for(int j = 0; j < 10; ++j)
+            {
+                if(m_sommets[i]->getIndiceVect() > ((j*k) + mini - k*0.0000001))
+                    colorSommet[i] = toutesCouleur[j];
+            }
+        break;
+    case 2:  //Indice de proximité (idem que l'indice precedent mais avec les indices de proximite)
+        for(size_t i = 0; i < m_sommets.size(); ++i)
+        {
+            if(*norm)
+            {
+                if(m_sommets[i]->getIndiceProxi() > maxi)
+                    maxi = m_sommets[i]->getIndiceProxi();
+                if(m_sommets[i]->getIndiceProxi() < mini)
+                    mini = m_sommets[i]->getIndiceProxi();
+            }
+            else
+            {
+                if(m_sommets[i]->getIndiceProxiNon() > maxi)
+                    maxi = m_sommets[i]->getIndiceProxiNon();
+                if(m_sommets[i]->getIndiceProxiNon() < mini)
+                    mini = m_sommets[i]->getIndiceProxiNon();
+            }
+        }
+        k = (maxi-mini)/10;
+        for(size_t i = 0; i < m_sommets.size(); ++i)
+            for(int j = 0; j < 10; ++j)
+            {
+                if(*norm)
+                {
+                    if(m_sommets[i]->getIndiceProxi() > ((j*k) + mini - k*0.0000001))
+                        colorSommet[i] = toutesCouleur[j];
+                }
+                else
+                    if(m_sommets[i]->getIndiceProxiNon() > ((j*k) + mini - k*0.0000001))
+                        colorSommet[i] = toutesCouleur[j];
+            }
+        break;
+     case 3:  //Indice d'intermediarité (idem que l'indice precedent mais avec les indices d'intermediarite)
+        for(size_t i = 0; i < m_sommets.size(); ++i)
+        {
+            if(*norm)
+            {
+                if(m_sommets[i]->getIndiceInter() > maxi)
+                    maxi = m_sommets[i]->getIndiceInter();
+                if(m_sommets[i]->getIndiceInter() < mini)
+                    mini = m_sommets[i]->getIndiceInter();
+            }
+            else
+            {
+                if(m_sommets[i]->getIndiceInterNon() > maxi)
+                    maxi = m_sommets[i]->getIndiceInterNon();
+                if(m_sommets[i]->getIndiceInterNon() < mini)
+                    mini = m_sommets[i]->getIndiceInterNon();
+            }
+        }
+        k = (maxi-mini)/10;
+        for(size_t i = 0; i < m_sommets.size(); ++i)
+            for(int j = 0; j < 10; ++j)
+            {
+                if(*norm)
+                {
+                    if(m_sommets[i]->getIndiceInter() > ((j*k) + mini - k*0.0000001))
+                        colorSommet[i] = toutesCouleur[j];
+                }
+                else
+                    if(m_sommets[i]->getIndiceInterNon() > ((j*k) + mini - k*0.0000001))
+                        colorSommet[i] = toutesCouleur[j];
+            }
+        break;
+    case 4 : //Tous les indices (Couleur de l'indice de degré)
         for(size_t i = 0; i < m_sommets.size(); ++i)
         {
             if(*norm)
@@ -121,108 +248,67 @@ std::vector<std::string> Graphe::couleur(int* choix, bool* norm)
             }
 
         break;
-    case 1:  //Indice de vecteur
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-        {
-            if(m_sommets[i]->getIndiceVect() > maxi)
-                maxi = m_sommets[i]->getIndiceVect();
-            if(m_sommets[i]->getIndiceVect() < mini)
-                mini = m_sommets[i]->getIndiceVect();
-        }
-        k = (maxi-mini)/10;
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-            for(int j = 0; j < 10; ++j)
-            {
-                if(m_sommets[i]->getIndiceVect() > ((j*k) + mini - k*0.0000001))
-                    colorSommet[i] = toutesCouleur[j];
-            }
-        break;
-    case 2:  //Indice de proximité
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-        {
-            if(*norm)
-            {
-                if(m_sommets[i]->getIndiceProxi() > maxi)
-                    maxi = m_sommets[i]->getIndiceProxi();
-                if(m_sommets[i]->getIndiceProxi() < mini)
-                    mini = m_sommets[i]->getIndiceProxi();
-            }
-            else
-            {
-                if(m_sommets[i]->getIndiceProxiNon() > maxi)
-                    maxi = m_sommets[i]->getIndiceProxiNon();
-                if(m_sommets[i]->getIndiceProxiNon() < mini)
-                    mini = m_sommets[i]->getIndiceProxiNon();
-            }
-        }
-        k = (maxi-mini)/10;
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-            for(int j = 0; j < 10; ++j)
-            {
-                if(*norm)
-                {
-                    if(m_sommets[i]->getIndiceProxi() > ((j*k) + mini - k*0.0000001))
-                        colorSommet[i] = toutesCouleur[j];
-                }
-                else
-                    if(m_sommets[i]->getIndiceProxiNon() > ((j*k) + mini - k*0.0000001))
-                        colorSommet[i] = toutesCouleur[j];
-            }
-        break;
-     case 3:  //Indice de intermedialité
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-        {
-            if(*norm)
-            {
-                if(m_sommets[i]->getIndiceInter() > maxi)
-                    maxi = m_sommets[i]->getIndiceInter();
-                if(m_sommets[i]->getIndiceInter() < mini)
-                    mini = m_sommets[i]->getIndiceInter();
-            }
-            else
-            {
-                if(m_sommets[i]->getIndiceInterNon() > maxi)
-                    maxi = m_sommets[i]->getIndiceInterNon();
-                if(m_sommets[i]->getIndiceInterNon() < mini)
-                    mini = m_sommets[i]->getIndiceInterNon();
-            }
-        }
-        k = (maxi-mini)/10;
-        for(size_t i = 0; i < m_sommets.size(); ++i)
-            for(int j = 0; j < 10; ++j)
-            {
-                if(*norm)
-                {
-                    if(m_sommets[i]->getIndiceInter() > ((j*k) + mini - k*0.0000001))
-                        colorSommet[i] = toutesCouleur[j];
-                }
-                else
-                    if(m_sommets[i]->getIndiceInterNon() > ((j*k) + mini - k*0.0000001))
-                        colorSommet[i] = toutesCouleur[j];
-            }
-        break;
     default:
         break;
     }
-    return colorSommet;
+    return colorSommet; //On retourne le vecteur contenant les couleurs attribues a chaque sommets
 }
 
-void Graphe::affichage_svg(Svgfile& svgout)
+//Pierre 29-30/04/2020
+void Graphe::affichage_svg(Svgfile& svgout)   //S'occupe de toute la partie SVG du programme
 {
     svgout.addGrid();
-    int choix = 0;
-    bool norm;
-    std::vector<std::string> colorSommet = couleur(&choix,&norm);
+    int choix = 0; //Permet à l'utilisateur de choisir quel indice il veut afficher
+    bool norm;  //Permet de savoir si les indices affiches doivent etre normalises ou non
+    float fleche_x = 0;
+    float fleche_y = 0;
+    std::vector<std::string> colorSommet = couleur(&choix,&norm);  //L'utilisateur choisit si les indices seront normalises ou non ainsi que l'indice qu'il souhaite afficher
     std::vector<std::string> toutesCouleur = {"saddlebrown","maroon","firebrick","tomato","salmon","peachpuff","lightgreen","mediumseagreen","limegreen","forestgreen"};
+    //Affiche la legende des couleurs des sommets
     for(size_t i = 0; i < toutesCouleur.size();++i)
         svgout.addTriangle(50*i,25,50*i,50,50*(i+1),50,50*(i+1),25,toutesCouleur[i],0,"black");
     svgout.addText(20,20,"Pas Important","black");
     svgout.addText(430,20,"Important","black");
-    for(int i = 0; i < m_nb_sommet; ++i)
+    for(int j = 0; j < m_nb_arete; ++j)  //On affiche d'abord les aretes
     {
-        svgout.addDisk(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,15,colorSommet[i]);
-        svgout.addText(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getNom(),"mediumblue");
-        switch(choix)
+        if(m_ori)  //Si il est orinte on cree une fleche
+        {
+            if(m_aretes[j]->getExtr2()->getCoord_x() < m_aretes[j]->getExtr1()->getCoord_x()) //Si le depart de l'arete est plus haut que l'arrivee en x
+            {
+                fleche_x = (m_aretes[j]->getExtr2()->getCoord_x())+(1/2*(m_aretes[j]->getExtr1()->getCoord_x() - m_aretes[j]->getExtr2()->getCoord_x()));
+                fleche_x = ((fleche_x) + (5/6*(m_aretes[j]->getExtr1()->getCoord_x() - fleche_x)*100))*100;
+            }
+            else if(m_aretes[j]->getExtr1()->getCoord_x() < m_aretes[j]->getExtr2()->getCoord_x()) //Si le depart de l'arete est plus bas que l'arrivee en x
+            {
+                fleche_x = (m_aretes[j]->getExtr1()->getCoord_x())+(1/2*(m_aretes[j]->getExtr2()->getCoord_x() - m_aretes[j]->getExtr1()->getCoord_x()));
+                fleche_x = ((fleche_x) + (5/6*(m_aretes[j]->getExtr2()->getCoord_x() - fleche_x)*100))*100;
+            }
+            else if(m_aretes[j]->getExtr1()->getCoord_x() == m_aretes[j]->getExtr2()->getCoord_x()) //Si le depart de l'arete est egal a l'arrivee en x
+                fleche_x = m_aretes[j]->getExtr1()->getCoord_x()*100;
+            if(m_aretes[j]->getExtr2()->getCoord_y() < m_aretes[j]->getExtr1()->getCoord_y()) //Si le depart de l'arete est plus haut que l'arrivee en y
+            {
+                fleche_y = (m_aretes[j]->getExtr2()->getCoord_y())+(1/2*(m_aretes[j]->getExtr1()->getCoord_y() - m_aretes[j]->getExtr2()->getCoord_y()));
+                fleche_y = ((fleche_y) + (5/6*(m_aretes[j]->getExtr1()->getCoord_y() - fleche_y)*100))*100;
+            }
+            else if(m_aretes[j]->getExtr1()->getCoord_y() < m_aretes[j]->getExtr2()->getCoord_y()) //Si le depart de l'arete est plus bas que l'arrivee en y
+            {
+                fleche_y = (m_aretes[j]->getExtr1()->getCoord_y())+(1/2*(m_aretes[j]->getExtr2()->getCoord_y() - m_aretes[j]->getExtr1()->getCoord_y()));
+                fleche_y = ((fleche_y) + (5/6*(m_aretes[j]->getExtr2()->getCoord_y() - fleche_y)*100))*100;
+            }
+            else if(m_aretes[j]->getExtr1()->getCoord_y() == m_aretes[j]->getExtr2()->getCoord_y()) //Si le depart de l'arete est egal a l'arrivee en y
+                fleche_y = m_aretes[j]->getExtr1()->getCoord_y()*100;
+            //On dessine le triangle
+            svgout.addTriangle(m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,fleche_x-5,fleche_y+5,fleche_x+5,fleche_y-5,"gray",1,"black");
+        }
+        //On dessine les aretes et on ecrit leur poids
+        svgout.addLine(m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,"black");
+        svgout.addText((m_aretes[j]->getExtr1()->getCoord_x()*100+m_aretes[j]->getExtr2()->getCoord_x()*100)/2,(m_aretes[j]->getExtr1()->getCoord_y()*100+m_aretes[j]->getExtr2()->getCoord_y()*100)/2,m_aretes[j]->getPoids(),"black");
+    }
+    for(int i = 0; i < m_nb_sommet; ++i) //On affiche ensuite les sommets
+    {   //On dessine tous les sommets et on marque leur nom
+        svgout.addDisk(m_sommets[i]->getCoord_x()*100,m_sommets[i]->getCoord_y()*100,15,colorSommet[i]);  //On affiche le sommet
+        svgout.addText((m_sommets[i]->getCoord_x()*100)-5,(m_sommets[i]->getCoord_y()*100)+5,m_sommets[i]->getNom(),"mediumblue"); //Et son nom
+        switch(choix) //On marque ensuite l'indice demandé
         {
         case 0 : //Indice de degré
             if(norm)
@@ -245,18 +331,29 @@ void Graphe::affichage_svg(Svgfile& svgout)
             else
                 svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceInterNon(),"black");
             break;
+        case 4:  //Tous les indices
+            if(norm)
+            {
+                svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceDegre(),"black");
+                svgout.addText((m_sommets[i]->getCoord_x()*100)+20,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getIndiceVect(),"black");
+                svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)+20,m_sommets[i]->getIndiceProxi(),"black");
+                svgout.addText((m_sommets[i]->getCoord_x()*100)-65,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getIndiceInter(),"black");
+            }
+            else
+            {
+                svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)-20,m_sommets[i]->getIndiceDegreNon(),"black");
+                svgout.addText((m_sommets[i]->getCoord_x()*100)+20,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getIndiceVect(),"black");
+                svgout.addText(m_sommets[i]->getCoord_x()*100,(m_sommets[i]->getCoord_y()*100)+20,m_sommets[i]->getIndiceProxiNon(),"black");
+                svgout.addText((m_sommets[i]->getCoord_x()*100)-65,m_sommets[i]->getCoord_y()*100,m_sommets[i]->getIndiceInterNon(),"black");
+            }
         default:
             break;
         }
 
     }
-    for(int j = 0; j < m_nb_arete; ++j)
-    {
-        svgout.addLine(m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,"black");
-        svgout.addText((m_aretes[j]->getExtr1()->getCoord_x()*100+m_aretes[j]->getExtr2()->getCoord_x()*100)/2,(m_aretes[j]->getExtr1()->getCoord_y()*100+m_aretes[j]->getExtr2()->getCoord_y()*100)/2,m_aretes[j]->getPoids(),"black");
-    }
 }
 
+//Pierre 27/04/2020
 Sommet* Graphe::trouverSommet(int num)
 {
     for(size_t i = 0; i < m_sommets.size();++i)
@@ -264,6 +361,7 @@ Sommet* Graphe::trouverSommet(int num)
             return m_sommets[i];
 }
 
+//Jules 27/04/2020
 Graphe::Graphe(std::string file_name)
 {
     std::ifstream fichier{file_name}; //ouverture de fichier lecture
@@ -332,6 +430,8 @@ Graphe::Graphe(std::string file_name)
        }
     }
 }
+
+//Jules 27/04/2020
 void Graphe::lecture_topo(std::string file_name)
 {
   std::ifstream fichier{file_name}; //ouverture de fichier lecture
@@ -402,29 +502,31 @@ void Graphe::lecture_topo(std::string file_name)
     }
 }
 
+//Jules 27/04/2020
 void Graphe::sauvegarde_topo(std::string file_name)
 {
     std::ofstream fichier { file_name }; //ouverture fichier ecriture
-    if (!fichier)
+    if (!fichier)  //Si on n'arrive pas ouvrir le fichier on affiche un message d'erreur
     {
         std::cout << "ERREUR: sauvegarde du fichier topo" << std::endl;
     }
-    else
+    else //Sinon, on ecrit les donnees dans le fichier
     {
-        fichier << m_ori << std::endl;
-        fichier << m_nb_sommet<<std::endl;
-        for (int i = 0; i < m_nb_sommet; ++i)
+        fichier << m_ori << std::endl; //On ecrit l'orientation du graphe
+        fichier << m_nb_sommet<<std::endl; //Son nombre de sommets
+        for (int i = 0; i < m_nb_sommet; ++i) //Le numero, le nom et les coordonnees de chaque sommets
         {
             fichier << m_sommets[i]->getNumero() << " " << m_sommets[i]->getNom() << " " << m_sommets[i]->getCoord_x() << " " << m_sommets[i]->getCoord_y() << std::endl;
         }
-        fichier << m_nb_arete <<std::endl;
-        for (int j = 0; j < m_nb_arete; ++j)
+        fichier << m_nb_arete <<std::endl; //Le nombre d'aretes
+        for (int j = 0; j < m_nb_arete; ++j) //Le numero de l'arete et des sommets à ces deux extremites
         {
             fichier << m_aretes[j]->getNum() << " " << m_aretes[j]->getExtr1()->getNumero() << " " << m_aretes[j]->getExtr2()->getNumero() << std::endl;
         }
     }
 }
 
+//Jules 27/04/2020
 void Graphe::lecture_pond(std::string file_name)
 {
     #include <iostream>
@@ -468,6 +570,7 @@ void Graphe::lecture_pond(std::string file_name)
 
 }
 
+//Jules 27/04/2020
 void Graphe::sauvegarde_pond(std::string file_name)
 {
     std::ofstream fichier {file_name}; //ouverture fichier ecriture
@@ -486,75 +589,75 @@ void Graphe::sauvegarde_pond(std::string file_name)
     }
 }
 
-
+//Destructeur du graphe
 Graphe::~Graphe()
 {
 
 }
 
-void Graphe::centrDegre()
+//Pierre 27/04/2020 modifie par Jules le 30/04/2020
+void Graphe::centrDegre() //Permet de calculer l'indice de centralite de degre de tous les sommets
 {
     std::vector<float> indice;
     std::vector<float> somme;
-    int oriente = getOri();
-    std::string choix;
-    int reponse_valide=0;
+    std::string choix;    //Choix de l'utilisateur
+    int reponse_valide=0; //Variable servant au blindage du choix de l'utilisateur
     bool norm = normalisation();
-    if (oriente==1)
+    if (m_ori==1)
     {
-        while (reponse_valide==0)
+        while (reponse_valide==0) //Blindage
         {
-        std::cout << "degré arrive > Arr < ou depart > Dep < ?" << std::endl;
-        std::cout << "> ";
-        std::cin >> choix;
-        if (choix=="Arr" || choix=="Dep")
-        {
-            reponse_valide=1;
-        }
-        else
-        {
-            std::cout << "ERREUR: reponse invalide" << std::endl;
-        }
+            std::cout << "Degre d'arrivee > Arr < ou de depart > Dep < ?" << std::endl;
+            std::cout << "> ";
+            std::cin >> choix;
+            if (choix=="Arr" || choix=="Dep")
+            {
+                reponse_valide=1;
+            }
+            else
+            {
+                std::cout << "ERREUR: reponse invalide" << std::endl;
+            }
         }
     }
-    for(size_t i = 0; i < m_sommets.size();++i)
+    for(size_t i = 0; i < m_sommets.size();++i) //Pour chaque sommets
     {
         somme.push_back(0);
         indice.push_back(0);
-        if (oriente==0)
+        if (m_ori==0)       //Si le graphe n'est pas oriente
         {
             for(size_t j = 0; j < m_aretes.size();++j)
             {
                 if(m_aretes[j]->getExtr1()->getNumero() == m_sommets[i]->getNumero() || m_aretes[j]->getExtr2()->getNumero() == m_sommets[i]->getNumero())
                 {
-                    somme[i] = somme[i]+1;
+                    somme[i] = somme[i]+1; //On trouve le nombre de successeurs de ce sommet
                 }
             }
         }
-        if (oriente==1)
+        else //Si le graphe est oriente
         {
-            if (choix=="Dep")
+            if (choix=="Dep") //Si l'utilisateur a choisit les degres de depart
             {
                 for(size_t j = 0; j < m_aretes.size();++j)
                 {
                     if(m_aretes[j]->getExtr1()->getNumero() == m_sommets[i]->getNumero())
                     {
-                        somme[i] = somme[i]+1;
+                        somme[i] = somme[i]+1; //On trouve le nombre de successeurs de ce sommet
                     }
                 }
             }
-            if (choix=="Arr")
+            if (choix=="Arr") //Si l'utilisateur a choisit les degres de depart
             {
                 for(size_t j = 0; j < m_aretes.size();++j)
                 {
                     if(m_aretes[j]->getExtr2()->getNumero() == m_sommets[i]->getNumero())
                     {
-                        somme[i] = somme[i]+1;
+                        somme[i] = somme[i]+1; //On trouve le nombre de predecesseurs de ce sommet
                     }
                 }
             }
         }
-        m_sommets[i]->setIndiceDegre(somme[i]/(m_nb_sommet-1));
+        m_sommets[i]->setIndiceDegre(somme[i]/(m_nb_sommet-1)); //On rentre ces indices dans les donnees de notre graphe
         m_sommets[i]->setIndiceDegreNon(somme[i]);
     }
     //affichage en console
@@ -572,20 +675,24 @@ void Graphe::centrDegre()
     }
 
 }
-std::vector<Sommet*> Graphe::trouverSuccs(Sommet* base)const
+
+//Pierre 28/04/2020
+std::vector<Sommet*> Graphe::trouverSuccs(Sommet* base)const //Permet de retourner un vecteur de tous les successeurs d'un sommet
 {
     std::vector<Sommet*> succs;
     for(size_t i = 0; i < m_aretes.size(); ++i)
     {
-        if(m_aretes[i]->getExtr1()->getNumero() == base->getNumero())
-            succs.push_back(m_aretes[i]->getExtr2());
-        else if(m_aretes[i]->getExtr2()->getNumero() == base->getNumero())
+        if(!m_ori)  //Si le graphe n'est pas oriente
+            if(m_aretes[i]->getExtr1()->getNumero() == base->getNumero())
+                succs.push_back(m_aretes[i]->getExtr2());
+        if(m_aretes[i]->getExtr2()->getNumero() == base->getNumero())
             succs.push_back(m_aretes[i]->getExtr1());
     }
     return succs;
 }
 
-void Graphe::centrVectPropre()
+//Pierre 28/04/2020
+void Graphe::centrVectPropre() //Permet de calculer l'indice de centralite de vecteur propre de tous les sommets
 {
     std::vector<float> indice;
     std::vector<float> csi;
@@ -594,7 +701,7 @@ void Graphe::centrVectPropre()
     float somme;
     float difference;
     std::vector<Sommet*>succs;
-    for(size_t i = 0; i < m_sommets.size();++i)
+    for(size_t i = 0; i < m_sommets.size();++i) //Initialisation de toutes les donnees
     {
         somme = 0;
         lambda = 0;
@@ -605,7 +712,7 @@ void Graphe::centrVectPropre()
     }
     do
     {
-        precedent = lambda;
+        precedent = lambda; //On retiens la valeure precedente de lambda pour pouvoir connaitre sa variation
         for(size_t i = 0; i < m_sommets.size();++i)
             csi[i] = 0;
         somme = 0;
@@ -630,7 +737,7 @@ void Graphe::centrVectPropre()
             m_sommets[i]->setIndiceVect(indice[i]);
         }
         if(lambda-precedent>0)
-            difference = lambda-precedent;
+            difference = lambda-precedent; //On calcul la variation de lambda
         else
             difference = -(lambda-precedent);
     }while(difference>0.2);
@@ -640,6 +747,7 @@ void Graphe::centrVectPropre()
         std::cout << m_sommets[i]->getNumero()<<" : "<< m_sommets[i]->getIndiceVect()<<std::endl;
 }
 
+//Jules 29/04/2020
 void Graphe::suppr_arete(int s1,int s2)
 {
     int indicateur_reusite = 0;
@@ -660,6 +768,7 @@ void Graphe::suppr_arete(int s1,int s2)
 
 }
 
+//Jules 29/04/2020
 void Graphe::suppr_sommet(int sommet)
 {
     int indicateur_reussite = 0;
@@ -724,8 +833,9 @@ std::vector<int> Graphe::Dijsktra(int Sdepart)
     return distance;
 }
 
+//Pierre 29/04/2020
 std::vector<std::pair<double,const Sommet*>> Graphe::poidsSuccsTrie(const Sommet* debut)const
-{
+{  //Permet de retrouner un vecteur de pair contenant le sommet et le poids pour y aller trie par ordre croissant de tous les successeurs d'un sommet
     std::vector<std::pair<double,const Sommet*>>poidsSuccs;
     for(size_t i = 0; i < m_aretes.size(); ++i)
     {
@@ -738,7 +848,8 @@ std::vector<std::pair<double,const Sommet*>> Graphe::poidsSuccsTrie(const Sommet
     return poidsSuccs;
 }
 
-void Graphe::centrProxi()
+//Pierre 29/04/2020
+void Graphe::centrProxi() //Permet de calculer l'indice de centralite de proximite de tous les sommets
 {
     std::vector<int> resultat(m_sommets.size(),0);
     float somme = 0;
@@ -767,6 +878,7 @@ void Graphe::centrProxi()
     }
 }
 
+//Jules 29/04/2020
 void Graphe::sauvegarde_indice(std::string file_name)
 {
     std::ofstream fichier {file_name}; //ouverture fichier ecriture
@@ -786,7 +898,8 @@ void Graphe::sauvegarde_indice(std::string file_name)
     }
 }
 
-std::vector<std::vector<int>> Graphe::DijsktraModif(int Sdepart, int Sarrivee)
+//Pierre 30/04/2020
+std::vector<std::vector<int>> Graphe::DijsktraModif(int Sdepart, int Sarrivee) //Dijkstra modifie afin de pouvoir realiser l'indice d'intermediarite
 {
     auto cmp = [](std::pair<double,const Sommet*> p1, std::pair<double,const Sommet*> p2)
     {
@@ -815,27 +928,33 @@ std::vector<std::vector<int>> Graphe::DijsktraModif(int Sdepart, int Sarrivee)
         {
             if((marquage[succs.second->getNumero()] == 0))
             {
+                if(((distance[premier.second->getNumero()] + succs.first) == distance[succs.second->getNumero()]))
+                    resultat.push_back(predecesseur);
                 if((distance[premier.second->getNumero()] + succs.first < distance[succs.second->getNumero()]) || (distance[succs.second->getNumero()] == -1))
                 {
                     distance[succs.second->getNumero()] = distance[premier.second->getNumero()] + succs.first;
                     predecesseur[succs.second->getNumero()] = premier.second->getNumero();
+                    if((distance[succs.second->getNumero()] != -1))
+                        resultat.push_back(predecesseur);
                     file.push({distance[succs.second->getNumero()],succs.second});
                 }
-                resultat.push_back(predecesseur);
             }
         }
     }
     return resultat;
 }
 
-void Graphe::centrInter()
+//Pierre 30/04/2020
+void Graphe::centrInter() //Permet de calculer l'indice de centralite d'intermedirite de tous les sommets
 {
+    //Initialisation
     float somme = 0, n_pcc = 0, n_pcc_i = 0;
     bool norm = normalisation();
     std::vector<std::vector<int>> touspcc;
     std::vector<int>temp(m_sommets.size(),0);
     for(size_t i = 0; i < m_sommets.size(); ++i)
             touspcc.push_back(temp);
+    //Calcul de l'indice
     for(size_t i = 0; i < m_sommets.size(); ++i)
     {
         n_pcc_i = 0;
@@ -844,10 +963,6 @@ void Graphe::centrInter()
             for(size_t k = 0; k < m_sommets.size(); ++k)
             {
                 touspcc = DijsktraModif(j,k);
-                if(i == 0)
-                    for(size_t l = 0; l < touspcc.size(); ++l)
-                        for(size_t m = 0; m < touspcc[l].size(); ++m)
-                            std::cout<<"chemin"<<l<<"  sommet "<<touspcc[l][m]<<"  en position  "<<m<<std::endl;
                 n_pcc = touspcc.size();
                 for(size_t l = 0; l < touspcc.size(); ++l)
                     for(size_t m = 0; m < touspcc[l].size(); ++m)
@@ -877,6 +992,7 @@ void Graphe::centrInter()
     }
 }
 
+//Jules 30/04/2020
 int Graphe::calculk_connexite()
 {
     int k_connex = 100000000;

@@ -62,6 +62,7 @@ std::string attrib(std::string name, T val)
     return oss.str();
 }
 
+//Code tiré du projet du Semestre 1 d'ING2
 void Svgfile::addTriangle(double x1, double y1, double x2, double y2,
                           double x3, double y3,double x4,double y4,std::string colorFill,
                           double thickness, std::string colorStroke)
@@ -78,6 +79,20 @@ void Svgfile::addTriangle(double x1, double y1, double x2, double y2,
             << "\" />\n";
 }
 
+void Svgfile::addTriangle(double x1, double y1, double x2, double y2,
+                          double x3, double y3, std::string colorFill,
+                          double thickness, std::string colorStroke)
+{
+
+    m_ostrm << "<polygon points=\" "
+            << x1 << "," << y1 << " "
+            << x2 << "," << y2 << " "
+            << x3 << "," << y3
+            << "\" style=\"fill:" << colorFill
+            << ";stroke:" << colorStroke
+            << ";stroke-width:" << thickness
+            << "\" />\n";
+}
 
 void Svgfile::addDisk(double x, double y, double r, std::string color)
 {

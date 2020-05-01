@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-class Sommet
+class Sommet  //Les commentaires de chaques sous programme se trouvent dans le .cpp
 {
     public:
         Sommet();
@@ -13,10 +13,10 @@ class Sommet
         std::string getNom()const;
         void setNom(std::string nom);
 
-        int getCoord_x()const;
-        void setCoord_x(int coord);
-        int getCoord_y()const;
-        void setCoord_y(int coord);
+        float getCoord_x()const;
+        void setCoord_x(float coord);
+        float getCoord_y()const;
+        void setCoord_y(float coord);
 
         float getIndiceDegre()const;
         void setIndiceDegre(float indice);

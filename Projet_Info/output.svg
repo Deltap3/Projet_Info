@@ -53,49 +53,49 @@
 <polygon points=" 450,25 450,50 500,50 500,25" style="fill:forestgreen;stroke:black;stroke-width:0" />
 <text x="20" y="20" fill="black" >Pas Important</text>
 <text x="430" y="20" fill="black" >Important</text>
-<circle cx="200" cy="200" r="15" fill="forestgreen" />
-<text x="200" y="200" fill="mediumblue" >A</text>
-<text x="200" y="180" fill="black" >4.78125</text>
+<line x1="200" y1="200" x2="200" y2="100" stroke="black" />
+<text x="200" y="150" fill="black" >0</text>
+<line x1="200" y1="200" x2="100" y2="200" stroke="black" />
+<text x="150" y="200" fill="black" >0</text>
+<line x1="200" y1="200" x2="200" y2="300" stroke="black" />
+<text x="200" y="250" fill="black" >0</text>
+<line x1="200" y1="200" x2="300" y2="200" stroke="black" />
+<text x="250" y="200" fill="black" >0</text>
+<line x1="400" y1="200" x2="300" y2="200" stroke="black" />
+<text x="350" y="200" fill="black" >0</text>
+<line x1="400" y1="200" x2="400" y2="100" stroke="black" />
+<text x="400" y="150" fill="black" >0</text>
+<line x1="400" y1="200" x2="500" y2="200" stroke="black" />
+<text x="450" y="200" fill="black" >0</text>
+<line x1="400" y1="200" x2="400" y2="300" stroke="black" />
+<text x="400" y="250" fill="black" >0</text>
+<circle cx="200" cy="200" r="15" fill="saddlebrown" />
+<text x="195" y="205" fill="mediumblue" >A</text>
+<text x="200" y="180" fill="black" >0</text>
 <circle cx="200" cy="100" r="15" fill="saddlebrown" />
-<text x="200" y="100" fill="mediumblue" >B</text>
+<text x="195" y="105" fill="mediumblue" >B</text>
 <text x="200" y="80" fill="black" >0</text>
 <circle cx="100" cy="200" r="15" fill="saddlebrown" />
-<text x="100" y="200" fill="mediumblue" >C</text>
-<text x="100" y="180" fill="black" >0</text>
+<text x="95" y="205" fill="mediumblue" >C</text>
+<text x="100" y="180" fill="black" >1.2372e-038</text>
 <circle cx="200" cy="300" r="15" fill="saddlebrown" />
-<text x="200" y="300" fill="mediumblue" >D</text>
-<text x="200" y="280" fill="black" >0</text>
-<circle cx="300" cy="200" r="15" fill="maroon" />
-<text x="300" y="200" fill="mediumblue" >E</text>
-<text x="300" y="180" fill="black" >0.924107</text>
-<circle cx="400" cy="200" r="15" fill="forestgreen" />
-<text x="400" y="200" fill="mediumblue" >F</text>
-<text x="400" y="180" fill="black" >4.41964</text>
+<text x="195" y="305" fill="mediumblue" >D</text>
+<text x="200" y="280" fill="black" >4.15833e+021</text>
+<circle cx="300" cy="200" r="15" fill="forestgreen" />
+<text x="295" y="205" fill="mediumblue" >E</text>
+<text x="300" y="180" fill="black" >7.31916e+032</text>
+<circle cx="400" cy="200" r="15" fill="saddlebrown" />
+<text x="395" y="205" fill="mediumblue" >F</text>
+<text x="400" y="180" fill="black" >1.49939e-043</text>
 <circle cx="400" cy="100" r="15" fill="saddlebrown" />
-<text x="400" y="100" fill="mediumblue" >G</text>
-<text x="400" y="80" fill="black" >0.321429</text>
+<text x="395" y="105" fill="mediumblue" >G</text>
+<text x="400" y="80" fill="black" >1.23724e-038</text>
 <circle cx="500" cy="200" r="15" fill="saddlebrown" />
-<text x="500" y="200" fill="mediumblue" >H</text>
-<text x="500" y="180" fill="black" >0.321429</text>
+<text x="495" y="205" fill="mediumblue" >H</text>
+<text x="500" y="180" fill="black" >0</text>
 <circle cx="400" cy="300" r="15" fill="saddlebrown" />
-<text x="400" y="300" fill="mediumblue" >I</text>
-<text x="400" y="280" fill="black" >0.321429</text>
-<line x1="200" y1="200" x2="200" y2="100" stroke="black" />
-<text x="200" y="150" fill="black" >6</text>
-<line x1="200" y1="200" x2="100" y2="200" stroke="black" />
-<text x="150" y="200" fill="black" >6</text>
-<line x1="200" y1="200" x2="200" y2="300" stroke="black" />
-<text x="200" y="250" fill="black" >6</text>
-<line x1="200" y1="200" x2="300" y2="200" stroke="black" />
-<text x="250" y="200" fill="black" >6</text>
-<line x1="400" y1="200" x2="300" y2="200" stroke="black" />
-<text x="350" y="200" fill="black" >6</text>
-<line x1="400" y1="200" x2="400" y2="100" stroke="black" />
-<text x="400" y="150" fill="black" >6</text>
-<line x1="400" y1="200" x2="500" y2="200" stroke="black" />
-<text x="450" y="200" fill="black" >6</text>
-<line x1="400" y1="200" x2="400" y2="300" stroke="black" />
-<text x="400" y="250" fill="black" >6</text>
+<text x="395" y="305" fill="mediumblue" >I</text>
+<text x="400" y="280" fill="black" >0</text>
   
 
 <defs>

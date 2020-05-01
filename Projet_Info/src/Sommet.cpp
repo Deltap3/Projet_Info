@@ -2,123 +2,147 @@
 #include <iostream>
 #include <vector>
 
-int Sommet::getNumero()const
+//Pierre 27/04/2020
+int Sommet::getNumero()const //Getter du numero du sommet
 {
     return m_numero;
 }
 
-void Sommet::setNumero(int num)
+//Pierre 27/04/2020
+void Sommet::setNumero(int num) //Setter du numero du sommet
 {
     m_numero = num;
 }
 
-std::string Sommet::getNom()const
+//Pierre 27/04/2020
+std::string Sommet::getNom()const //Getter du nom du sommet
 {
     return m_nom;
 }
 
-void Sommet::setNom(std::string nom)
+//Pierre 27/04/2020
+void Sommet::setNom(std::string nom) //Setter du nom du sommet
 {
     m_nom = nom;
 }
 
-int Sommet::getCoord_x()const
+//Pierre 27/04/2020
+float Sommet::getCoord_x()const //Getter de la coordonnee en x du sommet
 {
     return m_coord_x;
 }
 
-void Sommet::setCoord_x(int coord)
+//Pierre 27/04/2020
+void Sommet::setCoord_x(float coord) //Setter de la coordonnee en x du sommet
 {
     m_coord_x = coord;
 }
 
-int Sommet::getCoord_y()const
+//Pierre 27/04/2020
+float Sommet::getCoord_y()const //Getter de la coordonnee en x du sommet
 {
     return m_coord_y;
 }
 
-void Sommet::setCoord_y(int coord)
+//Pierre 27/04/2020
+void Sommet::setCoord_y(float coord) //Setter de la coordonnee en x du sommet
 {
     m_coord_y = coord;
 }
 
-float Sommet::getIndiceDegre()const
+//Pierre 27/04/2020
+float Sommet::getIndiceDegre()const //Getter de l'indice de centralite de degre du sommet
 {
     return m_indiceDegre;
 }
 
-void Sommet::setIndiceDegre(float indice)
+//Pierre 27/04/2020
+void Sommet::setIndiceDegre(float indice) //Setter de l'indice de centralite de degre du sommet
 {
     m_indiceDegre = indice;
 }
 
-float Sommet::getIndiceVect()const
+//Pierre 27/04/2020
+float Sommet::getIndiceVect()const //Getter de l'indice de centralite de vecteur propre du sommet
 {
     return m_indiceVect;
 }
 
-void Sommet::setIndiceVect(float indice)
+//Pierre 27/04/2020
+void Sommet::setIndiceVect(float indice) //Setter de l'indice de centralite de vecteur propre du sommet
 {
     m_indiceVect = indice;
 }
 
-float Sommet::getIndiceProxi()const
+//Pierre 27/04/2020
+float Sommet::getIndiceProxi()const //Getter de l'indice de centralite de proximite du sommet
 {
     return m_indiceProxi;
 }
 
-void Sommet::setIndiceProxi(float indice)
+//Pierre 27/04/2020
+void Sommet::setIndiceProxi(float indice) //Setter de l'indice de centralite de proximite du sommet
 {
     m_indiceProxi = indice;
 }
 
-float Sommet::getIndiceInter()const
+//Pierre 27/04/2020
+float Sommet::getIndiceInter()const //Getter de l'indice de centralite d'intermediarite du sommet
 {
     return m_indiceInter;
 }
 
-void Sommet::setIndiceInter(float indice)
+//Pierre 27/04/2020
+void Sommet::setIndiceInter(float indice) //Setter de l'indice de centralite d'intermediarite du sommet
 {
     m_indiceInter = indice;
 }
 
-float Sommet::getIndiceDegreNon()const
+//Pierre 27/04/2020
+float Sommet::getIndiceDegreNon()const //Idem que les getter et setter precedents mais sur les indices non normalises
 {
     return m_indiceDegreNon;
 }
 
+//Pierre 27/04/2020
 void Sommet::setIndiceDegreNon(float indice)
 {
     m_indiceDegreNon = indice;
 }
 
+//Pierre 27/04/2020
 float Sommet::getIndiceProxiNon()const
 {
     return m_indiceProxiNon;
 }
 
+//Pierre 27/04/2020
 void Sommet::setIndiceProxiNon(float indice)
 {
     m_indiceProxiNon = indice;
 }
 
+//Pierre 27/04/2020
 float Sommet::getIndiceInterNon()const
 {
     return m_indiceInterNon;
 }
 
+//Pierre 27/04/2020
 void Sommet::setIndiceInterNon(float indice)
 {
     m_indiceInterNon = indice;
 }
 
+//Pierre 27/04/2020
 Sommet::Sommet()
 {
     m_nom = 'A';
     m_numero = 0;
 }
 
+//Pierre 27/04/2020
 Sommet::~Sommet()
 {
-    //dtor
+
 }

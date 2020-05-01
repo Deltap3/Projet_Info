@@ -1,53 +1,62 @@
 #include "Arete.h"
 #include "Sommet.h"
 
-int Arete::getNum()const
+//Pierre 27/04/2020
+int Arete::getNum()const //Getter du numero de l'arete
 {
     return m_numero;
 }
 
-void Arete::setNum(int num)
+//Pierre 27/04/2020
+void Arete::setNum(int num) //Setter du numero de l'arete
 {
     m_numero = num;
 }
 
-Sommet* Arete::getExtr1()const
+//Pierre 27/04/2020
+Sommet* Arete::getExtr1()const //Getter d'un pointeur sur le sommet qui est l'extremite 1 de l'arete
 {
     return m_extr1;
 }
 
-void Arete::setExtr1(Sommet* extr)
+//Pierre 27/04/2020
+void Arete::setExtr1(Sommet* extr) //Setter d'un pointeur sur le sommet qui est l'extremite 1 de l'arete
 {
     m_extr1 = extr;
 }
 
-Sommet* Arete::getExtr2()const
+//Pierre 27/04/2020
+Sommet* Arete::getExtr2()const //Getter d'un pointeur sur le sommet qui est l'extremite 2 de l'arete
 {
     return m_extr2;
 }
 
-void Arete::setExtr2(Sommet* extr)
+//Pierre 27/04/2020
+void Arete::setExtr2(Sommet* extr) //Setter d'un pointeur sur le sommet qui est l'extremite 1 de l'arete
 {
     m_extr2 = extr;
 }
 
-float Arete::getPoids()const
+//Pierre 27/04/2020
+float Arete::getPoids()const //Getter d'u poids de l'arete
 {
     return m_poids;
 }
 
-void Arete::setPoids(float poids)
+//Pierre 27/04/2020
+void Arete::setPoids(float poids) //Setter d'u poids de l'arete
 {
     m_poids = poids;
 }
 
-
-Arete::Arete()
+//Pierre 27/04/2020
+Arete::Arete() //Constrcuteur d'une arete
 {
     m_poids = 0;
 }
 
-Arete::~Arete()
+//Pierre 27/04/2020
+Arete::~Arete() //Destrcuteur d'une arete
 {
-    //dtor
+
 }

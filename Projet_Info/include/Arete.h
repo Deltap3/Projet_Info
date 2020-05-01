@@ -3,7 +3,7 @@
 #include "Sommet.h"
 
 
-class Arete
+class Arete  //Les commentaires de chaques sous programme se trouvent dans le .cpp
 {
     public:
         Arete();
