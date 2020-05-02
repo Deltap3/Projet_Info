@@ -750,7 +750,18 @@ void Graphe::centrVectPropre() //Permet de calculer l'indice de centralite de ve
 //Jules 29/04/2020
 void Graphe::suppr_arete(int s1,int s2)
 {
-    int indicateur_reusite = 0;
+    std::vector<float>avant_indices {0,0,0,0};
+    std::vector<std::vector<float>> avant;
+    for (int i =0; i < m_sommets.size();++i)
+    {
+        std::cout<<"Sommet : "<<m_sommets[i]->getNumero()<<"  Degre  "<<m_sommets[i]->getIndiceDegre()<<"  Vecteur  "<<m_sommets[i]->getIndiceVect()<<"  Proximite  "<<m_sommets[i]->getIndiceProxi()<<"  Intermediarite  "<<m_sommets[i]->getIndiceDegre()<<std::endl;
+        avant_indices[0] = m_sommets[i]->getIndiceDegre();
+        avant_indices[1] = m_sommets[i]->getIndiceVect();
+        avant_indices[2] = m_sommets[i]->getIndiceProxi();
+        avant_indices[3] = m_sommets[i]->getIndiceInter();
+        avant.push_back(avant_indices);
+    }
+            int indicateur_reusite = 0;
     for (int i =0; i < m_aretes.size();++i)// parcours de toutes les arretes
     {
         if((m_aretes[i]->getExtr1()->getNumero() == s1 && m_aretes[i]->getExtr2()->getNumero() == s2) || (m_aretes[i]->getExtr1()->getNumero() == s2 && m_aretes[i]->getExtr2()->getNumero() == s1))
@@ -765,12 +776,31 @@ void Graphe::suppr_arete(int s1,int s2)
     {
         std::cout << "ERREUR: numero de sommet invalide" << std::endl;
     }
-
+    this->centrDegre();
+    this->centrVectPropre();
+    this->centrProxi();
+    this->centrInter();
+    for (int i =0; i < m_sommets.size();++i)
+    {
+        std::cout<<"Sommet : "<<m_sommets[i]->getNumero()<<" Nouveau Degre  "<<m_sommets[i]->getIndiceDegre()<<" Nouveau Vecteur  "<<m_sommets[i]->getIndiceVect()<<" Nouveau Proximite  "<<m_sommets[i]->getIndiceProxi()<<" Nouveau Intermediarite  "<<m_sommets[i]->getIndiceDegre()<<std::endl;
+        std::cout<<"Sommet : "<<m_sommets[i]->getNumero() - avant[i][0]<<" Difference Degre  "<<m_sommets[i]->getIndiceDegre() - avant[i][1]<<" Difference Vecteur  "<<m_sommets[i]->getIndiceVect() - avant[i][2]<<" Difference Proximite  "<<m_sommets[i]->getIndiceProxi() - avant[i][3]<<" Difference Intermediarite  "<<m_sommets[i]->getIndiceDegre()<<std::endl;
+    }
 }
 
 //Jules 29/04/2020
 void Graphe::suppr_sommet(int sommet)
 {
+    std::vector<float>avant_indices {0,0,0,0};
+    std::vector<std::vector<float>> avant;
+    for (int i =0; i < m_sommets.size();++i)
+    {
+        std::cout<<"Sommet : "<<m_sommets[i]->getNumero()<<"  Degre  "<<m_sommets[i]->getIndiceDegre()<<"  Vecteur  "<<m_sommets[i]->getIndiceVect()<<"  Proximite  "<<m_sommets[i]->getIndiceProxi()<<"  Intermediarite  "<<m_sommets[i]->getIndiceDegre()<<std::endl;
+        avant_indices[0] = m_sommets[i]->getIndiceDegre();
+        avant_indices[1] = m_sommets[i]->getIndiceVect();
+        avant_indices[2] = m_sommets[i]->getIndiceProxi();
+        avant_indices[3] = m_sommets[i]->getIndiceInter();
+        avant.push_back(avant_indices);
+    }
     int indicateur_reussite = 0;
     for (int i =0; i < m_sommets.size();++i) //parcours de tous les sommets
     {
@@ -794,6 +824,12 @@ void Graphe::suppr_sommet(int sommet)
     {
         std::cout << "ERREUR: numero de sommet invalide" << std::endl;
     }
+    this->centrDegre();
+    this->centrVectPropre();
+    this->centrProxi();
+    this->centrInter();
+    for (int i =0; i < m_sommets.size();++i)
+        std::cout<<"Sommet : "<<m_sommets[i]->getNumero()<<"  Degre  "<<m_sommets[i]->getIndiceDegre()<<"  Vecteur  "<<m_sommets[i]->getIndiceVect()<<"  Proximite  "<<m_sommets[i]->getIndiceProxi()<<"  Intermediarite  "<<m_sommets[i]->getIndiceDegre()<<std::endl;
 }
 
 //Algorithme Dijsktra aide TP3 solution 2 de Mme PALASI
