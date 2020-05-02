@@ -153,6 +153,10 @@ int main()
             k = test->calculk_connexite();
             std::cout<<"Le graphe est "<<k<<" connexe"<<std::endl;
         }
+        else if (saisie == "test")
+        {
+            test->findpaths(0,6,9);
+        }
         else //Si l'utlisateur saisi autre chose, on lui informe que sa saisie est invalide
         {
             std::cout << "saisie invalide, veuillez recommencer ou contacter le support" << std::endl;

@@ -39,6 +39,10 @@ class Graphe  //Les commentaires de chaques sous programme se trouvent dans le .
 		std::vector<std::vector<int>> DijsktraModif(int Sdepart, int Sarrivee);
 		void centrInter();
 		bool normalisation();
+		void printpath(std::vector<int>& path);
+		int isNotVisited(int x, std::vector<int>& path);
+		void findpaths(int src, int dst, int v);
+		std::vector<Sommet*> trouverSuccsIndice(int nb);
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;

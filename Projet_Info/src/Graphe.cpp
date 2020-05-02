@@ -7,6 +7,7 @@
 #include <sstream>
 #include <algorithm>
 #include <queue>
+#include <bits/stdc++.h>
 
 //Pierre 27/04/2020
 bool Graphe::getOri()const  //Getter de l'orientation
@@ -1076,4 +1077,86 @@ int Graphe::calculk_connexite()
         }
     }
     return k_connex;
+}
+
+std::vector<Sommet*> Graphe::trouverSuccsIndice(int nb) //Permet de retourner un vecteur de tous les successeurs d'un sommet
+{
+    Sommet* base = new Sommet();
+    for(size_t i = 0; i < m_sommets.size();++i)
+        if(m_sommets[i]->getNumero() == nb)
+            base = m_sommets[i];
+    std::vector<Sommet*> succs;
+    for(size_t i = 0; i < m_aretes.size(); ++i)
+    {
+        if(!m_ori)  //Si le graphe n'est pas oriente
+            if(m_aretes[i]->getExtr1()->getNumero() == base->getNumero())
+                succs.push_back(m_aretes[i]->getExtr2());
+        if(m_aretes[i]->getExtr2()->getNumero() == base->getNumero())
+            succs.push_back(m_aretes[i]->getExtr1());
+    }
+    return succs;
+}
+
+void Graphe::printpath(std::vector<int>& path)
+{
+    int size = path.size();
+    for (int i = 0; i < size; i++)
+        std::cout << path[i] << " ";
+    std::cout<<"coucou" << std::endl;
+}
+
+// utility function to check if current
+// vertex is already present in path
+int Graphe::isNotVisited(int x, std::vector<int>& path)
+{
+    int size = path.size();
+    for (int i = 0; i < size; i++)
+        if (path[i] == x)
+            return 0;
+    return 1;
+}
+
+// utility function for finding paths in graph
+// from source to destination
+void Graphe::findpaths(int src, int dst, int v)
+{
+    // create a queue which stores
+    // the paths
+    std::queue<std::vector<int> > q;
+
+    // path vector to store the current path
+    std::vector<std::vector<int>> resultat;
+    std::vector<int> path;
+    path.push_back(src);
+    q.push(path);
+    while (!q.empty())
+    {
+        path = q.front();
+        q.pop();
+        int last = path[path.size() - 1];
+
+        // if last vertex is the desired destination
+        // then print the path
+        std::cout<<"last "<<last<<"  dst  "<<dst<<std::endl;
+        if (last == dst)
+        {
+            printpath(path);
+            resultat.push_back(path);
+        }
+        std::vector<Sommet*> succs  = trouverSuccsIndice(last);
+        std::cout<<"succs"<<succs.size()<<std::endl;
+        for (size_t i = 0; i < succs.size(); i++)
+            std::cout<<"succs"<<i<<" : "<<succs[i]->getNom()<<std::endl;
+        // traverse to all the nodes connected to
+        // current vertex and push new path to queue
+        for (size_t i = 0; i < succs.size(); i++)
+        {std::cout<<"3"<<std::endl;
+            if (isNotVisited(succs[i]->getNumero(), path))
+            {
+                std::vector<int> newpath(path);
+                newpath.push_back(succs[i]->getNumero());
+                q.push(newpath);
+            }
+        }
+    }
 }
