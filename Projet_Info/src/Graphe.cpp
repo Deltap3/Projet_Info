@@ -87,7 +87,6 @@ bool Graphe::normalisation() //Permet de demander à l'utilisateur si il veux qu
 std::vector<std::string> Graphe::couleur(int* choix, bool* norm) //Permet de colorer les sommets en fonction de leurs indices
 {
     *norm = normalisation(); //On demande à l'utilisateur s'il veux les indices normalises ou non
-    int j = 0;
     std::vector<std::string> colorSommet(m_sommets.size(),"black"); //Ce vecteur contiendra toutes les couleurs que doit prendre chaque sommet
     float maxi = 0,mini = 1000000, k = 0;
     std::cout<<"        Quel indice voulez-vous afficher ?         "<<std::endl;
@@ -263,6 +262,7 @@ void Graphe::affichage_svg(Svgfile& svgout)   //S'occupe de toute la partie SVG 
     bool norm;  //Permet de savoir si les indices affiches doivent etre normalises ou non
     float fleche_x = 0;
     float fleche_y = 0;
+    std::string arete;
     std::vector<std::string> colorSommet = couleur(&choix,&norm);  //L'utilisateur choisit si les indices seront normalises ou non ainsi que l'indice qu'il souhaite afficher
     std::vector<std::string> toutesCouleur = {"saddlebrown","maroon","firebrick","tomato","salmon","peachpuff","lightgreen","mediumseagreen","limegreen","forestgreen"};
     //Affiche la legende des couleurs des sommets
@@ -270,6 +270,13 @@ void Graphe::affichage_svg(Svgfile& svgout)   //S'occupe de toute la partie SVG 
         svgout.addTriangle(50*i,25,50*i,50,50*(i+1),50,50*(i+1),25,toutesCouleur[i],0,"black");
     svgout.addText(20,20,"Pas Important","black");
     svgout.addText(430,20,"Important","black");
+    std::cout<<"Voulez vous afficher les indices des aretes ? > Oui < ou > Non <"<<std::endl;
+    std::cin>>arete;
+    int choix_arete;
+    std::cout<<"   Quel indice d'arete voulez-vous afficher ?      "<<std::endl;
+    std::cout<<"                Indice de Degre         > 0 <      "<<std::endl;
+    std::cout<<"           Indice de Vecteur propre     > 1 <      "<<std::endl;
+    std::cin>>choix_arete;
     for(int j = 0; j < m_nb_arete; ++j)  //On affiche d'abord les aretes
     {
         if(m_ori)  //Si il est orinte on cree une fleche
@@ -304,6 +311,20 @@ void Graphe::affichage_svg(Svgfile& svgout)   //S'occupe de toute la partie SVG 
         //On dessine les aretes et on ecrit leur poids
         svgout.addLine(m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,"black");
         svgout.addText((m_aretes[j]->getExtr1()->getCoord_x()*100+m_aretes[j]->getExtr2()->getCoord_x()*100)/2,(m_aretes[j]->getExtr1()->getCoord_y()*100+m_aretes[j]->getExtr2()->getCoord_y()*100)/2,m_aretes[j]->getPoids(),"black");
+        if(arete == "Oui" || arete == "oui")
+        {
+            if(choix_arete == 0)
+            {
+                if(norm)
+                    svgout.addText(((m_aretes[j]->getExtr1()->getCoord_x()*100+m_aretes[j]->getExtr2()->getCoord_x()*100)/2)+10,((m_aretes[j]->getExtr1()->getCoord_y()*100+m_aretes[j]->getExtr2()->getCoord_y()*100)/2)+10,m_aretes[j]->getIndiceDegre(),"black");
+                else
+                    svgout.addText(((m_aretes[j]->getExtr1()->getCoord_x()*100+m_aretes[j]->getExtr2()->getCoord_x()*100)/2)+10,((m_aretes[j]->getExtr1()->getCoord_y()*100+m_aretes[j]->getExtr2()->getCoord_y()*100)/2)+10,m_aretes[j]->getIndiceDegreNon(),"black");
+            }
+            else if(choix_arete == 1)
+                svgout.addText(((m_aretes[j]->getExtr1()->getCoord_x()*100+m_aretes[j]->getExtr2()->getCoord_x()*100)/2)+10,((m_aretes[j]->getExtr1()->getCoord_y()*100+m_aretes[j]->getExtr2()->getCoord_y()*100)/2)+10,m_aretes[j]->getIndiceVect(),"black");
+            else
+                std::cout<<"Aucun indice de ce type à afficher"<<std::endl;
+        }
     }
     for(int i = 0; i < m_nb_sommet; ++i) //On affiche ensuite les sommets
     {   //On dessine tous les sommets et on marque leur nom
