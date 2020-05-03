@@ -20,7 +20,9 @@ void Affichage_menu()
     std::cout << "           > Supprimer_sommet <       > SS <    " << std::endl;
     std::cout << "                                                " << std::endl;
     std::cout << "           > Calcul_Degre <           > CaD <   " << std::endl;
+    std::cout << "           > Calcul_Degre_aretes <    > CDA <   " << std::endl;
     std::cout << "           > Calcul_Vecteur <         > CaV <   " << std::endl;
+    std::cout << "           > Calcul_Vecteur_aretes <  > CVA <   " << std::endl;
     std::cout << "           > Calcul_Proximite <       > CaP <   " << std::endl;
     std::cout << "           > Calcul_Intermediarite <  > CaI <   " << std::endl;
     std::cout << "           > Calcul_k-connexite <     > KC <    " << std::endl;
@@ -154,12 +156,20 @@ int main()
             k = test->calculk_connexite();
             std::cout<<"Le graphe est "<<k<<" connexe"<<std::endl;
         }
-        else if (saisie == "Connexite" || saisie == "CO")
+        else if (saisie == "Connexite" || saisie == "CO") //On test la connexite du graphe
         {
             if(test->connexite())
                 std::cout<<"Le graphe est connexe"<<std::endl;
             else
                 std::cout<<"Le graphe n'est pas connexe"<<std::endl;
+        }
+        else if(saisie == "Calcul_Degre_aretes" || saisie == "CDA") //On calcule l'indice de centralite de degre de chaque aretes
+        {
+            test->centrDegreArete();
+        }
+        else if(saisie == "Calcul_Vecteur_aretes" || saisie == "CVA") //On calcule l'indice de centralite de vecteur propre de chaque aretes
+        {
+            test->centrVectPropreArete();
         }
         else //Si l'utlisateur saisi autre chose, on lui informe que sa saisie est invalide
         {

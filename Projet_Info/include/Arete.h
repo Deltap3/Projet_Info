@@ -21,10 +21,21 @@ class Arete  //Les commentaires de chaques sous programme se trouvent dans le .c
         Sommet* m_extr1;
         Sommet* m_extr2;
 
+        float getIndiceDegre()const;
+        void setIndiceDegre(float indice);
+        float getIndiceVect()const;
+        void setIndiceVect(float indice);
+        float getIndiceDegreNon()const;
+        void setIndiceDegreNon(float indice);
+
     private:
         int m_numero;
 
         float m_poids;
+
+        float m_indiceDegre;
+        float m_indiceVect;
+        float m_indiceDegreNon;
 };
 
 #endif // ARETE_H

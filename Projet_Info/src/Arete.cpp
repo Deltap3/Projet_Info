@@ -50,6 +50,44 @@ void Arete::setPoids(float poids) //Setter d'u poids de l'arete
 }
 
 //Pierre 27/04/2020
+float Arete::getIndiceDegre()const //Getter de l'indice de centralite de degre du sommet
+{
+    return m_indiceDegre;
+}
+
+//Pierre 27/04/2020
+void Arete::setIndiceDegre(float indice) //Setter de l'indice de centralite de degre du sommet
+{
+    m_indiceDegre = indice;
+}
+
+//Pierre 27/04/2020
+float Arete::getIndiceVect()const //Getter de l'indice de centralite de vecteur propre du sommet
+{
+    return m_indiceVect;
+}
+
+//Pierre 27/04/2020
+void Arete::setIndiceVect(float indice) //Setter de l'indice de centralite de vecteur propre du sommet
+{
+    m_indiceVect = indice;
+}
+
+//Pierre 27/04/2020
+float Arete::getIndiceDegreNon()const //Idem que les getter et setter precedents mais sur les indices non normalises
+{
+    return m_indiceDegreNon;
+}
+
+//Pierre 27/04/2020
+void Arete::setIndiceDegreNon(float indice)
+{
+    m_indiceDegreNon = indice;
+}
+
+
+
+//Pierre 27/04/2020
 Arete::Arete() //Constrcuteur d'une arete
 {
     m_poids = 0;

@@ -674,7 +674,6 @@ void Graphe::centrDegre() //Permet de calculer l'indice de centralite de degre d
         for(size_t i =0; i<m_sommets.size();++i)
             std::cout << m_sommets[i]->getNumero()<<" : "<< m_sommets[i]->getIndiceDegreNon()<<std::endl;
     }
-
 }
 
 //Pierre 28/04/2020
@@ -1079,6 +1078,7 @@ int Graphe::calculk_connexite()
     return k_connex;
 }
 
+//Pierre 02/05/2020
 std::vector<Sommet*> Graphe::trouverSuccsIndice(int nb) //Permet de retourner un vecteur de tous les successeurs d'un sommet
 {
     Sommet* base = new Sommet();
@@ -1097,79 +1097,167 @@ std::vector<Sommet*> Graphe::trouverSuccsIndice(int nb) //Permet de retourner un
     return succs;
 }
 
-void Graphe::printpath(std::vector<int>& path)
-{
-    int size = path.size();
-    for (int i = 0; i < size; i++)
-        std::cout << path[i] << " ";
-    std::cout<<"coucou" << std::endl;
-}
-
-// utility function to check if current
-// vertex is already present in path
-int Graphe::isNotVisited(int x, std::vector<int>& path)
-{
-    int size = path.size();
-    for (int i = 0; i < size; i++)
-        if (path[i] == x)
-            return 0;
-    return 1;
-}
-
-// utility function for finding paths in graph
-// from source to destination
-void Graphe::findpaths(int src, int dst, int v)
-{
-    // create a queue which stores
-    // the paths
-    std::queue<std::vector<int> > q;
-
-    // path vector to store the current path
-    std::vector<std::vector<int>> resultat;
-    std::vector<int> path;
-    path.push_back(src);
-    q.push(path);
-    while (!q.empty())
-    {
-        path = q.front();
-        q.pop();
-        int last = path[path.size() - 1];
-
-        // if last vertex is the desired destination
-        // then print the path
-        std::cout<<"last "<<last<<"  dst  "<<dst<<std::endl;
-        if (last == dst)
-        {
-            printpath(path);
-            resultat.push_back(path);
-        }
-        std::vector<Sommet*> succs  = trouverSuccsIndice(last);
-        std::cout<<"succs"<<succs.size()<<std::endl;
-        for (size_t i = 0; i < succs.size(); i++)
-            std::cout<<"succs"<<i<<" : "<<succs[i]->getNom()<<std::endl;
-        // traverse to all the nodes connected to
-        // current vertex and push new path to queue
-        for (size_t i = 0; i < succs.size(); i++)
-        {std::cout<<"3"<<std::endl;
-            if (isNotVisited(succs[i]->getNumero(), path))
-            {
-                std::vector<int> newpath(path);
-                newpath.push_back(succs[i]->getNumero());
-                q.push(newpath);
-            }
-        }
-    }
-}
-
+//Pierre 03/05/2020
 bool Graphe::connexite()
 {
     std::vector<int> chemin(m_sommets.size(),0);
     for(size_t i = 0; i < m_sommets.size(); ++i)
     {
-        chemin = Dijsktra(i);
+        chemin = Dijsktra(i); //Dijkstra nous retourne le poids des chemins depuis le sommet i vers tous les autres sommets
         for(size_t j = 0; j < m_sommets.size(); ++j)
-            if(chemin[j] == -1)
+            if(chemin[j] == -1) //Si il n'existe pas de poids alors le graphe n'est pas connexe
                 return false;
     }
     return true;
+}
+
+//Pierre 03/05/2020
+void Graphe::centrDegreArete() //Permet de calculer l'indice de centralite de degre de tous les sommets
+{
+    std::vector<float> indice;
+    std::vector<float> somme;
+    std::string choix;    //Choix de l'utilisateur
+    int reponse_valide=0; //Variable servant au blindage du choix de l'utilisateur
+    bool norm = normalisation();
+    if (m_ori==1)
+    {
+        while (reponse_valide==0) //Blindage
+        {
+            std::cout << "Degre d'arrivee > Arr < ou de depart > Dep < ?" << std::endl;
+            std::cout << "> ";
+            std::cin >> choix;
+            if (choix=="Arr" || choix=="Dep")
+            {
+                reponse_valide=1;
+            }
+            else
+            {
+                std::cout << "ERREUR: reponse invalide" << std::endl;
+            }
+        }
+    }
+    for(size_t i = 0; i < m_aretes.size();++i) //Pour chaque sommets
+    {
+        somme.push_back(0);
+        indice.push_back(0);
+        if (m_ori==0)       //Si le graphe n'est pas oriente
+        {
+            for(size_t j = 0; j < m_aretes.size();++j)
+            {
+                if(m_aretes[i]->getExtr1()->getNumero() == m_aretes[j]->getExtr2()->getNumero() || m_aretes[i]->getExtr2()->getNumero() == m_aretes[j]->getExtr1()->getNumero())
+                {
+                    somme[i] = somme[i]+1; //On trouve le nombre de successeurs de ce sommet
+                }
+            }
+        }
+        else //Si le graphe est oriente
+        {
+            if (choix=="Dep") //Si l'utilisateur a choisit les degres de depart
+            {
+                for(size_t j = 0; j < m_aretes.size();++j)
+                {
+                    if(m_aretes[i]->getExtr2()->getNumero() == m_aretes[j]->getExtr1()->getNumero())
+                    {
+                        somme[i] = somme[i]+1; //On trouve le nombre de successeurs de ce sommet
+                    }
+                }
+            }
+            if (choix=="Arr") //Si l'utilisateur a choisit les degres de depart
+            {
+                for(size_t j = 0; j < m_aretes.size();++j)
+                {
+                    if(m_aretes[i]->getExtr1()->getNumero() == m_aretes[j]->getExtr2()->getNumero())
+                    {
+                        somme[i] = somme[i]+1; //On trouve le nombre de predecesseurs de ce sommet
+                    }
+                }
+            }
+        }
+        m_aretes[i]->setIndiceDegre(somme[i]/(m_nb_sommet-1)); //On rentre ces indices dans les donnees de notre graphe
+        m_aretes[i]->setIndiceDegreNon(somme[i]);
+    }
+    //affichage en console
+    if(norm)
+    {
+        std::cout << "Indice de centralite de Degre normalise" << std::endl;
+        for(size_t i =0; i<m_aretes.size();++i)
+            std::cout << m_aretes[i]->getNum()<<" : "<< m_aretes[i]->getIndiceDegre()<<std::endl;
+    }
+    else
+    {
+        std::cout << "Indice de centralite de Degre" << std::endl;
+        for(size_t i =0; i<m_aretes.size();++i)
+            std::cout << m_aretes[i]->getNum()<<" : "<< m_aretes[i]->getIndiceDegreNon()<<std::endl;
+    }
+}
+
+//Pierre 28/04/2020
+std::vector<Arete*> Graphe::trouverSuccsAretes(Arete* base)const //Permet de retourner un vecteur de tous les successeurs d'un sommet
+{
+    std::vector<Arete*> succs;
+    for(size_t i = 0; i < m_aretes.size(); ++i)
+    {
+        if(!m_ori)  //Si le graphe n'est pas oriente
+            if(m_aretes[i]->getExtr1()->getNumero() == base->getExtr2()->getNumero())
+                succs.push_back(m_aretes[i]);
+        if(m_aretes[i]->getExtr2()->getNumero() == base->getExtr1()->getNumero())
+            succs.push_back(m_aretes[i]);
+    }
+    return succs;
+}
+
+//Pierre 28/04/2020
+void Graphe::centrVectPropreArete() //Permet de calculer l'indice de centralite de vecteur propre de tous les sommets
+{
+    std::vector<float> indice;
+    std::vector<float> csi;
+    float lambda;
+    float precedent;
+    float somme;
+    float difference;
+    std::vector<Arete*>succs;
+    for(size_t i = 0; i < m_aretes.size();++i) //Initialisation de toutes les donnees
+    {
+        somme = 0;
+        lambda = 0;
+        precedent= 0;
+        csi.push_back(0);
+        indice.push_back(1);
+        m_aretes[i]->setIndiceVect(1);
+    }
+    do
+    {
+        precedent = lambda; //On retiens la valeure precedente de lambda pour pouvoir connaitre sa variation
+        for(size_t i = 0; i < m_aretes.size();++i)
+            csi[i] = 0;
+        somme = 0;
+        //Calcul Indice Voisins
+        for(size_t i = 0; i < m_aretes.size();++i)
+        {
+            succs = trouverSuccsAretes(m_aretes[i]);
+            for(size_t j = 0; j < succs.size();++j)
+                csi[i] = csi[i] + succs[j]->getIndiceVect();
+        }
+        //Calcul Lambda
+        for(size_t i = 0; i < m_aretes.size();++i)
+        {
+            somme = somme + (csi[i]*csi[i]);
+        }
+
+        lambda = sqrt(somme);
+        //Calcul Indice Vecteur
+        for(size_t i = 0; i < m_aretes.size();++i)
+        {
+            indice[i] = csi[i]/lambda;
+            m_aretes[i]->setIndiceVect(indice[i]);
+        }
+        if(lambda-precedent>0)
+            difference = lambda-precedent; //On calcul la variation de lambda
+        else
+            difference = -(lambda-precedent);
+    }while(difference>0.2);
+    //affichage en console
+    std::cout << "Indice de centralite de Vecteur propre normalise"<<std::endl<<"(il n'existe pas d'indice non normalise pour la centralite de vecteur propre)"<< std::endl;
+    for (size_t i =0; i<m_aretes.size();++i)
+        std::cout << m_aretes[i]->getNum()<<" : "<< m_aretes[i]->getIndiceVect()<<std::endl;
 }

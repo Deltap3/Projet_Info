@@ -44,6 +44,9 @@ class Graphe  //Les commentaires de chaques sous programme se trouvent dans le .
 		void findpaths(int src, int dst, int v);
 		std::vector<Sommet*> trouverSuccsIndice(int nb);
 		bool connexite();
+		void centrDegreArete();
+		void centrVectPropreArete();
+		std::vector<Arete*> trouverSuccsAretes(Arete* base)const;
 
         std::vector<Sommet*> getSommets()const;
         std::vector<Arete*> getAretes()const;
