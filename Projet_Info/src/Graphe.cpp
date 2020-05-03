@@ -280,7 +280,18 @@ void Graphe::affichage_svg(Svgfile& svgout)   //S'occupe de toute la partie SVG 
     for(int j = 0; j < m_nb_arete; ++j)  //On affiche d'abord les aretes
     {
         if(m_ori)  //Si il est orinte on cree une fleche
-        {
+        {   
+            if(m_aretes[j]->getExtr2()->getCoord_x()!=  m_aretes[j]->getExtr1()->getCoord_x())
+            {
+                svgout.addTriangle(m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,m_aretes[j]->getExtr1()->getCoord_x()*100-5,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr1()->getCoord_x()*100+5,m_aretes[j]->getExtr1()->getCoord_y()*100,"gray",1,"black");
+            }
+            else
+            {
+                svgout.addTriangle(m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100-5,m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100+5,"gray",1,"black");
+            }
+            
+            /*
+            //modification
             if(m_aretes[j]->getExtr2()->getCoord_x() < m_aretes[j]->getExtr1()->getCoord_x()) //Si le depart de l'arete est plus haut que l'arrivee en x
             {
                 fleche_x = (m_aretes[j]->getExtr2()->getCoord_x())+(1/2*(m_aretes[j]->getExtr1()->getCoord_x() - m_aretes[j]->getExtr2()->getCoord_x()));
@@ -307,6 +318,7 @@ void Graphe::affichage_svg(Svgfile& svgout)   //S'occupe de toute la partie SVG 
                 fleche_y = m_aretes[j]->getExtr1()->getCoord_y()*100;
             //On dessine le triangle
             svgout.addTriangle(m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,fleche_x-5,fleche_y+5,fleche_x+5,fleche_y-5,"gray",1,"black");
+            */       
         }
         //On dessine les aretes et on ecrit leur poids
         svgout.addLine(m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,"black");
@@ -1049,7 +1061,7 @@ void Graphe::centrInter() //Permet de calculer l'indice de centralite d'intermed
     }
 }
 
-//Jules 30/04/2020
+//Jules 30/04/2020 (pas fonctionnel au final, pas réussi à recuperer l'ensemble des chemins possible entreun point A et B problème de bouble)
 int Graphe::calculk_connexite()
 {
     int k_connex = 100000000;
