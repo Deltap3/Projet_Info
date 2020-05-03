@@ -780,7 +780,7 @@ void Graphe::suppr_arete(int s1,int s2)
     this->centrDegre();
     this->centrVectPropre();
     this->centrProxi();
-    this->centrInter();
+    //this->centrInter();
     for (int i =0; i < m_sommets.size();++i)
     {
         std::cout<<"Sommet : "<<m_sommets[i]->getNumero()<<" Nouveau Degre  "<<m_sommets[i]->getIndiceDegre()<<" Nouveau Vecteur  "<<m_sommets[i]->getIndiceVect()<<" Nouveau Proximite  "<<m_sommets[i]->getIndiceProxi()<<" Nouveau Intermediarite  "<<m_sommets[i]->getIndiceDegre()<<std::endl;
@@ -1159,4 +1159,17 @@ void Graphe::findpaths(int src, int dst, int v)
             }
         }
     }
+}
+
+bool Graphe::connexite()
+{
+    std::vector<int> chemin(m_sommets.size(),0);
+    for(size_t i = 0; i < m_sommets.size(); ++i)
+    {
+        chemin = Dijsktra(i);
+        for(size_t j = 0; j < m_sommets.size(); ++j)
+            if(chemin[j] == -1)
+                return false;
+    }
+    return true;
 }

@@ -25,6 +25,7 @@ void Affichage_menu()
     std::cout << "           > Calcul_Intermediarite <  > CaI <   " << std::endl;
     std::cout << "           > Calcul_k-connexite <     > KC <    " << std::endl;
     std::cout << "           > Sauvgarder_Ind <         > SI <    " << std::endl;
+    std::cout << "           > Connexite <              > CO <    " << std::endl;
     std::cout << "                                                " << std::endl;
     std::cout << "           > Exit <                   > Ext <   " << std::endl;
     std::cout << "------------------------------------------------" << std::endl;
@@ -153,9 +154,12 @@ int main()
             k = test->calculk_connexite();
             std::cout<<"Le graphe est "<<k<<" connexe"<<std::endl;
         }
-        else if (saisie == "test")
+        else if (saisie == "Connexite" || saisie == "CO")
         {
-            test->findpaths(0,6,9);
+            if(test->connexite())
+                std::cout<<"Le graphe est connexe"<<std::endl;
+            else
+                std::cout<<"Le graphe n'est pas connexe"<<std::endl;
         }
         else //Si l'utlisateur saisi autre chose, on lui informe que sa saisie est invalide
         {
