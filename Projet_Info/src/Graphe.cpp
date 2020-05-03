@@ -279,49 +279,19 @@ void Graphe::affichage_svg(Svgfile& svgout)   //S'occupe de toute la partie SVG 
     std::cin>>choix_arete;
     for(int j = 0; j < m_nb_arete; ++j)  //On affiche d'abord les aretes
     {
+        //On dessine les aretes et on ecrit leur poids
+        svgout.addLine(m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,"black");
         if(m_ori)  //Si il est orinte on cree une fleche
-        {   
-            if(m_aretes[j]->getExtr2()->getCoord_x()!=  m_aretes[j]->getExtr1()->getCoord_x())
-            {
-                svgout.addTriangle(m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,m_aretes[j]->getExtr1()->getCoord_x()*100-5,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr1()->getCoord_x()*100+5,m_aretes[j]->getExtr1()->getCoord_y()*100,"gray",1,"black");
+        {
+            if(m_aretes[j]->getExtr2()->getCoord_y() !=  m_aretes[j]->getExtr1()->getCoord_y())
+            {std::cout<<"test"<<j<<std::endl;
+                svgout.addTriangle(m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,m_aretes[j]->getExtr1()->getCoord_x()*100-10,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr1()->getCoord_x()*100+10,m_aretes[j]->getExtr1()->getCoord_y()*100,"gray",1,"black");
             }
             else
             {
-                svgout.addTriangle(m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100-5,m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100+5,"gray",1,"black");
+                svgout.addTriangle(m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100-10,m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100+10,"gray",1,"black");
             }
-            
-            /*
-            //modification
-            if(m_aretes[j]->getExtr2()->getCoord_x() < m_aretes[j]->getExtr1()->getCoord_x()) //Si le depart de l'arete est plus haut que l'arrivee en x
-            {
-                fleche_x = (m_aretes[j]->getExtr2()->getCoord_x())+(1/2*(m_aretes[j]->getExtr1()->getCoord_x() - m_aretes[j]->getExtr2()->getCoord_x()));
-                fleche_x = ((fleche_x) + (5/6*(m_aretes[j]->getExtr1()->getCoord_x() - fleche_x)*100))*100;
-            }
-            else if(m_aretes[j]->getExtr1()->getCoord_x() < m_aretes[j]->getExtr2()->getCoord_x()) //Si le depart de l'arete est plus bas que l'arrivee en x
-            {
-                fleche_x = (m_aretes[j]->getExtr1()->getCoord_x())+(1/2*(m_aretes[j]->getExtr2()->getCoord_x() - m_aretes[j]->getExtr1()->getCoord_x()));
-                fleche_x = ((fleche_x) + (5/6*(m_aretes[j]->getExtr2()->getCoord_x() - fleche_x)*100))*100;
-            }
-            else if(m_aretes[j]->getExtr1()->getCoord_x() == m_aretes[j]->getExtr2()->getCoord_x()) //Si le depart de l'arete est egal a l'arrivee en x
-                fleche_x = m_aretes[j]->getExtr1()->getCoord_x()*100;
-            if(m_aretes[j]->getExtr2()->getCoord_y() < m_aretes[j]->getExtr1()->getCoord_y()) //Si le depart de l'arete est plus haut que l'arrivee en y
-            {
-                fleche_y = (m_aretes[j]->getExtr2()->getCoord_y())+(1/2*(m_aretes[j]->getExtr1()->getCoord_y() - m_aretes[j]->getExtr2()->getCoord_y()));
-                fleche_y = ((fleche_y) + (5/6*(m_aretes[j]->getExtr1()->getCoord_y() - fleche_y)*100))*100;
-            }
-            else if(m_aretes[j]->getExtr1()->getCoord_y() < m_aretes[j]->getExtr2()->getCoord_y()) //Si le depart de l'arete est plus bas que l'arrivee en y
-            {
-                fleche_y = (m_aretes[j]->getExtr1()->getCoord_y())+(1/2*(m_aretes[j]->getExtr2()->getCoord_y() - m_aretes[j]->getExtr1()->getCoord_y()));
-                fleche_y = ((fleche_y) + (5/6*(m_aretes[j]->getExtr2()->getCoord_y() - fleche_y)*100))*100;
-            }
-            else if(m_aretes[j]->getExtr1()->getCoord_y() == m_aretes[j]->getExtr2()->getCoord_y()) //Si le depart de l'arete est egal a l'arrivee en y
-                fleche_y = m_aretes[j]->getExtr1()->getCoord_y()*100;
-            //On dessine le triangle
-            svgout.addTriangle(m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,fleche_x-5,fleche_y+5,fleche_x+5,fleche_y-5,"gray",1,"black");
-            */       
         }
-        //On dessine les aretes et on ecrit leur poids
-        svgout.addLine(m_aretes[j]->getExtr1()->getCoord_x()*100,m_aretes[j]->getExtr1()->getCoord_y()*100,m_aretes[j]->getExtr2()->getCoord_x()*100,m_aretes[j]->getExtr2()->getCoord_y()*100,"black");
         svgout.addText((m_aretes[j]->getExtr1()->getCoord_x()*100+m_aretes[j]->getExtr2()->getCoord_x()*100)/2,(m_aretes[j]->getExtr1()->getCoord_y()*100+m_aretes[j]->getExtr2()->getCoord_y()*100)/2,m_aretes[j]->getPoids(),"black");
         if(arete == "Oui" || arete == "oui")
         {
@@ -337,6 +307,7 @@ void Graphe::affichage_svg(Svgfile& svgout)   //S'occupe de toute la partie SVG 
             else
                 std::cout<<"Aucun indice de ce type à afficher"<<std::endl;
         }
+
     }
     for(int i = 0; i < m_nb_sommet; ++i) //On affiche ensuite les sommets
     {   //On dessine tous les sommets et on marque leur nom
